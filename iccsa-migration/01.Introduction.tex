@@ -1,0 +1,93 @@
+\section{Introduction}
+
+% skel
+  % The implementation of the Internet of Things (IoT) is sharply increasing the small
+  % devices count and variety on edge networks and, following this increase the
+  % attack opportunities for hostile agents also increases, requiring more from
+  % the network administrator role and the need for tools to detect and react to those
+  % threats.
+  % % 
+  % One such tool are the Intrusion Detection Systems (IDS) where the network
+  % traffic is captured and analysed raising alarms when a known attack pattern or
+  % new pattern is detected.
+  % To build an IDS one option for base algorithm are
+  % the Data Stream Novelty Detection being MINAS one of those.
+  % % 
+  % Furthermore, for a network security tool to operate in the context of edge and
+  % IoT it has to comply with processing time, storage space and energy
+  % requirements alongside traditional requirements for stream and network
+  % analysis like accuracy and scalability.
+  % % 
+  % This work addresses the construction details and evaluation of an prototype
+  % distributed IDS using MINAS Novelty Detection algorithm
+  % following up the previously defined IDSA-IoT architecture.
+  % We discuss the algorithm steps, how it can be deployed in a distributed environment,
+  % the impacts on the accuracy of MINAS and evaluate the performance and scalability
+  % using a cluster of constrained devices commonly found in IoT scenarios.
+  % % 
+  % We found an increase of \textit{A 0.0} processed network flow descriptors per core
+  % added to the cluster. Also \textit{B 0.0\%} and \textit{C 0.0\%} change in
+  % \textit{F1Score} in the tested datasets when stream was unlimited in speed and
+  % limited to \textit{0.0 z MB/s} respectively.
+
+\newcommand{\refminas}{\textit{Ref}\xspace}
+\newcommand{\mfog}{\textit{MFOG}\xspace}
+\newcommand{\iot}{IoT\xspace}
+\newcommand{\nids}{NIDS\xspace}
+\newcommand{\ds}{DS\xspace}
+
+The advent of Internet of Things (\iot) is growing the count and diversity of
+devices on edge networks, this growth increases network traffic patterns and
+extends opportunities for cyber attacks presenting new challenges for network
+administrators.
+To address those challenges new Network Intrusion Detection Systems (NIDS) and
+architectures can be explored, especially in Fog Computing and Data Stream (DS)
+areas.
+
+% Data Stream (DS)
+
+% - Desafio, resposta, justificativa.
+% - Artigo para setembro ou outubro.
+% - Revisão dos valores da avaliação.
+
+% ### Desafios, Respostas e Justificativas
+
+% Desafios de arquitetura e validação:
+
+% - Construção de um protótipo da arquitetura IDSA-IoT:
+%   - Kafka (Python): Distribuição e balanceamento pelo cluster kafka, hipótese refutada.
+%   - Flink (Java ou Scala): Execução do cluster nos dispositivos de névoa, hipótese refutada.
+%   - MPI (C e Python): Execução do cluster nos dispositivos de névoa, hipótese aceita.
+% - Reimplementação do algoritmo MINAS com fidelidade:
+%   - Duas versões: a descrita e a implementação de referência (em Java).
+%   - Resolução: utilizar a descrição, não *seguir* a imp. referência, apenas como ponto de comparação. Exemplos:
+%     - Definição de raio `r = f * σ` (fator vezes desvio padrão) para `r = max(distance)` (distância máxima);
+%     - Tamanho do buffer de desconhecidos e frequência de execução do passo de detecção de novidade;
+
+\begin{highlight}
+Expected results:
+A system that embraces and explores the inherent distribution of fog computing
+in a IoT scenario opposing regular systems where data streams are collected and
+centralized before processing;
+Impact assessment of the impact of distributed, regional flow characteristics,
+local vs global vs distributed forgetting mechanism and other polices.
+
+IDS characteristics and description of physical scenario.
+
+MINAS characteristics.
+
+Distribution and IDSA-IoT architecture.
+\end{highlight}
+
+This paper is structured as follows:
+Section \ref{sec:related} presents previous works that addresses related
+problems and how they influenced our solution.
+Section \ref{sec:implementation} address our proposal, the work done, issues
+found during implementation and discusses parameters and configurations options
+and how we arrived at our choices.
+Section \ref{sec:experiments} shows experiments layouts and results, we
+compare serial and distributed implementation's metrics for validation,
+we also evaluate communication delay effects on classification metrics and
+conclude with the speedup per core and overall maximum stream speed.
+Section \ref{sec:conclusion} summarizes the research results and presents our
+final conclusions and future works.

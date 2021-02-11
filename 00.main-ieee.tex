@@ -1,0 +1,104 @@
+% !TeX root = ./00.main-ieee.tex
+% \documentclass{article}
+\documentclass[conference]{lib/IEEEtran}
+\usepackage{babel}
+\usepackage[utf8]{inputenc}
+\IEEEoverridecommandlockouts
+\usepackage{xspace}
+% \usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+% \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+%     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+\usepackage{hyperref}
+\usepackage{subcaption}
+\usepackage{mdframed}
+
+\usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
+\newcounter{todocounter}
+
+\hypersetup{colorlinks=true, allcolors=black}
+\begin{document}
+
+\title{IoT Data Stream Novelty Detection:
+Design, Implementation and Evaluation [DRAFT]\thanks{CNPq}}
+
+\author{
+  \IEEEauthorblockN{Luís Puhl, Guilherme Weigert Cassales, Hermes Senger, Helio Crestana Guardia}
+  \IEEEauthorblockA{Universidade Federal de São Carlos, Brasil \\
+    Email: \{luispuhl, gwcassales\}@gmail.com, \{hermes@, helio@dc.\}ufscar.br
+  }
+  % \IEEEauthorblockN{Hermes Senger}\IEEEauthorblockA{\textit{Universidade Federal de São Carlos}, Brasil \\hermes@ufscar.br}\and
+    % \IEEEauthorblockN{Guilherme Weigert Cassales}\IEEEauthorblockA{\textit{Universidade Federal de São Carlos}, Brasil \\gwcassales@gmail.com}
+    % \and
+    % \IEEEauthorblockN{4\textsuperscript{th} Given Name Surname}
+    % \IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
+    % \textit{name of organization (of Aff.)}\\
+    % City, Country \\
+    % email address or ORCID}
+}
+
+\maketitle
+
+\newcommand{\toreview}{}
+\newcommand{\reffig}[1]{Figure \ref{fig:#1}\xspace}
+
+\ifx\toreview\undefined
+  \newcommandx{\nota}[2][1=]{}
+  \newcommand{\hl}[1]{}
+
+  \newcommandx{\notahl}[2][1=]{}
+  \newcommand{\hlhl}[1]{}
+  \newcommandx{\notake}[2][1=]{}
+  \newcommand{\hlke}[1]{}
+  \newcommandx{\notafa}[2][1=]{}
+  \newcommand{\hlfa}[1]{}
+\else
+  % \newcommandx{\nota}[2][1=]{
+  %   \stepcounter{todocounter}
+  %   \todo[linecolor=red,backgroundcolor=red!25,bordercolor=red,#1]{[\thetodocounter] #2}}
+  \newcommand{\hl}[1]{\colorbox{red!25}{#1}}
+  % 
+  \newenvironment{highlight}{\begin{mdframed}[backgroundcolor=red!25]}{\end{mdframed}}
+  % \newenvironment{myHeartEnv}
+  % {\color{purple}{\heartsuit}\kern-2.5pt\color{green}{\heartsuit}}
+  % {\text{ forever}}
+
+  % \newcommandx{\notahl}[2][1=]{\stepcounter{todocounter}\todo[
+  %   linecolor=green,
+  %   backgroundcolor=green!25,
+  %   bordercolor=green,#1]{[Helio \thetodocounter] #2}}
+  % \newcommand{\hlhl}[1]{\colorbox{green}{#1}}
+
+  % \usepackage{cancel}
+  % \newcommandx{\notake}[2][1=]{\stepcounter{todocounter}\todo[
+  %   linecolor=yellow,
+  %   backgroundcolor=yellow!25,
+  %   bordercolor=yellow,#1]{[Kelton \thetodocounter] #2}}
+  % \newcommand{\hlke}[1]{\colorbox{yellow}{#1}}
+
+  % \newcommandx{\notafa}[2][1=]{\stepcounter{todocounter}\todo[
+  %   linecolor=blue,
+  %   backgroundcolor=blue!25,
+  %   bordercolor=blue,#1]{[Faria \thetodocounter] #2}}
+  % \newcommand{\hlfa}[1]{\colorbox{blue!30}{#1}}
+
+  % \usepackage[showframe,layoutvoffset=0mm,includeall,tmargin=15mm,bmargin=20mm]{geometry}
+  % \marginparwidth=34mm
+  % \hoffset=-25mm
+  % \textwidth=165mm
+\fi
+
+\input{00.abstract}
+\input{01.introduction}
+\input{02.related}
+\input{03.proposal}
+\input{04.experiments}
+\input{05.conclusion}
+
+\bibliographystyle{lib/IEEEtran.bst}
+\bibliography{refs.bib}
+\end{document}

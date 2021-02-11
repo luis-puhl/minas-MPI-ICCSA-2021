@@ -1,0 +1,65 @@
+\section{Introduction {\color{red} Nao mexer por enquanto}} 
+
+
+\newcommand{\refminas}{\textit{Ref}\xspace}
+\newcommand{\mfog}{\textit{MFOG}\xspace}
+\newcommand{\iot}{IoT\xspace}
+\newcommand{\nids}{NIDS\xspace}
+\newcommand{\ds}{DS\xspace}
+
+The advent of Internet of Things (IoT)
+is growing the count and diversity of
+devices on edge networks, this growth increases network traffic patterns and
+extends opportunities for cyber attacks presenting new challenges for network
+administrators.
+To address those challenges new Network Intrusion Detection Systems (NIDS) and
+architectures can be explored, especially in Fog Computing and Data Stream (DS)
+areas.
+
+% Data Stream (DS)
+
+% - Desafio, resposta, justificativa.
+% - Artigo para setembro ou outubro.
+% - Revisão dos valores da avaliação.
+
+% ### Desafios, Respostas e Justificativas
+
+% Desafios de arquitetura e validação:
+
+% - Construção de um protótipo da arquitetura IDSA-IoT:
+%   - Kafka (Python): Distribuição e balanceamento pelo cluster kafka, hipótese refutada.
+%   - Flink (Java ou Scala): Execução do cluster nos dispositivos de névoa, hipótese refutada.
+%   - MPI (C e Python): Execução do cluster nos dispositivos de névoa, hipótese aceita.
+% - Reimplementação do algoritmo MINAS com fidelidade:
+%   - Duas versões: a descrita e a implementação de referência (em Java).
+%   - Resolução: utilizar a descrição, não *seguir* a imp. referência, apenas como ponto de comparação. Exemplos:
+%     - Definição de raio `r = f * σ` (fator vezes desvio padrão) para `r = max(distance)` (distância máxima);
+%     - Tamanho do buffer de desconhecidos e frequência de execução do passo de detecção de novidade;
+
+\begin{highlight}
+Expected results:
+A system that embraces and explores the inherent distribution of fog computing
+in a IoT scenario opposing regular systems where data streams are collected and
+centralized before processing;
+Impact assessment of the impact of distributed, regional flow characteristics,
+local vs global vs distributed forgetting mechanism and other polices.
+
+IDS characteristics and description of physical scenario.
+
+MINAS characteristics.
+
+Distribution and IDSA-IoT architecture.
+\end{highlight}
+
+This paper is structured as follows:
+Section \ref{sec:related} presents previous works that addresses related
+problems and how they influenced our solution.
+Section \ref{sec:implementation} address our proposal, the work done, issues
+found during implementation and discusses parameters and configurations options
+and how we arrived at our choices.
+Section \ref{sec:experiments} shows experiments layouts and results, we
+compare serial and distributed implementation's metrics for validation,
+we also evaluate communication delay effects on classification metrics and
+conclude with the speedup per core and overall maximum stream speed.
+Section \ref{sec:conclusion} summarizes the research results and presents our
+final conclusions and future works.
