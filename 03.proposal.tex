@@ -38,12 +38,23 @@ from bottom left to top right: sensor network; fog containing gateway router
 and novelty detection cluster; cloud storage for model, alarms and statistics
 and; human supervisor addressing alarms and statistics.
 
-\begin{figure}[hbt]
-  \centering
-  \includegraphics[width=0.9\linewidth,page=1]{figures/mfog-arch-fisica.svg.pdf}
-  \caption{\mfog physical architecture overview with cloud model storage.}
-  \label{fig:mfog-phy-arch-cloud}
-\end{figure}
+\begin{figure*}[h]
+  \centerline{
+    \begin{subfigure}{.5\textwidth}
+      \centering
+      \includegraphics[width=0.9\linewidth,page=1]{figures/mfog-arch-fisica.svg.pdf}
+      \caption{\mfog physical architecture overview with cloud model storage.}
+      \label{fig:mfog-phy-arch-cloud}
+    \end{subfigure}
+    \begin{subfigure}{.5\textwidth}
+      \centerline{\includegraphics[width=0.9\linewidth]{figures/mfog-arch-v2_en.png}}
+      \caption{\mfog components and communications overview.}
+      \label{fig:mfog-architecture}
+    \end{subfigure}
+  }
+  \caption{Architecture overview.}
+  \label{fig:arch-overview}
+\end{figure*}
 
 \subsection{Implementation}\label{sec:implementation}
 
@@ -56,12 +67,6 @@ Another difference between \refminas and \mfog is cluster radius calculation
 from the distances of elements forming the cluster and the cluster's center,
 where the former uses the maximum distance, the latter uses the standard deviation
 of all distances as described in \cite{Faria2016minas}.
-
-\begin{figure}[htb]
-\centerline{\includegraphics[width=0.5\textwidth]{figures/mfog-arch-v2_en.png}}
-\caption{\mfog architecture overview.}
-\label{fig:mfog-architecture}
-\end{figure}
 
 % Desafios de implementação:
 % <!--
