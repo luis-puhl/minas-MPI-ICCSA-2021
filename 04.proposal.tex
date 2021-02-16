@@ -17,20 +17,26 @@
 % implementado de maneira distruída na borda e nuvem (para latência).\\
 % \end{highlight}
 
-Amid of \iot expansion in multiple fields, from industry to daily life,
-the constant threat of intrusion
-% , subversion (overthrow), denial of service
-(or any other unexpected detrimental behavior)
-% by any component of a system or external actors
-is a prospect looming over many systems administrators
-and for that reason
-% Thus, 
-new network surveillance tools are needed, especially 
-effective (accurate) and efficient (fast reaction and good throughput) \nids.
+%Amid of \iot expansion in multiple fields, from industry to daily life, the constant threat of intrusion
+% , subversion (overthrow), denial of service (or any other unexpected detrimental behavior)
+% by any component of a system or external actors is a prospect looming over many systems administrators and for that reason
+% Thus,  new network surveillance tools are needed, especially effective (accurate) and efficient (fast reaction and good throughput) \nids.
 % Following that reasoning, new \nids and other autonomous and analytic system
 % surveillance tools are being proposed, many employing techniques such as Anomaly
 % and Novelty Detection.
 % These tools require the network packet traffic to be constantly analysed,
+
+
+
+Este apresenta uma proposta de implementação distribuida do MINAS que segue as diretrizes da arquitetura IDSA-IoT, atendendo aos seguintes requisitos:
+(i) a etapa de classificação de vários fluxos deve ocorrer em paralelo, sendo processada em diversos locais físicos da arquitetura 
+(ii) a etapa de detecção de novidades (evolução do modelo) deve ocorrer em paralelo, sendo processada em diversos locais físicos da arquitetura 
+(iii)  as duas etapas anteriores, por sua vez também deverão ser executadas paralelamente, podendo ocorrer em partes distintas do sistema
+(iv) possa ser implementada em dispositivos com recursos limitados 
+
+
+\todo[inline]{Relembrar ids-iot, fase offline e online}
+
 Thus we propose a \nids using MINAS \cite{Faria2016minas} (a Novelty Detection algorithm)
 to effectively identify previous and new intrusion threats,
 implemented over a architecture \cite{Cassales2019a} using parallel and distributed techniques leveraging
@@ -85,17 +91,29 @@ and thus are divided in fog and cloud.
 % Therefore, our objective is a Distributed novelty detection in streams using limited hardware.
 % Previous attempts to attain the objective of distributed fast
 
-\begin{figure}[b!]
+\ref{fig:mfog-phy-arch-cloud}
+visão geral de iot nessa fig
+quais redes envolvidas
+processamento extra na borda
+
+\ref{fig:mfog-architecture}
+enumerar módulos e funções
+descrever etapas do minas e onde se encaixa
+descrever onde módulos são multiplexados
+descrever casos de muiltiplos fluxos (redes locais)
+
+\begin{figure}[h]
   \centerline{
     \begin{subfigure}{.5\textwidth}
       \centering
-      \includegraphics[width=0.9\linewidth,page=1]{figures/mfog-arch-fisica.svg.pdf}
-      \caption{\mfog physical architecture overview with cloud model storage.}
+    %   \includegraphics[width=0.9\linewidth,page=1]{figures/mfog-arch-fisica.svg.pdf}
+      \includegraphics[width=0.9\linewidth,page=1]{figures/cassalesimgs-000.png}
+      \caption{Physical architecture and deployment scenario overview.}
       \label{fig:mfog-phy-arch-cloud}
     \end{subfigure}
     \begin{subfigure}{.5\textwidth}
       \centerline{\includegraphics[width=0.9\linewidth]{figures/mfog-arch-v2_en.png}}
-      \caption{\mfog components and communications overview.}
+      \caption{\mfog components and communications overview, }
       \label{fig:mfog-architecture}
     \end{subfigure}
   }
@@ -259,10 +277,10 @@ parameters indicate if the process is root, rank $0$, or leaf otherwise.
 Beyond this division, each process also operates two threads, for the root
 there is a sampler and detector threads, for the leafs each has a model receiver
 thread and multiple classifier threads.
-The overall sequence of interactions is shown in \ref{fig:mfog-mpi-life}.
+The overall sequence of interactions is shown in Figure \ref{fig:mfog-mpi-life}.
 
 \begin{figure}[htb]
-  \centerline{\includegraphics[width=0.5\textwidth]{figures/mfog-arch-mpi.png}}
+  \centerline{\includegraphics[width=0.7\textwidth]{figures/mfog-arch-mpi.png}}
   \caption{\mfog life line overview.}
   \label{fig:mfog-mpi-life}
 \end{figure}

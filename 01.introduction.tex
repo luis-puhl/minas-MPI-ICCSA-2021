@@ -1,4 +1,4 @@
-\section{Introduction {\color{red} Nao mexer por enquanto}} 
+\section{Introduction} 
 
 
 \newcommand{\refminas}{\textit{Ref}\xspace}
@@ -7,14 +7,77 @@
 \newcommand{\nids}{NIDS\xspace}
 \newcommand{\ds}{DS\xspace}
 
-The advent of Internet of Things (IoT)
-is growing the count and diversity of
-devices on edge networks, this growth increases network traffic patterns and
-extends opportunities for cyber attacks presenting new challenges for network
-administrators.
-To address those challenges new Network Intrusion Detection Systems (NIDS) and
-architectures can be explored, especially in Fog Computing and Data Stream (DS)
-areas.
+\todo[inline]{Atualizar o iscurso e tirar um pouco o foco de IDS para detecção de novidades na rede}
+
+A survey released by Gartner in 2017 estimated that by 2020 there will be about 20 billion devices connected to the Internet, many of them through the IoT~\cite{gartner_forecast_2017}. Another survey released by the same company in 2018 estimated that nearly 20\% of organizations have experienced at least one IoT-based attack in the last three years. The study shows that most organizations have no control over the origin and nature of software and hardware used by connected devices.
+To protect against these threats, IoT's worldwide  spending on security will increase from \$1.5 billion in 2018 to \$3.1 billion in 2021 \cite{gartner_it_glossary_2018}, including tools and services to improve asset discovery and management, software security evaluation, hardware testing, and penetration testing.
+
+The so-called Internet of Things (IoT) brings together a wide variety of devices, including mobile, wearable, consumer electronics, automotive and sensors of various types.
+Such devices use the Internet to connect to other devices, systems, and applications running on the back-end. Once compromised, they can be used to attack other devices and systems, steal information, cause immediate physical damage, or either perform various other malicious actions. Most of them will likely have long lifespan or less frequent software patches. The increase of the mesh of devices of diverse technologies brings with it a considerable increase of the surface of attack.
+In this scenario, cybersecurity experts and front-line professionals are now tasked with defeating  new types of attacks that come with increasing frequency.
+
+Intrusion Detection Systems (IDS) are important tools for protecting corporate networks. From a research point of view, intrusion detection has been a challenge
+over the years and  most of the related work rely on Data Mining (DM) or Machine Learning (ML) techniques to detect attacks from known patterns or to discover new patterns \cite {buczak2016survey, mitchell2014survey}.
+With  traditional data mining methods, the data set is static and can be traversed repeatedly, and the detection of new attack patterns requires a new cycle of training, testing, and dissemination of new models.
+Unlike traditional methods, stream mining algorithms can be applied to intrusion detection with several advantages, such as: ($ i $) working with limited memory, which allows the implementation in small devices (for example, on the edge from the Web); ($ ii $) processing traffic data with a single read; ($ iii $) producing real-time response; and ($ iv $) detecting novelty and changes in concepts already learned.
+
+%{\color{red} 
+Online intrusion detection can be a hard job   depending on the number of devices and their physical location.
+With hundreds or thousands of IoT devices and objects scattered across corporate networks or smart cities, moving the traffic data from the devices where they are collected to be analyzed on a traditional cloud or datacenter can be costly or prohibitive due to high latency. Also, moving torrents of traffic data from a large number of devices to be scanned in a centralized infrastructure is not scalable. The current cloud computing paradigm will hardly be able to meet the requirements of low latency and scalability to support intrusion detection \cite{dastjerdi2016fog}.
+To face this challenge, it is possible to approximate the intrusion detection function processing to small devices and objects, taking advantage of the resources available on small devices that populate the edge of the network.
+%}
+
+\begin{table*}[htb]
+	\caption{Summary of related works}
+	\centering
+	\begin{scriptsize}
+		%	\begin{tabularx}{\textwidth}{ l m{2cm} | m{2cm} l m{2cm} | m{2cm} | m{2cm} | m{2cm} }
+		\begin{tabularx}{\textwidth}{l|l|X|X|X}	
+			%	\begin{tabularx}{\textwidth}{l|l|X|X|m{3.0cm}}
+%			Trabalho & Platforma  & Técnica & DataSet & Métricas \\
+			Work & Platforms & Technique & DataSet & Metrics\\
+			\hline
+			\hline
+			Kasinathan et al\cite{dos-6lowpan-iot} & 6LoWPAN & Suricata & Real data with metasploit & Accuracy, packets/second\\
+			\hline
+			Sheikhan and Bostani\cite{Hybrid-ids-arch-iot} & 6LoWPAN & Hybrid - MR OPF & NSL-KDD and simulated attacks & FAR and recall\\
+			\hline
+			Raza et al\cite{SVELTE} & 6LoWPAN & DAG analysis & No information & Recall, energy and memory consumption\\
+			\hline
+			Furquim et al\cite{Fault-tolerance-disaster} & WSN & MLP of Weka & Real data & MAE, RMSE, R², R, accuracy, recall, precision, specificity\\
+			\hline
+			Midi et al\cite{Kalis} & WSN & Independent modules, each with one technique & Trace replay and attack injection & Recall, accuracy, memory and CPU consumption\\
+			\hline
+			Lloret et al\cite{IoT-arch-smartmeter} & Smart City & Clustering, MLP and statistical models & Real data from meters & Water and energy consumption\\
+			\hline
+			Diffalah et al\cite{scalable-anomaly-detection-smart-city} & Smart City & LiSA, smoothing function & Real data & Outliers, comparison between simulation and collected data\\
+			\hline
+			Faisal et al\cite{DS-based-IDS-SmartGrid} & \textit{Smart Grid} & 7 MOA classifiers & KDD99 & Accuracy, Kappa, memory consumption, time, FAR and FNR \\
+			\hline
+		\end{tabularx}
+		\label{tab:summary}
+	\end{scriptsize}
+\end{table*}
+
+
+\todo[inline]{refazer este paragrafo: O presente trabalho avança a pesquisa sobre um trabalho anterior [ISCC-2019], apresentando as seguintes contribuições: 
+(i) a arquitetura proposta em [ISCC] foi instanciada e validada de forma experimental, 
+(ii) avaliamos o impacto da distribuiçõão do processamento sobre a qualidade da detecção de novidades quanto da eficiência do processamento 
+(iii) discutimos estratégias de distribuição de fluxos para classificação, incluindo a detecção de novidades foram discutidas
+}
+In the present work, we propose a distributed intrusion detection system for IoT scenarios with hundreds or thousands of objects and devices. The main contributions are two. First, we propose an intrusion detection architecture that leverages cloud edge capabilities, with the goal of reducing latency and increasing scalability. In addition, we employ and evaluate three Novelty Detection (ND) methods to learn emerging patterns of network traffic. Our proposal combines the use of edge network resources to collect and analyze data streams and public  cloud to process offline data for more accurate operations such as model improvements.
+
+
+This article is organized as follows: Section \ref{sec:related} presents the related works. Section \ref{sec:nd} reviews methods for detecting new features. Section \ref{sec:arch} presents the architecture proposal of the present work. Section \ref{sec:exper} presents the architecture validation experiments, encompassing accuracy and processing performance evaluations. Section \ref{sec:conclusion} summarizes the main findings and presents possible future work.
+
+
+
+%The advent of Internet of Things (IoT) is growing the count and diversity of devices on edge networks, this growth increases network traffic patterns and extends opportunities for cyber attacks presenting new challenges for network administrators. To address those challenges new Network Intrusion Detection Systems (NIDS) and architectures can be explored, especially in Fog Computing and Data Stream (DS) areas.
+
+
+
+
+
 
 % Data Stream (DS)
 
