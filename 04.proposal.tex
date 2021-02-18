@@ -35,15 +35,14 @@ Este apresenta uma proposta de implementação distribuida do MINAS que segue as
 (iv) possa ser implementada em dispositivos com recursos limitados 
 
 
-\todo[inline]{Relembrar ids-iot, fase offline e online}
+\todo{Relembrar ids-iot, fase offline e online}
 
 Thus we propose a \nids using MINAS \cite{Faria2016minas} (a Novelty Detection algorithm)
 to effectively identify previous and new intrusion threats,
 implemented over a architecture \cite{Cassales2019a} using parallel and distributed techniques leveraging
 edge and cloud for efficient computing.
 
-\hl{[start] intro/related?}
-
+\todo{[start] intro/related?}
 \nids 
 monitor the packet network traffic, aggregate into flow descriptors and
 % aggregated into flow descriptors and further processed in a classification
@@ -75,8 +74,7 @@ long term model storage and distribution of the internal model.
 Those steps surpass the capabilities of common fog hardware and
 therefore need to be at least shared to a cloud where such
 requirements are easy and cheap to fulfill.
-
-\hl{[end] intro/related?}
+\todo{[end] intro/related?}
 
 In our proposed \nids, fog and cloud computing resources are
 employed as to minimize the time elapsed between a flow descriptor
@@ -91,28 +89,35 @@ and thus are divided in fog and cloud.
 % Therefore, our objective is a Distributed novelty detection in streams using limited hardware.
 % Previous attempts to attain the objective of distributed fast
 
-\ref{fig:mfog-phy-arch-cloud}
-visão geral de iot nessa fig
-quais redes envolvidas
-processamento extra na borda
+% visão geral de iot nessa fig
+% quais redes envolvidas
+% processamento extra na borda
+To have a better overview of our proposal and how does it integrate in existing
+\iot environments, Figure \ref{fig:mfog-phy-arch-cloud} depicts such scenario
+showing from bottom to top:
+\iot devices directly connected to a (local) gateway network;
+this gateway network could be as simple as a single router to the internet
+or be more complex by connecting to private clouds or 
+containing more devices providing fog computing capabilities;
+lastly, available over the internet, traditional public cloud provides
+inexpensive computing and storage on demand.
+\todo{the following is needed?}{
+In this scenario the further apart resources are, more network
+resources need to be dedicated and, as any networked system, more
+latency between action and reaction is observed.
+}
 
-\ref{fig:mfog-architecture}
-enumerar módulos e funções
-descrever etapas do minas e onde se encaixa
-descrever onde módulos são multiplexados
-descrever casos de muiltiplos fluxos (redes locais)
-
-\begin{figure}[h]
+\begin{figure}[hbt]
   \centerline{
     \begin{subfigure}{.5\textwidth}
       \centering
-    %   \includegraphics[width=0.9\linewidth,page=1]{figures/mfog-arch-fisica.svg.pdf}
-      \includegraphics[width=0.9\linewidth,page=1]{figures/cassalesimgs-000.png}
-      \caption{Physical architecture and deployment scenario overview.}
+      \includegraphics[width=1.0\linewidth]{figures/cassalesimgs-000.png}
+      \caption{IDSA-IoT physical architecture and deployment scenario overview
+      from \cite{Cassales2019a}.}
       \label{fig:mfog-phy-arch-cloud}
     \end{subfigure}
     \begin{subfigure}{.5\textwidth}
-      \centerline{\includegraphics[width=0.9\linewidth]{figures/mfog-arch-v2_en.png}}
+      \centerline{\includegraphics[width=0.95\linewidth]{figures/mfog-arch-v2_en.png}}
       \caption{\mfog components and communications overview, }
       \label{fig:mfog-architecture}
     \end{subfigure}
@@ -121,11 +126,19 @@ descrever casos de muiltiplos fluxos (redes locais)
   \label{fig:arch-overview}
 \end{figure}
 
-The overall organization of components, connections and interactions with external
-actors is shown in Figure \ref{fig:mfog-phy-arch-cloud},
-from bottom left to top right: sensor network; fog containing gateway router
-and novelty detection cluster; cloud storage for model, alarms and statistics
-and; human supervisor addressing alarms and statistics.
+%   \includegraphics[width=0.9\linewidth,page=1]{figures/mfog-arch-fisica.svg.pdf}
+% The overall organization of components, connections and interactions with external
+% actors is shown in Figure \ref{fig:mfog-phy-arch-cloud},
+% from bottom left to top right: sensor network; fog containing gateway router
+% and novelty detection cluster; cloud storage for model, alarms and statistics
+% and; human supervisor addressing alarms and statistics.
+
+
+\ref{fig:mfog-architecture}
+enumerar módulos e funções
+descrever etapas do minas e onde se encaixa
+descrever onde módulos são multiplexados
+descrever casos de muiltiplos fluxos (redes locais)
 
 In Figure \ref{fig:mfog-architecture} we depict each logical component associated
 with each MINAS step and its communications, we also depict extra modules for sampling
