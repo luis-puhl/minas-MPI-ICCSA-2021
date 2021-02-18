@@ -148,7 +148,7 @@ Each experiment uses the adequate binary executable, initial model
 to compute a resulting output stream which is stored for qualitative evaluation.
 The summary of all four experiments is shown in Table \ref{tab:exper-summary}.
 
-\begin{table}[h]\begin{center}
+\begin{table}[hbt]\begin{center}
   \caption{Experiments Collected Metrics Summary}
   \input{experiments/summary.tex}
   \label{tab:exper-summary}
@@ -158,7 +158,7 @@ The first two experiments (a and b) comparison does serve as validation for our
 implementation, while the latter three (b, c and d) serves as showcase for
 the effects of distribution.
 
-\begin{figure*}[h]
+\begin{figure*}[hbt]
   \centerline{
     \begin{subfigure}{.5\textwidth}
       \centering
@@ -208,14 +208,9 @@ the effects of distribution.
 \end{figure*}
 
 \begin{table}[htb]\begin{center}
-  \caption{Reference implementation: Confusion Matrix and Qualitative Metrics}
+  \caption{Parallel single-node: Confusion Matrix and Qualitative Metrics}
   \input{experiments/tmi-base.log.tex}
-  \label{tab:java-matrix}
-\end{center}\end{table}
-\begin{table}[htb]\begin{center}
-  \caption{Serial implementation: Confusion Matrix and Qualitative Metrics}
-  \input{experiments/tmi-base.log.tex}
-  \label{tab:libc-matrix}
+  \label{tab:single-node-matrix}
 \end{center}\end{table}
 
 % \setcounter{MaxMatrixCols}{20}
