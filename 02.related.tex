@@ -12,6 +12,40 @@ Apache Kafka and Apache Spark for stream processing and
 \cite{DaCosta2019a}
 
 
+
+\begin{table*}[htb]
+	\caption{Summary of related works}
+	\centering
+	\begin{scriptsize}
+		%	\begin{tabularx}{\textwidth}{ l m{2cm} | m{2cm} l m{2cm} | m{2cm} | m{2cm} | m{2cm} }
+		\begin{tabularx}{\textwidth}{l|l|X|X|X}	
+			%	\begin{tabularx}{\textwidth}{l|l|X|X|m{3.0cm}}
+%			Trabalho & Platforma  & Técnica & DataSet & Métricas \\
+			Work & Platforms & Technique & DataSet & Metrics\\
+			\hline
+			\hline
+			Kasinathan et al\cite{dos-6lowpan-iot} & 6LoWPAN & Suricata & Real data with metasploit & Accuracy, packets/second\\
+			\hline
+			Sheikhan and Bostani\cite{Hybrid-ids-arch-iot} & 6LoWPAN & Hybrid - MR OPF & NSL-KDD and simulated attacks & FAR and recall\\
+			\hline
+			Raza et al\cite{SVELTE} & 6LoWPAN & DAG analysis & No information & Recall, energy and memory consumption\\
+			\hline
+			Furquim et al\cite{Fault-tolerance-disaster} & WSN & MLP of Weka & Real data & MAE, RMSE, R², R, accuracy, recall, precision, specificity\\
+			\hline
+			Midi et al\cite{Kalis} & WSN & Independent modules, each with one technique & Trace replay and attack injection & Recall, accuracy, memory and CPU consumption\\
+			\hline
+			Lloret et al\cite{IoT-arch-smartmeter} & Smart City & Clustering, MLP and statistical models & Real data from meters & Water and energy consumption\\
+			\hline
+			Diffalah et al\cite{scalable-anomaly-detection-smart-city} & Smart City & LiSA, smoothing function & Real data & Outliers, comparison between simulation and collected data\\
+			\hline
+			Faisal et al\cite{DS-based-IDS-SmartGrid} & \textit{Smart Grid} & 7 MOA classifiers & KDD99 & Accuracy, Kappa, memory consumption, time, FAR and FNR \\
+			\hline
+		\end{tabularx}
+		\label{tab:summary}
+	\end{scriptsize}
+\end{table*}
+
+
 6LoWPAN is a standard defined by the IETF in RFC 6282, to transmit data with IpV6 and other protocols on low power wireless devices using IEEE 802.15.4 in the lower layers. However, this technology still lacks protection and security mechanisms. %\cite{dos-6lowpan-iot, Hybrid-ids-arch-iot, SVELTE}.
 %
 For instance, in \cite{dos-6lowpan-iot}, signature detection is used to detect DoS and UDP flood attacks. The architecture uses a probe to promiscuously listen the whole traffic of a 6LoWPAN network and sends the data to analysis on a non-constrained host.
