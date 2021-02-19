@@ -2,11 +2,56 @@
 \label{sec:minas}
 
 
-Apresentar o MINAS de forma resumida (1 pagina no max): como funciona, etc. Veja se a Quali do Guilherme tem algum techo que possa inspirar 
+%  ******************* Texto quali ************************
+% \subsection{O Algoritmo MINAS}
+Apresentar o MINAS de forma resumida (1 pagina no max): como funciona, etc. 
+% Veja se a Quali do Guilherme tem algum techo que possa inspirar 
+
+O algoritmo da fase de aplicação da técnica MINAS é ilustrado no Algoritmo \ref{alg:MINAS}. Neste algoritmo estão inclusas as tarefas de classificar novos exemplos, detectar os padrões-novidade e atualizar o modelo de decisão. Este algoritmo recebe como argumentos o modelo construído na fase \textit{offline}, os dados do fluxo, um limiar $T$ utilizado para determinar se o exemplo é extensão ou novidade, o número mínimo de exemplos que um grupo necessita para ser válido, um limiar $ts$ utilizado na remoção de exemplos muito antigos da memória temporária e um limite de tempo $P$ utilizado no processo de mover padrões para memória \textit{sleep}.
+
+
+\todo[inline, color=blue]{explicação do algoritmo em pseudocódigo}
+As memórias temporária e \textit{sleep} são inicializadas com conjuntos vazios (linhas 1 e 2). Para cada novo exemplo não rotulado, o modelo de decisão verifica se é capaz de explicá-lo, ou seja, classificá-lo em alguma classe já existente. Neste processo, calcula-se a distância euclidiana $Dist$ entre o exemplo e o micro-cluster mais próximo (linhas 3 e 4). Se $Dist$ for menor que o raio do micro-cluster, este exemplo receberá o rótulo do micro-cluster e as estatísticas de resumo do micro-cluster serão atualizadas (linhas 5 a 7). Se nenhum dos micro-clusters existentes puder explicar o exemplo, ele será rotulado como $desconhecido$ e movido para uma memória temporária para análise futura (linhas 10 e 11). Então, há três significados possíveis para este exemplo: ($i$) ruído, ($ii$) evolução de conceitos conhecidos ou ($iii$) um novo conceito que ainda não está presente no modelo atual. Nos casos ($ii$) e ($iii$), um grupo coeso de exemplos é necessário para atualizar o modelo sem \textit{feedback}. Se o número de exemplos na memória temporária atingir um tamanho parametrizável, então a etapa de detecção da novidade é realizada (linhas 12 e 13). Finalmente, depois que cada janela de dados é processada, o modelo de decisão deve esquecer os micro-clusters que não são representativos, ou seja, que não receberam novos exemplos, movendo-os para uma memória de suspensão. Além disso exemplos desconhecidos que não foram adicionados a padrões novidade devem ser esquecidos por se tratarem de ruído (linhas 17 a 19).
+
+
+% %\begin{scriptsize}
+%     \begin{algorithm}[ht]
+%     \caption{MINAS}
+%     \label{alg:MINAS}
+%     \renewcommand{\algorithmicrequire}{\textbf{Entrada:}}
+%     \begin{algorithmic}[1]
+%     %T = limiar de distância para pertencer ao grupo
+%     %P = tempo de "inatividade" para passar para memória sleep
+%     %ts = limiar para remoção de exemplos da memória temporária
+%     \REQUIRE $Modelo,FCD,T,NumMinExemplos,ts,P$
+%     \STATE $MemTmp \leftarrow \emptyset$
+%     \STATE $MemSleep \leftarrow \emptyset$
+%     \FORALL{$exemplo \in FCD$}
+%     \STATE $(Dist,micro) \leftarrow$ micro-mais-proximo($exemplo,Modelo$)
+%     \IF{$Dist < $ raio($micro$)}
+%     \STATE $exemplo.classe \leftarrow micro.rotulo$
+%     \STATE atualizar-micro($micro,exemplo$)
+%     \ELSE
+%     \STATE $exemplo.classe \leftarrow desconhecido$
+%     \STATE $MemTmp \leftarrow MemTmp \cup exemplo$
+%     \IF{$|MemTmp| \geq NumMinExemplos$}
+%     \STATE $Modelo \leftarrow $ deteccao-novidade($Modelo,MemTmp,T$)
+%     \ENDIF
+%     \ENDIF
+%     \STATE $TempoAtual \leftarrow exemplo.T$
+%     \IF{$TempoAtual$ mod $TamJanela == 0$}
+%     \STATE $Modelo \leftarrow$ mover-micro-grupos-mem-sleep($Modelo,MemSleep,P$)
+%     \STATE $MemTmp \leftarrow$ remover-exemplos-antigos($MemTmp,ts$)
+%     \ENDIF
+%     \ENDFOR
+%     \end{algorithmic}
+%   \end{algorithm}
+%  ******************* Texto quali ************************
 
 
 
 Citar que o trabalho anterior já validou o uso do MINAs para detecção de novidade porem com uma implementação sequencial. 
+
 
 Figura do MINAS (offline + online) ...
 
