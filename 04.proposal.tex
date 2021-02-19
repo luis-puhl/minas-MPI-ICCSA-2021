@@ -4,7 +4,7 @@
 % Proposal:
 %  - retomar problema {iot, sec, ND};
 %  - objetivo;
-%  - soluções {minas, paralelismo, distribuído, ~~py-kafka, flink,~~ mpi}
+%  - soluções {MINAS, paralelismo, distribuído, ~~py-kafka, flink,~~ mpi}
 %  - propor uma solução
 
 % \begin{highlight}
@@ -26,7 +26,7 @@
 % and Novelty Detection.
 % These tools require the network packet traffic to be constantly analysed,
 
-
+\newcommand{\minas}{MINAS\xspace}
 
 Este apresenta uma proposta de implementação distribuida do MINAS que segue as diretrizes da arquitetura IDSA-IoT, atendendo aos seguintes requisitos:
 (i) a etapa de classificação de vários fluxos deve ocorrer em paralelo, sendo processada em diversos locais físicos da arquitetura 
@@ -133,16 +133,54 @@ latency between action and reaction is observed.
 % and novelty detection cluster; cloud storage for model, alarms and statistics
 % and; human supervisor addressing alarms and statistics.
 
+While our proposal focuses on fog computing resources, those resources are often limited
+and they do not have the same reach and availability as traditional public cloud.
+For that reason we also leverage the public cloud for model storage and distribution,
+global novelty detection and alarm forwarding.
 
-\ref{fig:mfog-architecture}
-enumerar módulos e funções
-descrever etapas do minas e onde se encaixa
-descrever onde módulos são multiplexados
-descrever casos de muiltiplos fluxos (redes locais)
+In Figure \ref{fig:mfog-architecture} we depict the overall architecture cut down to
+individual modules:
+three main functional modules being Training, Classification
+and Novelty Detection handling MINAS main tasks;
+and three auxiliary Source, Sink and Model Store, addressing external and internal connections
+as well as providing facilities to our tests and experiments.
 
-In Figure \ref{fig:mfog-architecture} we depict each logical component associated
-with each MINAS step and its communications, we also depict extra modules for sampling
-and measurements.
+% enumerar módulos e funções
+% \\descrever etapas do MINAS e onde se encaixa
+% \\descrever onde módulos são multiplexados
+% \\descrever casos de muiltiplos fluxos (redes locais)
+
+\todo{Needs review}
+Source Module provides the input data stream for Offline and Online phases of MINAS
+and is deployed in cloud and in fog for each respective phase and a variant for
+testing on our experiments.
+Model Store is another trivial module handling the initial Model storage and distribution
+for Classification and Novelty Detection modules.
+Last of the auxiliary modules is the Sink module, it denotes the consumer of labeling
+output stream such as an alarm system, however in our implementation it is much more
+complex, handling all tests metrics extraction and evaluations for our experiments,
+aggregating all output (stream and logs) in files for proper analysis and later comparisons.
+This module also differs in its software stack from the C language and MPI library,
+for the ease of implementing such analysis needed by our experiments, 
+courtesy of Pandas and NumPy libraries, we employed Python for this module.
+
+
+Training Module encapsulates the Offline phase of MINAS and its output, being the
+initial model, is stored by the Model Store.
+Classification Module houses the homonymous task of MINAS Online phase and
+is the focal point for parallelism in our proposal,
+being replicated in the fog on each local network containing a cluster with one
+or more nodes and each node multiple processes (limited to the individual CPU core count).
+Novelty Detection Module can be also replicated,
+one instance per local network and one global instance,
+also handling the homonymous task of MINAS Online phase.
+This modules takes as input all samples labeled with \emph{unknown},
+stores them in a internal \emph{unknown} buffer and when this buffer is full,
+triggers MINAS Novelty Detection task (clustering followed by validation).
+
+% In Figure \ref{fig:mfog-architecture} we depict each logical component associated
+% with each MINAS step and its communications, we also depict extra modules for sampling
+% and measurements.
 Each communication in Figure \ref{fig:mfog-architecture} shows the direction of the data flow
 and identifies the data contained:
 $Model$ is MINAS internal Model containing a set of cluster data structures,
