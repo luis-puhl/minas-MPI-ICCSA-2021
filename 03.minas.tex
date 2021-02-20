@@ -1,57 +1,43 @@
-\section{MINAS {\color{red} Guilherme pode fazer}}
+\section{MINAS}
 \label{sec:minas}
 
 
 %  ******************* Texto quali ************************
 % \subsection{O Algoritmo MINAS}
-Apresentar o MINAS de forma resumida (1 pagina no max): como funciona, etc. 
-% Veja se a Quali do Guilherme tem algum techo que possa inspirar 
+% Apresentar o MINAS de forma resumida (1 pagina no max): como funciona, etc. 
 
-O algoritmo da fase de aplicação da técnica MINAS é ilustrado no Algoritmo \ref{alg:MINAS}. Neste algoritmo estão inclusas as tarefas de classificar novos exemplos, detectar os padrões-novidade e atualizar o modelo de decisão. Este algoritmo recebe como argumentos o modelo construído na fase \textit{offline}, os dados do fluxo, um limiar $T$ utilizado para determinar se o exemplo é extensão ou novidade, o número mínimo de exemplos que um grupo necessita para ser válido, um limiar $ts$ utilizado na remoção de exemplos muito antigos da memória temporária e um limite de tempo $P$ utilizado no processo de mover padrões para memória \textit{sleep}.
+MINAS is an offline-online clustering algorithm, which means it has two distinct phases. The first phase generates the model by creating several micro-clusters based on a separate training set that is processed offline. Each micro-cluster can be associated with only one class of the problem, but each class can have many micro-clusters. The online phase is where the model performs three tasks in (near) real-time.
+% Our proposal focuses on the online phase, therefore we will describe it in more detail.
+We describe the online phase in more detail since we focus on its tasks. 
 
+In summary, MINAS executes the classification, novelty detection, and model update tasks in the online phase.
+% ******************* OLD ******************* 
+% % classification
+% For each arriving instance, the model tries to explain (i.e, classify) the instance by associating it with an existing micro-cluster. 
+% % update
+% If there is a micro-cluster within a parameterizable distance of the instance, the instance is grouped in that micro-cluster  by adding (i.e., updating) its attributes to the micro-cluster's feature vector. 
+% % temp memory + ND
+% Otherwise, this instance will be considered unknown and saved on a temporary memory for future use. 
+% When the size of the temporary memory reaches a parameterizable value MINAS stops classifying new instances and performs the novelty detection process. 
+% The novelty detection tries to find 
+% % linha abaixo pode ser omitida se achar melhor
+% valid and representative (i.e., \textit{silhouette} > 0 and at least a parameterizable number of instances) 
+% groups of unknown instances from the temporary memory.
+% Each 
+% % linha abaixo pode ser omitida se achar melhor
+% % valid and representative
+% group found can be a new pattern if the distance between it and its closest micro-cluster is bigger than a parameterizable threshold or, otherwise, an extension of said micro-cluster.
+% ******************* NEW ******************* 
+MINAS tries to classify each incoming unlabeled instance according to the current decision model. Instances unexplained by the model 
+% pode descomentar linha abaixo para dar mais "detalhes"
+% (i.e., distance from all existing micro-clusters bigger than a parameterizable threshold)
+receive an \textit{unknown} label and are stored in temporary memory for future analysis. When this temporary memory reaches a parameterizable size, MINAS groups the instances to form new micro-clusters. Each micro-cluster is validated to discard the non-cohesive or unrepresentative ones. Valid micro-clusters are analyzed to decide if they represent an extension of a known pattern or a completely new pattern. In both cases, the model absorbs the valid micro-clusters and starts using them to classify new instances.
+MINAS also has a mechanism to forget micro-clusters that became obsolete and unrepresentative of the current data stream distribution. 
+Besides, MINAS also cleans the temporary memory to eliminate ungrouped unknown instances as they represent noise~\cite{Faria2016minas}.
 
-\todo[inline, color=blue]{explicação do algoritmo em pseudocódigo}
-As memórias temporária e \textit{sleep} são inicializadas com conjuntos vazios (linhas 1 e 2). Para cada novo exemplo não rotulado, o modelo de decisão verifica se é capaz de explicá-lo, ou seja, classificá-lo em alguma classe já existente. Neste processo, calcula-se a distância euclidiana $Dist$ entre o exemplo e o micro-cluster mais próximo (linhas 3 e 4). Se $Dist$ for menor que o raio do micro-cluster, este exemplo receberá o rótulo do micro-cluster e as estatísticas de resumo do micro-cluster serão atualizadas (linhas 5 a 7). Se nenhum dos micro-clusters existentes puder explicar o exemplo, ele será rotulado como $desconhecido$ e movido para uma memória temporária para análise futura (linhas 10 e 11). Então, há três significados possíveis para este exemplo: ($i$) ruído, ($ii$) evolução de conceitos conhecidos ou ($iii$) um novo conceito que ainda não está presente no modelo atual. Nos casos ($ii$) e ($iii$), um grupo coeso de exemplos é necessário para atualizar o modelo sem \textit{feedback}. Se o número de exemplos na memória temporária atingir um tamanho parametrizável, então a etapa de detecção da novidade é realizada (linhas 12 e 13). Finalmente, depois que cada janela de dados é processada, o modelo de decisão deve esquecer os micro-clusters que não são representativos, ou seja, que não receberam novos exemplos, movendo-os para uma memória de suspensão. Além disso exemplos desconhecidos que não foram adicionados a padrões novidade devem ser esquecidos por se tratarem de ruído (linhas 17 a 19).
+% Citar que o trabalho anterior já validou o uso do MINAs para detecção de novidade porem com uma implementação sequencial. 
+Authors in~\cite{Cassales2019a} validated the usage of the MINAS algorithm for the Intrusion Detection and deploying it on edge. However, they used the sequential version of the algorithm, where classification stops completely to execute novelty detection.
 
-
-% %\begin{scriptsize}
-%     \begin{algorithm}[ht]
-%     \caption{MINAS}
-%     \label{alg:MINAS}
-%     \renewcommand{\algorithmicrequire}{\textbf{Entrada:}}
-%     \begin{algorithmic}[1]
-%     %T = limiar de distância para pertencer ao grupo
-%     %P = tempo de "inatividade" para passar para memória sleep
-%     %ts = limiar para remoção de exemplos da memória temporária
-%     \REQUIRE $Modelo,FCD,T,NumMinExemplos,ts,P$
-%     \STATE $MemTmp \leftarrow \emptyset$
-%     \STATE $MemSleep \leftarrow \emptyset$
-%     \FORALL{$exemplo \in FCD$}
-%     \STATE $(Dist,micro) \leftarrow$ micro-mais-proximo($exemplo,Modelo$)
-%     \IF{$Dist < $ raio($micro$)}
-%     \STATE $exemplo.classe \leftarrow micro.rotulo$
-%     \STATE atualizar-micro($micro,exemplo$)
-%     \ELSE
-%     \STATE $exemplo.classe \leftarrow desconhecido$
-%     \STATE $MemTmp \leftarrow MemTmp \cup exemplo$
-%     \IF{$|MemTmp| \geq NumMinExemplos$}
-%     \STATE $Modelo \leftarrow $ deteccao-novidade($Modelo,MemTmp,T$)
-%     \ENDIF
-%     \ENDIF
-%     \STATE $TempoAtual \leftarrow exemplo.T$
-%     \IF{$TempoAtual$ mod $TamJanela == 0$}
-%     \STATE $Modelo \leftarrow$ mover-micro-grupos-mem-sleep($Modelo,MemSleep,P$)
-%     \STATE $MemTmp \leftarrow$ remover-exemplos-antigos($MemTmp,ts$)
-%     \ENDIF
-%     \ENDFOR
-%     \end{algorithmic}
-%   \end{algorithm}
-%  ******************* Texto quali ************************
-
-
-
-Citar que o trabalho anterior já validou o uso do MINAs para detecção de novidade porem com uma implementação sequencial. 
-
-
-Figura do MINAS (offline + online) ...
+% Figura do MINAS (offline + online) ...
+\todo[inline, color=brown]{\textbf{Guilherme:} Não coloquei figura porque as figuras originais do MINAS ocupam bastante espaço (https://sci-hub.se/10.1007/s10618-015-0433-y pg 9) e a do MFog está mais completa.}
 
