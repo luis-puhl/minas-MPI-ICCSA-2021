@@ -278,18 +278,19 @@ of all distances as described in \cite{Faria2016minas}.
 %   - Na etapa de avaliação, independente de versão, o fluxo original é lido;
 %   - **Solução:** O formato mínimo é `(id, label)`;
 
+\newcommand{\val}{$\vec{v}\,$\xspace}
 The stream format for input and output also of note.
-Input information needed is the value of the item, this value is a number
+Input information needed is the samples value (\val), this \val is a number
 sequence of length $d$ (referenced as dimension).
-In addition to the value for evaluation and training purposes the class
+In addition to the \val for evaluation and training purposes the class
 identifier as single character, optionally an unique item identifier
-(\textit{uid}) can be provided.
+(\emph{uid}) can be provided.
 For output information and format the decision isn't so clear as we can't
 predict future system integrations needs like only novelty alarms or every
-item's original value with assigned label so, we have a compromise and put only
-enough information for the Evaluation Module (where the full information
+samples original \val with assigned label so, we have a compromise and put only
+enough information for the Sink Module (where the full information
 from the testing file or stream can be accessed) meaning the format can be
-defined as a tuple containing \textit{uid} and assigned label.
+defined as a tuple containing \emph{uid} and assigned label.
 
 % - Reprocessamento dos exemplos utilizados para atualização do modelo:
 %   - Muda o comportamento do operador de fluxo de `Map` para `Flatmap`, ou seja,
@@ -321,7 +322,7 @@ of the clustering algorithm.
 %   - Volume máximo do sistema;
 %   - Diferenças de precisão de acordo com a carga;
 
-For \mfog the Message Passing Interface (MPI) library was used.
+For \mfog the Message Passing Interface (MPI, from \emph{Open MPI 4.0.4}) library was used.
 In MPI programming, multiple processes of the same program are created by the
 runtime and each process instance receives a rank parameter, for \mfog this
 parameters indicate if the process is root, rank $0$, or leaf otherwise.
@@ -336,7 +337,7 @@ The overall sequence of interactions is shown in Figure \ref{fig:mfog-mpi-life}.
   \label{fig:mfog-mpi-life}
 \end{figure}
 
-The Evaluation Module was also build following reference techniques like
+The Sink Module was also build following reference techniques like
 multi-class confusion matrix with label-class association
 \cite{Faria2016minas}
 to extract classification quality metrics.

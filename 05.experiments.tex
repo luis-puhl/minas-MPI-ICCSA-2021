@@ -83,12 +83,12 @@ and each column denotes the marked (predicted) label present in the captured out
 Thus, each cell $M_{c, l}$ contains the count of examples from the test dataset of class $c$
 found in the output stream with the label $l$ assigned by the under evaluation experiment.
 For the dataset under use, original classes are \emph{``N''} and \emph{``A''}, and
-for the labels we have the training class \emph{``N''}, unknown label \emph{``-''} and
+for the labels we have the training class \emph{``N''}, \emph{unknown} label \emph{``-''} and
 the novelties $i \in \mathbb{N}$.
 
 Added to the original confusion matrix $C$ are the rows \emph{Assigned} and
 \emph{Hits}.
-The former represents which original class $c$ (or if unknown, \emph{-}) the
+The former represents which original class $c$ (or if \emph{unknown}, \emph{``-''}) the
 label $l$ is assigned to, this is computed by using the original class if
 $c = l$ or by associated novelty label to original class as described in
 \cite{DeFaria2015} section 4.1.
@@ -96,6 +96,13 @@ The latter row, \emph{Hits}, shows the true positive count for each label,
 computed by coping the value of the cell $M_{c, l}$ where the label is the same
 and the class $c$ is the value in the above \emph{Assigned} row.
 The \emph{Hits} row is also used to compute the overall accuracy.
+The complete matrix is shown in Tab. \ref{tab:java-matrix}.
+
+\begin{table*}[htb]\begin{center}
+  \caption{Reference implementation: Confusion Matrix and Qualitative Metrics}
+  \input{experiments/revised-java.log.tex}
+  \label{tab:java-matrix}
+\end{center}\end{table*}
 
 For the metric summary table, six metrics from two sources are displayed.
 Three metrics \emph{Hits} \emph{Unknowns} \emph{Misses} represented as ratio of the
@@ -104,11 +111,11 @@ program, computed as follows:
 \emph{Hits} (overall accuracy) is the summation of the homograph row in the
 extended confusion matrix;
 \emph{Unknowns} is the count of examples in the captured output stream marked
-with the unknown label \emph{-};
+with the \emph{unknown} label \emph{``-''};
 \emph{Misses} is the count of all examples in the captured output stream marked
 with a label distinct from the \emph{Assigned} original class and are not marked
 as unknown.
-\emph{Time}, \emph{System} and \emph{Elapsed} represented in seconds,
+Lastly, \emph{Time}, \emph{System} and \emph{Elapsed} metrics represented in seconds,
 are extracted from \emph{GNU Time}.
 \emph{Time} is the amount of CPU seconds expended in user-mode
 (indicates time used doing CPU intensive computing, e.g. math);
@@ -117,6 +124,7 @@ are extracted from \emph{GNU Time}.
 \emph{Elapsed} is the real-world (wall clock) elapsed time
 (indicates how long another system or person had to wait for the result).
 To compare the time metric is simple, the lower time taken, the better.
+Our four main experiments are shown in Tab. \ref{tab:exper-summary}.
 
 Lastly, the stream visualization chart shows the summary quality metrics
 (\emph{Hits} \emph{Unknowns} \emph{Misses})
@@ -133,30 +141,7 @@ appeared.
 Some of the novelty label markers include the label itself ($l \in \mathbb{N}$)
 for reference as if showing every label would turn this feature unreadable due
 to overlapping.
-
-% \hl{END Oritações de leitura das métricas e visualizações.}
-
-\subsection{Results Discussion}
-
-Four main experiments need detailed discussion:
-(a) reference implementation of Minas (\refminas) \cite{Faria2016minas};
-(b) new implementation in serial mode;
-(c) new implementation in single-node, multi-task mode and
-(d) new implementation in multi-node, multi-task mode.
-Each experiment uses the adequate binary executable, initial model
-(or training set for the reference implementation) and test set
-to compute a resulting output stream which is stored for qualitative evaluation.
-The summary of all four experiments is shown in Table \ref{tab:exper-summary}.
-
-\begin{table}[hbt]\begin{center}
-  \caption{Experiments Collected Metrics Summary}
-  \input{experiments/summary.tex}
-  \label{tab:exper-summary}
-\end{center}\end{table}
-
-The first two experiments (a and b) comparison does serve as validation for our
-implementation, while the latter three (b, c and d) serves as showcase for
-the effects of distribution.
+Figure \ref{fig:validation-java-serial} shows two complete stream visualization charts.
 
 \begin{figure*}[hbt]
   \centerline{
@@ -177,11 +162,35 @@ the effects of distribution.
   \label{fig:validation-java-serial}
 \end{figure*}
 
-\begin{table*}[htb]\begin{center}
-  \caption{Reference implementation: Confusion Matrix and Qualitative Metrics}
-  \input{experiments/revised-java.log.tex}
-  \label{tab:java-matrix}
-\end{center}\end{table*}
+% \hl{END Oritações de leitura das métricas e visualizações.}
+
+\subsection{Results Discussion}
+
+Four main experiments need detailed discussion:
+(\emph{a}) reference implementation of Minas (\refminas) \cite{Faria2016minas};
+(\emph{b}) new implementation in serial mode;
+(\emph{c}) new implementation in single-node, multi-task mode and
+(\emph{d}) new implementation in multi-node, multi-task mode.
+Each experiment uses the adequate binary executable, initial model
+(or training set for the reference implementation) and test set
+to compute a resulting output stream which is stored for qualitative evaluation.
+The summary of all four experiments is shown in Table \ref{tab:exper-summary}.
+
+\begin{table}[hbt]\begin{center}
+  \caption{Collected Metrics Summary}
+  \input{experiments/summary.tex}
+  \label{tab:exper-summary}
+\end{center}\end{table}
+
+The first two experiments (\emph{a} and \emph{b}) comparison does serve as
+validation for our implementation, while the latter three (\emph{b}, \emph{c}
+and \emph{d}) serves as showcase for the effects of distribution.
+As stated, to validate our implementation we compare it to \refminas
+(the original \minas companion implementation), so we extracted the same metrics
+using same process for both \emph{a} and \emph{b}, they can be viewed on
+Tables \ref{tab:java-matrix}, \ref{tab:libc-matrix} and for ease of comparison
+on \ref{tab:exper-summary} the summary can be compared side by side.
+
 \begin{table*}[htb]\begin{center}
   \caption{Serial implementation: Confusion Matrix and Qualitative Metrics}
   \input{experiments/online-nd.log.tex}
