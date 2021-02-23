@@ -98,11 +98,26 @@ and the class $c$ is the value in the above \emph{Assigned} row.
 The \emph{Hits} row is also used to compute the overall accuracy.
 The complete matrix is shown in Tab. \ref{tab:java-matrix}.
 
-\begin{table*}[htb]\begin{center}
-  \caption{Reference implementation: Confusion Matrix and Qualitative Metrics}
-  \input{experiments/revised-java.log.tex}
-  \label{tab:java-matrix}
-\end{center}\end{table*}
+% \begin{table*}[htb]\begin{center}
+%   \caption{Reference implementation: Confusion Matrix and Qualitative Metrics}
+%   \input{experiments/revised-java.log.tex}
+%   \label{tab:java-matrix}
+% \end{center}\end{table*}
+
+\begin{table}[htb]
+\begin{subtable}[h]{0.9\textwidth}\begin{center}
+    \caption{Reference implementation}
+    \input{experiments/revised-java.log.tex}
+    \label{tab:java-matrix}
+\end{center}\end{subtable}
+\begin{subtable}[h]{0.9\textwidth}\begin{center}
+    \caption{Serial implementation}
+    \input{experiments/online-nd.log.tex}
+    \label{tab:libc-matrix}
+\end{center}\end{subtable}
+\caption{Confusion Matrix and Qualitative Metrics}
+\label{tab:confusion-matrixes}
+\end{table}
 
 For the metric summary table, six metrics from two sources are displayed.
 Three metrics \emph{Hits} \emph{Unknowns} \emph{Misses} represented as ratio of the
@@ -177,7 +192,7 @@ to compute a resulting output stream which is stored for qualitative evaluation.
 The summary of all four experiments is shown in Table \ref{tab:exper-summary}.
 
 \begin{table}[hbt]\begin{center}
-  \caption{Collected Metrics Summary}
+  \caption{Collected Metrics Summary. \color{red}{deixo os tempos com ou sem a soma do tempo offline?}}
   \input{experiments/summary.tex}
   \label{tab:exper-summary}
 \end{center}\end{table}
@@ -185,19 +200,68 @@ The summary of all four experiments is shown in Table \ref{tab:exper-summary}.
 The first two experiments (\emph{a} and \emph{b}) comparison does serve as
 validation for our implementation, while the latter three (\emph{b}, \emph{c}
 and \emph{d}) serves as showcase for the effects of distribution.
+
 As stated, to validate our implementation we compare it to \refminas
 (the original \minas companion implementation), so we extracted the same metrics
 using same process for both \emph{a} and \emph{b}, they can be viewed on
 Tables \ref{tab:java-matrix}, \ref{tab:libc-matrix} and for ease of comparison
-on \ref{tab:exper-summary} the summary can be compared side by side.
+on Table \ref{tab:exper-summary} the summary can be compared side by side.
 
-\begin{table*}[htb]\begin{center}
-  \caption{Serial implementation: Confusion Matrix and Qualitative Metrics}
-  \input{experiments/online-nd.log.tex}
-  \label{tab:libc-matrix}
-\end{center}\end{table*}
+In general the observed classification quality metrics are very similar,
+they diverge slightly where \emph{a} has more \emph{Hits} and \emph{Misses}
+whereas \emph{b} shifted those to \emph{Unknowns}.
+This phenomenon was watched very closely during development and we found that
+small changes to MINAS parameters, MINAS internals like K-means ordering,
+cluster edge inclusion and cluster radius formula as stated in
+Subsection \ref{sec:implementation}.
+As for the efficiency metrics on Table \ref{tab:exper-summary}
+our implementation used less time to analyze the test data set,
+this is due to small optimizations on the minimal sample to cluster center
+on the classifier task and more importantly on the stop condition
+on the internal K-means algorithm, while \refminas uses a fixed iteration
+limit of $100$, our implementations adds the ``no improvment'' check
+and thus stops earlier on most cases and this in turn reduces time taken
+on the Novelty Detection step.
+Also note that \refminas time includes the Offline phase while
+our implementation runs it once and reuses the initial model for
+\emph{b}, \emph{c} and \emph{d}.
 
-\begin{figure*}[tb]
+As for the effects of running a MPI cluster with our implementation
+we observe an increase of time when e go from 
+\st{we have to say it is pretty shitty because of our choice of distribution 
+using round-robin, use some load balancing and micro-batching for better results.}
+Nevertheless, we can also show the effects of delay in the
+Classify, Novelty Detect, Model Update and Classify loop, as in the
+first non-serial experiment \emph{b} we observe a reduction in Novelty Labels
+on the Confusion Matrix (Tables \ref{tab:libc-matrix} and \ref{tab:single-node-matrix})
+from $10$ to $4$.
+The same effect is observed on the stream visualization as well, where
+Figure \ref{fig:validation-sub-serial}
+
+\begin{table}[htb]
+\begin{subtable}[h]{0.9\textwidth}\begin{center}
+    \caption{Parallel single-node}
+    \input{experiments/tmi-base.log.tex}
+    \label{tab:single-node-matrix}
+\end{center}\end{subtable}
+\begin{subtable}[h]{0.9\textwidth}\begin{center}
+    \caption{Parallel multi-node}
+    \input{experiments/tmi-n12.log.tex}
+    \label{tab:multi-node-matrix}
+\end{center}\end{subtable}
+\caption{Confusion Matrix and Qualitative Metrics for MPI Clusters.}
+\label{tab:confusion-matrixes}
+\end{table}
+
+% 22.40 user	0.02 system	0:22.48 elapsed
+
+% \begin{table*}[htb]\begin{center}
+%   \caption{Serial implementation: Confusion Matrix and Qualitative Metrics}
+%   \input{experiments/online-nd.log.tex}
+%   \label{tab:libc-matrix}
+% \end{center}\end{table*}
+
+\begin{figure*}[htb]
   \centerline{
     \begin{subfigure}{.5\textwidth}
       \centering
@@ -211,16 +275,22 @@ on \ref{tab:exper-summary} the summary can be compared side by side.
       \caption{Parallel multi-node}
       \label{fig:cluster-sub-multi}
     \end{subfigure}
+    \begin{subfigure}{.5\textwidth}
+      \centering
+      \includegraphics[width=\linewidth]{experiments/speedup-clean.png}
+      \caption{Time measurements per added instance}
+      \label{fig:cluster-sub-multi}
+    \end{subfigure}
   }
   \caption{Parallelism Comparison: Stream hits and novelties visualization}
   \label{fig:cluster}
 \end{figure*}
 
-\begin{table}[htb]\begin{center}
-  \caption{Parallel single-node: Confusion Matrix and Qualitative Metrics}
-  \input{experiments/tmi-base.log.tex}
-  \label{tab:single-node-matrix}
-\end{center}\end{table}
+% \begin{table}[htb]\begin{center}
+%   \caption{Parallel single-node: Confusion Matrix and Qualitative Metrics}
+%   \input{experiments/tmi-base.log.tex}
+%   \label{tab:single-node-matrix}
+% \end{center}\end{table}
 
 % \setcounter{MaxMatrixCols}{20}
 % \begin{table*}[htb]
@@ -258,3 +328,4 @@ on \ref{tab:exper-summary} the summary can be compared side by side.
 % \begin{highlight}
 
 % \end{highlight}
+

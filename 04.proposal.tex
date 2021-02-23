@@ -281,7 +281,7 @@ of all distances as described in \cite{Faria2016minas}.
 \newcommand{\val}{$\vec{v}\,$\xspace}
 The stream format for input and output also of note.
 Input information needed is the samples value (\val), this \val is a number
-sequence of length $d$ (referenced as dimension).
+sequence of length $d$ (dimension).
 In addition to the \val for evaluation and training purposes the class
 identifier as single character, optionally an unique item identifier
 (\emph{uid}) can be provided.
@@ -324,7 +324,7 @@ of the clustering algorithm.
 
 For \mfog the Message Passing Interface (MPI, from \emph{Open MPI 4.0.4}) library was used.
 In MPI programming, multiple processes of the same program are created by the
-runtime and each process instance receives a rank parameter, for \mfog this
+run-time and each process instance receives a rank parameter, for \mfog this
 parameters indicate if the process is root, rank $0$, or leaf otherwise.
 Beyond this division, each process also operates two threads, for the root
 there is a sampler and detector threads, for the leafs each has a model receiver
