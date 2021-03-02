@@ -28,21 +28,29 @@
 
 \newcommand{\minas}{MINAS\xspace}
 
-Este apresenta uma proposta de implementação distribuida do MINAS que segue as diretrizes da arquitetura IDSA-IoT, atendendo aos seguintes requisitos:
-(i) a etapa de classificação de vários fluxos deve ocorrer em paralelo, sendo processada em diversos locais físicos da arquitetura 
-(ii) a etapa de detecção de novidades (evolução do modelo) deve ocorrer em paralelo, sendo processada em diversos locais físicos da arquitetura 
-(iii)  as duas etapas anteriores, por sua vez também deverão ser executadas paralelamente, podendo ocorrer em partes distintas do sistema
-(iv) possa ser implementada em dispositivos com recursos limitados 
+% Este apresenta uma proposta de implementação distribuida do MINAS que segue as diretrizes da arquitetura IDSA-IoT, atendendo aos seguintes requisitos:
+% (i) a etapa de classificação de vários fluxos deve ocorrer em paralelo, sendo processada em diversos locais físicos da arquitetura 
+% (ii) a etapa de detecção de novidades (evolução do modelo) deve ocorrer em paralelo, sendo processada em diversos locais físicos da arquitetura 
+% (iii)  as duas etapas anteriores, por sua vez também deverão ser executadas paralelamente, podendo ocorrer em partes distintas do sistema
+% (iv) possa ser implementada em dispositivos com recursos limitados 
 
+In this work, we investigate the use of the novelty detection techniques and strategies presented 
+by the MINAS algorithm and the IDSA-IoT architecture for IoT.
+However, given the distributed nature and the typical use of low-end devices in envisioned and currently deployed IoT scenarios,  
+new constraints apply:
+(i) the classification phase of the algorithm must occur in parallel, at different spots at the same time;
+(ii) the novelty detection phase, which provides the model evolution, must also occur in parallel, at differente spots;
+(iii) both phases must also operate in parallel, possibly at different places/nodes of the system;
+(iv) the algorithm complexity must allow it to be processed by modest computer devices.
 
-\todo{Relembrar ids-iot, fase offline e online}
+% \todo{Relembrar ids-iot, fase offline e online}
 
 Thus we propose a \nids using MINAS \cite{Faria2016minas} (a Novelty Detection algorithm)
 to effectively identify previous and new intrusion threats,
 implemented over a architecture \cite{Cassales2019a} using parallel and distributed techniques leveraging
 edge and cloud for efficient computing.
 
-\todo{[start] intro/related?}
+% \todo{[start] intro/related?}
 \nids 
 monitor the packet network traffic, aggregate into flow descriptors and
 % aggregated into flow descriptors and further processed in a classification
@@ -74,7 +82,7 @@ long term model storage and distribution of the internal model.
 Those steps surpass the capabilities of common fog hardware and
 therefore need to be at least shared to a cloud where such
 requirements are easy and cheap to fulfill.
-\todo{[end] intro/related?}
+% \todo{[end] intro/related?}
 
 In our proposed \nids, fog and cloud computing resources are
 employed as to minimize the time elapsed between a flow descriptor
@@ -101,11 +109,12 @@ or be more complex by connecting to private clouds or
 containing more devices providing fog computing capabilities;
 lastly, available over the internet, traditional public cloud provides
 inexpensive computing and storage on demand.
-\todo{the following is needed?}{
+% \todo{the following is needed?}
+% {
 In this scenario the further apart resources are, more network
 resources need to be dedicated and, as any networked system, more
 latency between action and reaction is observed.
-}
+% }
 
 \begin{figure}[hbt]
   \centerline{
@@ -150,7 +159,7 @@ as well as providing facilities to our tests and experiments.
 % \\descrever onde módulos são multiplexados
 % \\descrever casos de muiltiplos fluxos (redes locais)
 
-\todo{Needs review}
+% \todo{Needs review}
 Source Module provides the input data stream for Offline and Online phases of MINAS
 and is deployed in cloud and in fog for each respective phase and a variant for
 testing on our experiments.

@@ -42,21 +42,21 @@ and $447\:179$ $A$ (attack) class.
 %   \cite{Cassales2019a}
 % \end{quote}
 
-\begin{highlight}
-O que quer testar com os experimentos.
-\begin{itemize}
-  \item Tese: Mostrar que detecção por novidade e classificação continua viável em fog.
-  \item Seria inviável por conta do atraso de distribuição de modelo e,
-  \item limitação pelo hardware pequeno.
-  \item MFOG: Um Agregador Regional, instalado na FOG, que observa a rede local.
-\end{itemize}
+% \begin{highlight}
+% O que quer testar com os experimentos.
+% \begin{itemize}
+%   \item Tese: Mostrar que detecção por novidade e classificação continua viável em fog.
+%   \item Seria inviável por conta do atraso de distribuição de modelo e,
+%   \item limitação pelo hardware pequeno.
+%   \item MFOG: Um Agregador Regional, instalado na FOG, que observa a rede local.
+% \end{itemize}
 
-Como realizou (cenário, rpi, setup, coleta de métricas).
+% Como realizou (cenário, rpi, setup, coleta de métricas).
 
-Quais resultados obteve.
+% Quais resultados obteve.
 
-Como interpretar os resultados.
-\end{highlight}
+% Como interpretar os resultados.
+% \end{highlight}
 
 % \hl{BEGIN Oritações de leitura das métricas e visualizações.}
 
@@ -238,7 +238,9 @@ from $10$ to $4$.
 The same effect is observed on the stream visualization as well, where
 Figure \ref{fig:validation-sub-serial}
 
-\todo{discutir o delay de 80k entre etiqueta 0 em serial vs node}
+% \todo{discutir o delay de 80k entre etiqueta 0 em serial vs node}
+
+When observing the stream visualization on figure \ref{fig:cluster-sub-multi}
 
 \begin{table}[htb]
 \begin{subtable}[h]{0.9\textwidth}\begin{center}
@@ -277,16 +279,23 @@ Figure \ref{fig:validation-sub-serial}
       \caption{Parallel multi-node}
       \label{fig:cluster-sub-multi}
     \end{subfigure}
-    \begin{subfigure}{.5\textwidth}
-      \centering
-      \includegraphics[width=\linewidth]{experiments/speedup-clean.png}
-      \caption{Time measurements per added instance}
-      \label{fig:cluster-sub-multi}
-    \end{subfigure}
+    % \begin{subfigure}{.5\textwidth}
+    %   \centering
+    %   \includegraphics[width=\linewidth]{experiments/speedup-clean.png}
+    %   \caption{Time measurements per added instance}
+    %   \label{fig:cluster-sub-multi}
+    % \end{subfigure}
   }
   \caption{Parallelism Comparison: Stream hits and novelties visualization}
   \label{fig:cluster}
 \end{figure*}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\linewidth]{experiments/speedup-clean.png}
+  \caption{Time measurements per added instance}
+  \label{fig:speedup}
+\end{figure}
 
 % \begin{table}[htb]\begin{center}
 %   \caption{Parallel single-node: Confusion Matrix and Qualitative Metrics}

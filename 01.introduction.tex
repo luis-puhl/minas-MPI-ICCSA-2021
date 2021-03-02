@@ -10,7 +10,8 @@
 \newcommand{\nids}{NIDS\xspace}
 \newcommand{\ds}{DS\xspace}
 
-\todo{poderia trocar esses surveys por mais novos ou menos preditivos e mais acertvivos}
+% \todo{poderia trocar esses surveys por mais novos ou menos preditivos e mais acertvivos}
+
 A survey released by Gartner estimated about 20 billion devices connected to the
 Internet by 2020, many of them through the IoT \cite{gartner_forecast_2017}.
 More recently, Statista predicted that the total number of such devices will
@@ -18,28 +19,32 @@ reach 38 billion by 2025, and 50 billion by 2030 \cite{statista-iot}.
 The Internet of Things (IoT) brings together a wide variety of devices,
 including mobile, wearable, consumer electronics, automotive, and sensors of
 various types.
-Such devices can either be accessed by users through the Internet or to connect
+Such devices can either be accessed by users through the Internet or %to 
+connect
 to other devices, servers, and applications running on the back-end
 with little human intervention or supervision
 \cite{Tahsien2020,abane2019,haddadpajouh2019survey,Shanbhag2015}.
 
-Security and privacy is a major concern in the IoT, as devices like smart home
-assistants and wearable devices hold personal information about the user’s like
-their location, health data, and many other sensitive data
+Security and privacy is a major concern in the IoT, specially regarding %as 
+devices like smart home assistants and wearable devices %hold 
+have access to user related information, including
+location, health data, and many other sensitive data
 \cite{sengupta2020comprehensive}.
-Furthermore, once compromised such devices can also be used to attack other
+Furthermore, if compromised such devices can also be used to attack other
 devices and systems, steal information, cause immediate physical damage or
 perform various other malicious acts.
-As additional concerns, IoT devices likely have long lifespan and less frequent
-software patches, and the increase of the mesh of devices of diverse
-technologies considerably increase the surface of attack.
+As an additional concern, IoT devices likely have long lifespan and less frequent
+software patches, and the ever growing %increase of the 
+mesh of devices of diverse
+technologies considerably increasea the surface of attack.
 
 A study reveals that nearly $20\%$ of organizations have experienced at least one
 IoT-based attack in the last three years.
 The study shows that most organizations have no control over the origin and
-nature of software and hardware used by connected devices.
-To protect against these threats, IoT's worldwide spending on security is
-estimated USD $\$\,3.1$ billion in 2021 \cite{gartner_it_glossary_2018}, including tools
+nature of software and hardware used by the connected devices.
+To protect against these threats, the IoT industry's spending on security is
+estimated to be around USD $\$\,3.1$ billion in 2021 \cite{gartner_it_glossary_2018}, 
+which includes the development of tools
 and services to improve asset discovery and management, software security
 evaluation, hardware testing and penetration testing.
 
@@ -47,16 +52,18 @@ evaluation, hardware testing and penetration testing.
 % e.g. 'exempli gratia', which means "for example."
 Because most IoT devices have limited resources (i.e., battery, processing
 power, bandwidth, and memory), configurable and expensive algorithm-based
-security techniques can not be applied \cite{Zhou2017}.
+security techniques may not fit %can not be applied 
+\cite{Zhou2017}.
 Machine Learning (ML) techniques have been studied for years to detect attacks
 from known patterns or to discover new attacks at an early stage
 \cite{buczak2016survey,mitchell2014survey}.
 A recent survey in \cite{Tahsien2020} shows that ML based methods are a
 promising alternative which can provide potential security tools for the IoT
 devices which make them more reliable and accessible than before.
-Despite of the promising use of ML to secure IoT systems, most studies presented
-in the literature (e.g., those surveyed in
-\cite{buczak2016survey,mitchell2014survey,Tahsien2020}) are limited to
+Despite the promising use of ML to secure IoT systems, %most 
+studies presented in the literature %(e.g., those surveyed in
+\cite{buczak2016survey,mitchell2014survey,Tahsien2020} %)
+are limited to
 traditional ML methods that use static models of traffic behavior.
 % With traditional ML methods, the data set is static and can be traversed
 % repeatedly, and the detection of new attack patterns requires a new cycle of
@@ -70,17 +77,22 @@ the Web); ($ ii $) processing traffic data with a single read; ($ iii $)
 producing real-time response; and ($ iv $) detecting novelty and changes in
 concepts already learned.
 
-{\color{red} This paper elaborates on the previous work in the following
-aspects. First, we instantiated and validated experimentally the IDSA-IoT
-architecture (proposed in \cite{Cassales2019a} ) on a distributed system
-composed of small devices with limited resources on the edge of the network. Our
-implementation can be fully executed on the edge, thus avoiding any dependency
-and high latency of cloud resources. We proposed and implemented dMINAS, a
-distributed extension of MINAS \cite{Faria2016minas} (a novelty detection for
-data streams). We evaluated through experimental method, how the distribution of
+% Nao tinha mencionado quais previous works...
+% {\color{red} %This paper elaborates on the previous work in the following aspects. 
+Given the successful use of Novelty Detection in network data streams, 
+this paper shows the results of adapting these mechanisms for use in IoT environments. 
+First, we instantiated and validated experimentally the IDSA-IoT
+architecture \cite{Cassales2019a} on a distributed system
+composed of small devices with limited resources on the edge of the network.
+Our implementation can be fully executed on the edge, thus avoiding any dependency
+and high latency of cloud resources.
+% We proposed and implemented dMINAS, a distributed extension
+% of MINAS \cite{Faria2016minas} (a novelty detection for data streams).
+We evaluated through experimental method, how the distribution of
 the novelty detection affects the capability to detect changes (novelty) in
-traffic patterns, and the impact on the computational efficiency. Finally, some
-distribution strategies for the novelty detection are discussed. }
+traffic patterns, and the impact on the computational efficiency.
+Finally, some distribution strategies for the novelty detection are discussed.
+% }
 
 This paper  is organized as follows:
 Section \ref{sec:related} presents the related works.
@@ -90,9 +102,9 @@ implementation and evaluation are presented in Section \ref{sec:prop}.
 Finally, Section \ref{sec:conclusion} summarizes the main findings and presents
 possible future work.
 
-\todo{Parei aqui a redação da Introdução.Deixei grifado em vermelho o
-paragrafo que fala das contribuições. Talvez com um pequeno esforço em
-especificar uma versão distribuida do MINAS teriamos uma extensão do mesmo. }
+% \todo{Parei aqui a redação da Introdução.Deixei grifado em vermelho o
+% paragrafo que fala das contribuições. Talvez com um pequeno esforço em
+% especificar uma versão distribuida do MINAS teriamos uma extensão do mesmo. }
 
 % Desafios de arquitetura e validação:
 
@@ -121,15 +133,15 @@ especificar uma versão distribuida do MINAS teriamos uma extensão do mesmo. }
 % Distribution and IDSA-IoT architecture.
 % \end{highlight}
 
-This paper is structured as follows:
-Section \ref{sec:related} presents previous works that addresses related
-problems and how they influenced our solution.
-Section \ref{sec:implementation} address our proposal, the work done, issues
-found during implementation and discusses parameters and configurations options
-and how we arrived at our choices.
-Section \ref{sec:experiments} shows experiments layouts and results, we
-compare serial and distributed implementation's metrics for validation,
-we also evaluate communication delay effects on classification metrics and
-conclude with the speedup per core and overall maximum stream speed.
-Section \ref{sec:conclusion} summarizes the research results and presents our
-final conclusions and future works.
+% This paper is structured as follows:
+% Section \ref{sec:related} presents previous works that addresses related
+% problems and how they influenced our solution.
+% Section \ref{sec:implementation} address our proposal, the work done, issues
+% found during implementation and discusses parameters and configurations options
+% and how we arrived at our choices.
+% Section \ref{sec:experiments} shows experiments layouts and results, we
+% compare serial and distributed implementation's metrics for validation,
+% we also evaluate communication delay effects on classification metrics and
+% conclude with the speedup per core and overall maximum stream speed.
+% Section \ref{sec:conclusion} summarizes the research results and presents our
+% final conclusions and future works.
