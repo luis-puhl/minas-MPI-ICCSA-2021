@@ -41,3 +41,100 @@ Authors in~\cite{Cassales2019a} validated the usage of the MINAS algorithm for t
 % Figura do MINAS (offline + online) ...
 % \todo[inline, color=brown]{\textbf{Guilherme:} Não coloquei figura porque as figuras originais do MINAS ocupam bastante espaço (https://sci-hub.se/10.1007/s10618-015-0433-y pg 9) e a do MFog está mais completa.}
 
+{\color{red}Formally, a data stream $S$ is a massive sequence of data elements $x_1, x_2, \dots, x_n$ that is, $S={\{x_i\}}_{i=1}^n$, which is potentially unbounded (n → $\infty$).
+Compared to traditional (batch) data mining, stream processing algorithms have additional requirements. For instance, with a potentially infinite data stream, storing data for late processing is not a choice due to memory constraints. Algorithms need to incrementally process incoming data instances in a single pass while operating under memory and response time constraints. Furthermore, as data streams present transient behavior, prediction models often need to be incremented to adapt to concept drift observed in data. }
+
+
+% \begin{algorithm}[ht]
+%   \caption{MINAS \cite{Faria2016minas,Cassales2019a}}
+%   \label{alg:MINAS}
+%   \renewcommand{\algorithmicrequire}{\textbf{Entrada:}}
+%   \begin{algorithmic}[1]
+%     %T = limiar de distância para pertencer ao grupo
+%     %P = tempo de "inatividade" para passar para memória sleep
+%     %ts = limiar para remoção de exemplos da memória temporária
+%     \REQUIRE $Modelo,FCD,T,NumMinExemplos,ts,P$
+%     \STATE $MemTmp \leftarrow \emptyset$
+%     \STATE $MemSleep \leftarrow \emptyset$
+%     \FORALL{$exemplo \in FCD$}
+%     \STATE $(Dist,micro) \leftarrow$ micro-mais-proximo($exemplo,Modelo$)
+%     \IF{$Dist < $ raio($micro$)}
+%     \STATE $exemplo.classe \leftarrow micro.rotulo$
+%     \STATE atualizar-micro($micro,exemplo$)
+%     \ELSE
+%     \STATE $exemplo.classe \leftarrow desconhecido$
+%     \STATE $MemTmp \leftarrow MemTmp \cup exemplo$
+%     \IF{$|MemTmp| \geq NumMinExemplos$}
+%     \STATE $Modelo \leftarrow $ deteccao-novidade($Modelo,MemTmp,T$)
+%     \ENDIF
+%     \ENDIF
+%     \STATE $TempoAtual \leftarrow exemplo.T$
+%     \IF{$TempoAtual$ mod $TamJanela == 0$}
+%     \STATE $Modelo \leftarrow$ mover-micro-grupos-mem-sleep($Modelo,MemSleep,P$)
+%     \STATE $MemTmp \leftarrow$ remover-exemplos-antigos($MemTmp,ts$)
+%     \ENDIF
+%     \ENDFOR
+%   \end{algorithmic}
+% \end{algorithm}
+
+% \begin{algorithm}[ht]
+%   \caption{MINAS \cite{Faria2016minas,Cassales2019a}}
+%   \label{alg:MINAS}
+%   \renewcommand{\algorithmicrequire}{\textbf{Entrada:}}
+%   \begin{algorithmic}[1]
+%   \IF{root}
+%     \WHILE{true}
+%     \IF{can_read(S)}
+%     input(S, $s$)
+%     send(s, i++)
+%     \ENDIF
+%     \IF{can_rcv($(s, l)$, any)}
+%         output($(s, l)$)
+%         \IF{$l == '-'$ )}
+%             store($(s, l)$, unknowns)
+%             % \IF{$|MemTmp| \geq NumMinExemplos$}
+%             % \STATE $Modelo \leftarrow $ deteccao-novidade($Modelo,MemTmp,T$)
+%             % \ENDIF
+%             % \ENDIF
+%             % \STATE $TempoAtual \leftarrow exemplo.T$
+%             % \IF{$TempoAtual$ mod $TamJanela == 0$}
+%             % \STATE $Modelo \leftarrow$ mover-micro-grupos-mem-sleep($Modelo,MemSleep,P$)
+%             % \STATE $MemTmp \leftarrow$ remover-exemplos-antigos($MemTmp,ts$)
+%             % \ENDIF
+%         \ENDIF
+%     \ENDIF
+%   \ENDWHILE
+%   \ENDIF
+%   \IF{leaf}
+%     rcv($s$, root)
+%     $l$ = classify($s$)
+%     send($(s, l)$, root)
+%   \ENDIF
+%   \end{algorithmic}
+% \end{algorithm}
+
+
+
+\begin{algorithm}
+  \caption{High level parallel algorithm}
+  \label{alg:highlevel-new}
+  \begin{algorithmic}[1]
+    \State {\bf Input}: an ensemble $E$, $num\_threads$, a data stream $S$
+    \State $P \gets Create\_service\_thread\_pool(num\_threads)$
+    \State $T \gets Create\_trainers\_collection(E)$
+    \For {each arriving instance $I$ in stream $S$}
+    \State $E$.classify($I$)
+    \For  {each trainer $T_i$ in trainers $T$} 
+    \State $k \gets poisson(\lambda)$
+    \State $T_i.update(I, k)$
+    \EndFor
+    \For {all trainers $T$} {\bf in parallel}
+    \State $W\_inst \gets I * k$
+    \State $Train\_on\_instance(W\_inst)$
+    \EndFor
+    \If {change detected}
+    \State $reset\_classifier$
+    \EndIf
+    \EndFor
+  \end{algorithmic}
+\end{algorithm}
