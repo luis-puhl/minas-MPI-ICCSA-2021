@@ -1,59 +1,45 @@
-% \usepackage{algorithmic}
-% \usepackage[ruled,vlined,linesnumbered]{algorithm2e}
 
-\begin{algorithm}[H]
-\SetAlgoLined
-\KwResult{Write here the result }
- initialization\;
- \While{While condition}{
-  instructions\;
-  \eIf{condition}{
-   instructions1\;
-   instructions2\;
-   }{
-   instructions3\;
-  }
- }
- \caption{How to write algorithms}
+\begin{algorithm}[h]
+{\tiny
+    \SetAlgoVlined
+    \KwIn{sample, ModelSet, params as p}
+    \KwOut{Classified Stream}
+    \KwData{ UnkownSet, ModelSleepSet, lastCleanupTime }
+    sample.label = unknown\;
+    (distance, cluster) = mearestCluster(sample, ModelSet)\;
+    \If{distance $<$ cluster.radius}{
+        sample.label = cluster.label\;
+        \Return sample\;
+    }
+    UnkownSet = UnkownSet $\cup$ sample\;
+    \If{sizeOf(UnkownSet) $\geq$ p.k}{
+    \tcc{Novelty Detection}
+    newClusters = clustering(UnkownSet)\;
+    \ForEach{cl in newClusters}{
+        \lIf{cl.items $<$ p.minExamplesPerCluster}{\textbf{continue}}
+        % 
+        (distance, near) = mearestCluster(cl, ModelSet $\cup$ ModelSleepSet)\;
+        \eIf{distance $<$ near.radius $\times$ p.noveltyFactor}{
+            cl.label = near.label\;
+            cl.type = extension\;
+            }{
+                cl.label = noveltyIndex\;
+            noveltyIndex = increment(noveltyIndex)\;
+            cl.type = novelty\;
+        }
+        ModelSet = ModelSet $\cup$ cl\;
+        }
+}
+\If{time $>$ lastCleanup $+$ p.cleaningWindow}{
+    ModelSet = handleModelSleep(ModelSet, ModelSleepSet)\;
+    UnkownSet = removeOldSamples(UnkownSet, lastCleanup)\;
+}
+\Return sample\;
+}
+\label{alg:MINAS}
+\caption{Our interpretation of MINAS \cite{faria2013novelty,Faria2016minas,Cassales2019a}}
 \end{algorithm}
 
-% \begin{algorithm}[ht]
-%   \caption{MINAS \cite{Faria2016minas,Cassales2019a}}
-%   \label{alg:MINAS}
-%   \begin{algorithmic}[1]
-%     {\small
-%     %T = limiar de distância para pertencer ao grupo
-%     %P = tempo de "inatividade" para passar para memória sleep
-%     %ts = limiar para remoção de samples da memória temporária
-%     \REQUIRE $ InputStream, Model, params$
-%     % \STATE $ (UnkownSet, ModelSleep) \leftarrow (\emptyset, \emptyset)$
-%     \STATE $ lastCleanup \leftarrow 0 $; $ UnkownSet \leftarrow \emptyset$; $ ModelSleep \leftarrow \emptyset$
-%     % \STATE $ UnkownSet \leftarrow \emptyset$
-%     % \STATE $ ModelSleep \leftarrow \emptyset$
-%     \FORALL{$sample \in InputStream $}
-%         \STATE $(distance, cluster) \leftarrow$ mearestCluster($sample, Model$)
-%         \IF{$distance < $ radius($cluster$)}
-%             \STATE $sample.label \leftarrow cluster.label$
-%             % \STATE updateCluster($cluster, sample$)
-%         \ELSE
-%             \STATE $sample.label \leftarrow unknown$
-%             \STATE $UnkownSet \leftarrow UnkownSet \cup sample$
-%             \IF{$|UnkownSet| \geq params.k$}
-%                 \STATE $Model \leftarrow $ noveltyDetection($Model, UnkownSet$)
-%                 \STATE $Model \leftarrow$ handleModelSleep($Model, ModelSleep$)
-%                 \STATE $UnkownSet \leftarrow$ removeOldSamples($UnkownSet, lastCleanup$)
-%             \ENDIF
-%         \ENDIF
-%         % \STATE $TempoAtual \leftarrow sample.T$
-%         % \IF{$ sample.index > (lastCleanup + params.cleanupWindow) $}
-%         %     \STATE $ lastCleanup = sample.index $
-%         %     \STATE $Model \leftarrow$ handleModelSleep($Model, ModelSleep$)
-%         %     \STATE $UnkownSet \leftarrow$ removeOldSamples($UnkownSet, lastCleanup$)
-%         % \ENDIF
-%     \ENDFOR
-%     }
-%   \end{algorithmic}
-% \end{algorithm}
 
 % --------------------------------------------------------------------------------------------------
 
