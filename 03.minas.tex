@@ -34,20 +34,96 @@ and model update tasks in the online phase.
 % % valid and representative
 % group found can be a new pattern if the distance between it and its closest micro-cluster is bigger than a parameterizable threshold or, otherwise, an extension of said micro-cluster.
 % ******************* NEW ******************* 
-MINAS tries to classify each incoming unlabeled instance according to the current decision model. Instances unexplained by the model 
+MINAS tries to classify each incoming unlabeled instance according to the
+current decision model. Instances unexplained by the model
 % pode descomentar linha abaixo para dar mais "detalhes"
 % (i.e., distance from all existing micro-clusters bigger than a parameterizable threshold)
-receive an \textit{unknown} label and are stored in temporary memory for future analysis. When this temporary memory reaches a parameterizable size, MINAS groups the instances to form new micro-clusters. Each micro-cluster is validated to discard the non-cohesive or unrepresentative ones. Valid micro-clusters are analyzed to decide if they represent an extension of a known pattern or a completely new pattern. In both cases, the model absorbs the valid micro-clusters and starts using them to classify new instances.
-MINAS also has a mechanism to forget micro-clusters that became obsolete and unrepresentative of the current data stream distribution. 
-Besides, MINAS also cleans the temporary memory to eliminate ungrouped unknown instances as they represent noise~\cite{Faria2016minas}.
+receive an \textit{unknown} label and are stored in temporary memory for future
+analysis.
+When this temporary memory reaches a parameterizable size, MINAS groups the
+instances to form new micro-clusters.
+Each micro-cluster is validated to discard the non-cohesive or unrepresentative
+ones.
+Valid micro-clusters are analyzed to decide if they represent an extension of a
+known pattern or a completely new pattern. In both cases, the model absorbs the
+valid micro-clusters and starts using them to classify new instances.
+MINAS also has a mechanism to forget micro-clusters that became obsolete and
+unrepresentative of the current data stream distribution.
+Besides, MINAS also cleans the temporary memory to eliminate ungrouped unknown
+instances as they represent noise~\cite{Faria2016minas}.
 
 % Citar que o trabalho anterior já validou o uso do MINAs para detecção de novidade porem com uma implementação sequencial. 
-Authors in~\cite{Cassales2019a} validated the usage of the MINAS algorithm for the Intrusion Detection and deploying it on edge. However, they used the sequential version of the algorithm, where classification stops completely to execute novelty detection.
+
+Authors in~\cite{Cassales2019a} validated the usage of the MINAS algorithm for
+the Intrusion Detection and deploying it on edge. However, they used the
+sequential version of the algorithm, where classification stops completely to
+execute novelty detection.
 
 % Figura do MINAS (offline + online) ...
 % \todo[inline, color=brown]{\textbf{Guilherme:} Não coloquei figura porque as figuras originais do MINAS ocupam bastante espaço (https://sci-hub.se/10.1007/s10618-015-0433-y pg 9) e a do MFog está mais completa.}
 
-{\color{red}Formally, a data stream $S$ is a massive sequence of data elements $x_1, x_2, \dots, x_n$ that is, $S={\{x_i\}}_{i=1}^n$, which is potentially unbounded (n → $\infty$).
-Compared to traditional (batch) data mining, stream processing algorithms have additional requirements. For instance, with a potentially infinite data stream, storing data for late processing is not a choice due to memory constraints. Algorithms need to incrementally process incoming data instances in a single pass while operating under memory and response time constraints. Furthermore, as data streams present transient behavior, prediction models often need to be incremented to adapt to concept drift observed in data. }
+{\color{red}Formally, a data stream $S$ is a massive sequence of data elements
+$x_1, x_2, \dots, x_n$ that is, $S={\{x_i\}}_{i=1}^n$, which is potentially
+unbounded (n → $\infty$).
+Compared to traditional (batch) data mining, stream processing algorithms have
+additional requirements.
+For instance, with a potentially infinite data stream, storing data for late
+processing is not a choice due to memory constraints.
+Algorithms need to incrementally process incoming data instances in a single
+pass while operating under memory and response time constraints.
+Furthermore, as data streams present transient behavior, prediction models often
+need to be incremented to adapt to concept drift observed in data. }
 
 \input{03.minas-algo}
+
+% \begin{figure}[ht]
+% \subfloat[float]{
+% \begin{minipage}[c][1\width]{0.5\textwidth}
+%     \begin{algorithm}[h]
+%     % {\tiny \input{03.minas-algo} }
+%     \SetAlgoVlined
+%     \KwIn{sample, ModelSet, params as p}
+%     \label{alg:MINAS}
+%     \caption{Our interpretation of MINAS \cite{faria2013novelty,Faria2016minas,Cassales2019a}}
+%     \end{algorithm}
+% \hfill 
+% \end{minipage}}
+% \end{figure}
+
+% \begin{tabular}{cc}
+%     asasdfad
+%     % \includegraphics[width=0.4\textwidth]{figures/cassalesimgs-000.png}
+%     &
+%     asdfasdfa
+%     % \includegraphics[width=0.4\textwidth]{figures/cassalesimgs-000.png}
+% \end{tabular}
+
+
+% {\begin{algorithm}[h]
+% {\tiny \input{03.minas-algo} }
+% \label{alg:MINAS}
+% \caption{Our interpretation of MINAS \cite{faria2013novelty,Faria2016minas,Cassales2019a}}
+% \end{algorithm}}
+
+% \begin{figure}[ht]
+%     \subfloat[Percentage storage utilization]{
+%         \begin{minipage}[c][1\width]{0.4\textwidth}
+%         \includegraphics[width=1.1\textwidth]{figures/cassalesimgs-000.png}
+%         \end{minipage}}
+%     %   \begin{minipage}[c][1\width]{0.5\textwidth}
+%     %     %  \includegraphics[width=1\textwidth]{image_file_name}
+%     %     \begin{algorithm}[h]
+%     %     % {\tiny \input{03.minas-algo} }
+%     %     \SetAlgoVlined
+%     %     \KwIn{sample, ModelSet, params as p}
+%     %     \label{alg:MINAS}
+%     %     \caption{Our interpretation of MINAS \cite{faria2013novelty,Faria2016minas,Cassales2019a}}
+%     %     \end{algorithm}
+%     %   \end{minipage}}
+%    \hfill
+%     \subfloat[standard deviation]{
+%       \begin{minipage}[c][1\width]{0.4\textwidth}
+%     \includegraphics[width=1.1\textwidth]{figures/cassalesimgs-000.png}
+%       \end{minipage}}
+%   \caption{}
+% \end{figure}
