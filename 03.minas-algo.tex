@@ -1,41 +1,80 @@
 
+% \begin{algorithm}
+%     \DontPrintSemicolon
+%     \SetKwFunction{FMain}{Main}
+%     \SetKwProg{Fn}{Function}{:}{}
+%     \Fn{\FMain{$f$, $a$, $b$, $\varepsilon$}}{
+%           a\;
+%           b\;
+%           \KwRet\;
+%     }
+%     \;
+%     \SetKwProg{Pn}{Function}{:}{\KwRet}
+%     \Pn{\FMain{$f$, $a$, $b$, $\varepsilon$}}{
+%           a\;
+%           b\;
+%     }
+% \end{algorithm}
+
 \begin{algorithm}[h]
-% {\tiny
+{\scriptsize
     \SetAlgoVlined
-    \KwIn{sample, ModelSet, params as p}
-    \KwOut{Classified Stream}
-    \KwData{ UnkownSet, ModelSleepSet, lastCleanupTime }
-    sample.label = unknown\;
-    (distance, cluster) = mearestCluster(sample, ModelSet)\;
-    \If{distance $<$ cluster.radius}{
-        sample.label = cluster.label\;
-        \Return sample\;
-    }
-    UnkownSet = UnkownSet $\cup$ sample\;
-    \If{sizeOf(UnkownSet) $\geq$ p.k}{
-    \tcc{Novelty Detection}
-    newClusters = clustering(UnkownSet)\;
-    \ForEach{cl in newClusters}{
-        \lIf{cl.items $<$ p.minExamplesPerCluster}{\textbf{continue}}
-        % 
-        (distance, near) = mearestCluster(cl, ModelSet $\cup$ ModelSleepSet)\;
-        \eIf{distance $<$ near.radius $\times$ p.noveltyFactor}{
-            cl.label = near.label\;
-            cl.type = extension\;
+    % \DontPrintSemicolon
+    % \KwIn{sample, ModelSet, params as p}
+    % \KwOut{Classified Sample}
+    % 
+    \KwIn{params as p, ModelSet, Sample Stream}
+    \KwOut{Classified Stream as $out$}
+    % 
+    % \KwData{ UnkownSet = $\emptyset$, ModelSleepSet = $\emptyset$, lastCleanupTime = now() }
+    % 
+    \SetKwFunction{FMain}{MinasOnline}
+    \SetKwProg{FnA}{Function}{:}{}
+    \FnA{\FMain{p, ModelSet, SampleStream}}{
+        UnkownSet = $\emptyset$, ModelSleepSet = $\emptyset$, lastCleanupTime = now()\;
+        \ForEach{ sampe from SampleStream }{
+            sample.label = unknown\;
+            (distance, cluster) = mearestCluster(sample, ModelSet)\;
+            \eIf{distance $<$ cluster.radius}{
+                sample.label = cluster.label\;
+                % \Return sample\;
             }{
-                cl.label = noveltyIndex\;
-            noveltyIndex = increment(noveltyIndex)\;
-            cl.type = novelty\;
+                UnkownSet = UnkownSet $\cup$ sample\;
+                \If{sizeOf(UnkownSet) $\geq$ p.k}{
+                    % \tcc{Novelty Detection}
+                    NoveltyDetection(p, *ModelSet, ModelSleepSet, *UnkownSet)\;
+                }
+                \If{now() $>$ lastCleanup $+$ p.cleaningWindow}{
+                    ModelSet = handleModelSleep(ModelSet, ModelSleepSet)\;
+                    UnkownSet = removeOldSamples(UnkownSet, lastCleanup)\;
+                }
+                % \Return sample\;
+            }
+            $out \leftarrow$ sample\;
         }
-        ModelSet = ModelSet $\cup$ cl\;
+    }
+    % \;
+    \SetKwFunction{FND}{NoveltyDetection}
+    \SetKwProg{FnB}{Function}{:}{}
+    \FnB{\FND{p, ModelSet, ModelSleepSet, UnkownSet}}{
+        newClusters = clustering(UnkownSet)\;
+        \ForEach{cl in newClusters}{
+            \lIf{sizeOf(cl.sampleSet) $<$ p.minExamplesPerCluster}{\textbf{continue}}
+            (distance, near) = mearestCluster(cl, ModelSet $\cup$ ModelSleepSet)\;
+            \eIf{distance $<$ near.radius $\times$ p.noveltyFactor}{
+                cl.label = near.label\;
+                cl.type = extension\;
+            }{
+                cl.label = p.noveltyIndex\;
+                p.noveltyIndex = p.noveltyIndex $+ 1$\;
+                cl.type = novelty\;
+            }
+            UnkownSet = UnkownSet $\ominus$ cl.sampleSet\;
+            ModelSet = ModelSet $\oplus$ cl\;
         }
+        % \Return{ModelSet}
+    }
 }
-\If{time $>$ lastCleanup $+$ p.cleaningWindow}{
-    ModelSet = handleModelSleep(ModelSet, ModelSleepSet)\;
-    UnkownSet = removeOldSamples(UnkownSet, lastCleanup)\;
-}
-\Return sample\;
-% }
 \label{alg:MINAS}
 \caption{Our interpretation of MINAS \cite{faria2013novelty,Faria2016minas,Cassales2019a}}
 \end{algorithm}
