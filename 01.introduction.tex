@@ -12,10 +12,10 @@
 
 % \todo{poderia trocar esses surveys por mais novos ou menos preditivos e mais acertvivos}
 
-A survey released by Gartner estimated about 20 billion devices connected to the
-Internet by 2020, many of them through the IoT \cite{gartner_forecast_2017}.
-More recently, Statista predicted that the total number of such devices will
-reach 38 billion by 2025, and 50 billion by 2030 \cite{statista-iot}.
+% A survey released by Gartner estimated about 20 billion devices connected to the
+% Internet by 2020, many of them through the IoT \cite{gartner_forecast_2017}.
+% More recently, Statista predicted that the total number of such devices will
+% reach 38 billion by 2025, and 50 billion by 2030 \cite{statista-iot}.
 The Internet of Things (IoT) brings together a wide variety of devices,
 including mobile, wearable, consumer electronics, automotive, and sensors of
 various types.
@@ -36,7 +36,7 @@ perform various other malicious acts.
 As an additional concern, IoT devices likely have long lifespan and less frequent
 software patches, and the ever growing %increase of the 
 mesh of devices of diverse
-technologies considerably increasea the surface of attack.
+technologies considerably increases the attack surface.
 
 A study reveals that nearly $20\%$ of organizations have experienced at least one
 IoT-based attack in the last three years.
@@ -46,7 +46,8 @@ To protect against these threats, the IoT industry's spending on security is
 estimated to be around USD $\$\,3.1$ billion in 2021 \cite{gartner_it_glossary_2018}, 
 which includes the development of tools
 and services to improve asset discovery and management, software security
-evaluation, hardware testing and penetration testing.
+evaluation, hardware % testing 
+and penetration testing.
 
 % i.e. 'id est', which means "that is."
 % e.g. 'exempli gratia', which means "for example."
@@ -71,32 +72,38 @@ traditional ML methods that use static models of traffic behavior.
 Most existing ML solutions for network-based intrusion detection cannot maintain
 their reliability over time when facing evolving attacks \cite{Viegas2019}.
 Unlike traditional methods, stream mining algorithms can be applied to intrusion
-detection with several advantages, such as: ($ i $) working with limited memory,
-which allows the implementation in small devices (for example, on the edge from
-the Web); ($ ii $) processing traffic data with a single read; ($ iii $)
-producing real-time response; and ($ iv $) detecting novelty and changes in
-concepts already learned.
+detection with several advantages, such as:
+\begin{enumerate*}[label=(\emph{\roman*})]
+    \item working with limited memory, which allows the implementation in small
+    devices (commonly employed in edge services);
+    \item processing traffic data with a single read;
+    \item producing real-time response; and
+    \item detecting novelty and changes in concepts already learned.
+\end{enumerate*}
 
 % Nao tinha mencionado quais previous works...
-% {\color{red} %This paper elaborates on the previous work in the following aspects. 
-Given the successful use of Novelty Detection in network data streams, 
-this paper shows the results of adapting these mechanisms for use in IoT environments. 
-First, we instantiated and validated experimentally the IDSA-IoT
+% {\color{red} %This paper elaborates on the previous work in the following aspects.
+Given the successful\footnote{\color{red}citation needed}
+use of Novelty Detection in network data streams,
+this paper shows the results of adapting these mechanisms for use in IoT environments.
+First, we instantiated and experimentally validated the IDSA-IoT
 architecture \cite{Cassales2019a} on a distributed system
 composed of small devices with limited resources on the edge of the network.
-Our implementation can be fully executed on the edge, thus avoiding any dependency
-and high latency of cloud resources.
+% Our implementation can be fully executed on the edge, thus avoiding any dependency
+% and high latency of cloud resources.
 % We proposed and implemented dMINAS, a distributed extension
 % of MINAS \cite{Faria2016minas} (a novelty detection for data streams).
 We evaluated through experimental method, how the distribution of
-the novelty detection affects the capability to detect changes (novelty) in
+the chosen novelty detection algorithm
+affects the capability to detect changes (novelty) in
 traffic patterns, and the impact on the computational efficiency.
-Finally, some distribution strategies for the novelty detection are discussed.
+Finally, some distribution strategies and policies for the data stream
+novelty detection system are discussed.
 % }
 
-This paper  is organized as follows:
+This paper is organized as follows:
 Section \ref{sec:related} presents the related works.
-Section \ref{sec:minas} reviews the original algorithm MINAS.
+Section \ref{sec:minas} reviews the chosen novelty detection algorithm MINAS.
 A distributed extension of the novelty detection algorithm, including its
 implementation and evaluation are presented in Section \ref{sec:prop}.
 Finally, Section \ref{sec:conclusion} summarizes the main findings and presents
