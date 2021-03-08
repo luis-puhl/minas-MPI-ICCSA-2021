@@ -1,5 +1,4 @@
 \documentclass[runningheads]{lib/llncs}
-\usepackage{graphicx}
 \usepackage[english]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{xspace}
@@ -8,7 +7,7 @@
 \usepackage{algorithmic,algorithm2e}
 \usepackage[inline]{enumitem}
 \usepackage{textcomp}
-\usepackage{tabularx}
+\usepackage{graphicx,tabularx,placeins}
 \usepackage{xcolor}
 \usepackage{soul}
 % \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
@@ -45,11 +44,11 @@ Design, Implementation and Evaluation [DRAFT]
 \maketitle
 
 \input{01.abstract}
-\input{01.introduction}
-\input{02.related}
-\input{03.minas}
-\input{04.proposal}
-\input{05.experiments}
+\input{01.introduction}\FloatBarrier
+\input{02.related}\FloatBarrier
+\input{03.minas}\FloatBarrier
+\input{04.proposal}\FloatBarrier
+\input{05.experiments}\FloatBarrier
 \input{06.conclusion}
 
 \bibliographystyle{lib/splncs04.bst}

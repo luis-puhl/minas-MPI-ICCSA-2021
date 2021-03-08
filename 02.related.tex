@@ -11,69 +11,104 @@ Apache Kafka and Apache Spark for stream processing and
 
 \cite{DaCosta2019a}
 
-
-
-\begin{table*}[htb]
-	\caption{Summary of related works}
-	\centering
-	\begin{scriptsize}
-		%	\begin{tabularx}{\textwidth}{ l m{2cm} | m{2cm} l m{2cm} | m{2cm} | m{2cm} | m{2cm} }
-		\begin{tabularx}{\textwidth}{l|l|X|X|X}	
-			%	\begin{tabularx}{\textwidth}{l|l|X|X|m{3.0cm}}
-%			Trabalho & Platforma  & Técnica & DataSet & Métricas \\
-			Work & Platforms & Technique & DataSet & Metrics\\
-			\hline
-			\hline
-			Kasinathan et al\cite{dos-6lowpan-iot} & 6LoWPAN & Suricata & Real data with metasploit & Accuracy, packets/second\\
-			\hline
-			Sheikhan and Bostani\cite{Hybrid-ids-arch-iot} & 6LoWPAN & Hybrid - MR OPF & NSL-KDD and simulated attacks & FAR and recall\\
-			\hline
-			Raza et al\cite{SVELTE} & 6LoWPAN & DAG analysis & No information & Recall, energy and memory consumption\\
-			\hline
-			Furquim et al\cite{Fault-tolerance-disaster} & WSN & MLP of Weka & Real data & MAE, RMSE, R², R, accuracy, recall, precision, specificity\\
-			\hline
-			Midi et al\cite{Kalis} & WSN & Independent modules, each with one technique & Trace replay and attack injection & Recall, accuracy, memory and CPU consumption\\
-			\hline
-			Lloret et al\cite{IoT-arch-smartmeter} & Smart City & Clustering, MLP and statistical models & Real data from meters & Water and energy consumption\\
-			\hline
-			Diffalah et al\cite{scalable-anomaly-detection-smart-city} & Smart City & LiSA, smoothing function & Real data & Outliers, comparison between simulation and collected data\\
-			\hline
-			Faisal et al\cite{DS-based-IDS-SmartGrid} & \textit{Smart Grid} & 7 MOA classifiers & KDD99 & Accuracy, Kappa, memory consumption, time, FAR and FNR \\
-			\hline
-		\end{tabularx}
-		\label{tab:summary}
-	\end{scriptsize}
-\end{table*}
-
-
-6LoWPAN is a standard defined by the IETF in RFC 6282, to transmit data with IpV6 and other protocols on low power wireless devices using IEEE 802.15.4 in the lower layers. However, this technology still lacks protection and security mechanisms. %\cite{dos-6lowpan-iot, Hybrid-ids-arch-iot, SVELTE}.
+{\color{red} muito próximo de \cite{Cassales2019a}}
+6LoWPAN is a standard defined by the IETF in RFC 6282, to transmit data with
+IpV6 and other protocols on low power wireless devices using IEEE 802.15.4 in
+the lower layers. However, this technology still lacks protection and security
+mechanisms. %\cite{dos-6lowpan-iot, Hybrid-ids-arch-iot, SVELTE}.
 %
-For instance, in \cite{dos-6lowpan-iot}, signature detection is used to detect DoS and UDP flood attacks. The architecture uses a probe to promiscuously listen the whole traffic of a 6LoWPAN network and sends the data to analysis on a non-constrained host.
+For instance, in \cite{dos-6lowpan-iot}, signature detection is used to detect
+DoS and UDP flood attacks. The architecture uses a probe to promiscuously listen
+the whole traffic of a 6LoWPAN network and sends the data to analysis on a
+non-constrained host.
 %Results were expressed by flood metrics, as the number of packets in the network.
-The work in \cite{SVELTE} proposed an hybrid IDS which focuses on specific routing attacks, such as sink-hole and selective-forwarding. Higher complexity tasks which demand more computational resources are executed on the border router, while simpler tasks execute on constrained nodes. Results were expressed by metrics as recall and memory and energy consumption.
-The work in \cite{Hybrid-ids-arch-iot} proposed the use of anomaly detection to identify internal routing attacks, and signature detection to identify external attacks. Anomaly detection was tested with simulated attacks, while signature detection used a subset of NSL-KDD. They used the recall and FAR as metrics. 
+The work in \cite{SVELTE} proposed an hybrid IDS which focuses on specific
+routing attacks, such as sink-hole and selective-forwarding. Higher complexity
+tasks which demand more computational resources are executed on the border
+router, while simpler tasks execute on constrained nodes. Results were expressed
+by metrics as recall and memory and energy consumption.
+% 
+The work in \cite{Hybrid-ids-arch-iot} proposed the use of anomaly detection to
+identify internal routing attacks, and signature detection to identify external
+attacks. Anomaly detection was tested with simulated attacks, while signature
+detection used a subset of NSL-KDD. They used the recall and FAR as metrics.
 
-
-A three-layer architecture (composed of WSN, Fog and Cloud) with focus on fault tolerance in disaster scenarios is proposed in \cite{Fault-tolerance-disaster}. Fog computing is used to execute ML functions and data aggregation. Experiments used real data collected from sensors. The metrics used included precision, recall and accuracy.
+A three-layer architecture (composed of WSN, Fog and Cloud) with focus on fault
+tolerance in disaster scenarios is proposed in \cite{Fault-tolerance-disaster}.
+Fog computing is used to execute ML functions and data aggregation. Experiments
+used real data collected from sensors. The metrics used included precision,
+recall and accuracy.
 %
-The work in \cite{Kalis} proposed an hybrid IDS which collects information about the environment and activates specific modules to mitigate each kind of attack. Experiments were made in a real environment and metrics used were recall, precision and resource consumption (CPU and RAM).
+The work in \cite{Kalis} proposed an hybrid IDS which collects information about
+the environment and activates specific modules to mitigate each kind of attack.
+Experiments were made in a real environment and metrics used were recall,
+precision and resource consumption (CPU and RAM).
 %
-Smart cities scenarios also employ IoT to measuring and monitoring tasks. %\cite{IoT-arch-smartmeter,scalable-anomaly-detection-smart-city,DS-based-IDS-SmartGrid}. 
-In \cite{IoT-arch-smartmeter}, the authors propose an architecture that uses three stream mining methods based on ML to characterize water and energy consumption behavior, predict consumption, and detect incidents. The metrics used to express results include water and energy consumption.
+Smart cities scenarios also employ IoT to measuring and monitoring tasks.
+%\cite{IoT-arch-smartmeter,scalable-anomaly-detection-smart-city,DS-based-IDS-SmartGrid}.
+In \cite{IoT-arch-smartmeter}, the authors propose an architecture that uses
+three stream mining methods based on ML to characterize water and energy
+consumption behavior, predict consumption, and detect incidents.
+The metrics used to express results include water and energy consumption.
 %
-The work in \cite{scalable-anomaly-detection-smart-city} also aimed to identify anomalies in a water distribution network and proposes a three layer architecture (sensors, base stations and datacenter). The second layer performs time-sensitive tasks, thus reducing latency, while third layer provides storage and aggregates the results of the second layer with historical data to generate more accurate information.
-Water distribution measures were used, comparing the values of the predictions with the actual measurements.
+The work in \cite{scalable-anomaly-detection-smart-city} also aimed to identify
+anomalies in a water distribution network and proposes a three layer
+architecture (sensors, base stations and datacenter).
+The second layer performs time-sensitive tasks, thus reducing latency, while
+third layer provides storage and aggregates the results of the second layer with
+historical data to generate more accurate information.
+Water distribution measures were used, comparing the values of the predictions
+with the actual measurements.
 %
-Intrusion detection for smart cities, based on data mining techniques running on an unrestricted devices is proposed in  \cite{DS-based-IDS-SmartGrid}. 
-Experiments using KDD99 data are presented and the metrics used were precision, Kappa, memory consumption, time, FAR, and FNR.
+Intrusion detection for smart cities, based on data mining techniques running on
+an unrestricted devices is proposed in \cite{DS-based-IDS-SmartGrid}.
+Experiments using KDD99 data are presented and the metrics used were precision,
+Kappa, memory consumption, time, FAR, and FNR.
 
 
 Table \ref{tab:summary} summarizes the discussion on the related work.
-Note that some works use data from KDD99 or derived from this dataset. Collected two decades ago, KDD is no longer representative of current attack patterns and IoT environments.
-Some works used traces captured from local infrastructure, which provide realistic evaluation, but lack of reproducibility.
-Some works use data produced by intentional attacks simulated, designed by the same people who designed the detection techniques. This can bring unrealistic advantages to the detection methods.
-Also, it is worth noting that most articles used metrics like FAR, recall, and accuracy. Although widely adopted in classical scenarios, such metrics are inaccurate for stream processing  \cite{GAMA2010}.
+Note that some works use data from KDD99 or derived from this dataset.
+Collected two decades ago, KDD is no longer representative of current attack
+patterns and IoT environments.
+Some works used traces captured from local infrastructure, which provide
+realistic evaluation, but lack of reproducibility.
+Some works use data produced by intentional attacks simulated, designed by the
+same people who designed the detection techniques.
+This can bring unrealistic advantages to the detection methods.
+Also, it is worth noting that most articles used metrics like FAR, recall, and
+accuracy.
+Although widely adopted in classical scenarios, such metrics are inaccurate for
+stream processing \cite{GAMA2010}.
 
+\begin{table*}[htb]
+\caption{Summary of related works}
+\centering
+\begin{scriptsize}
+% \begin{tabularx}{\textwidth}{ l m{2cm} | m{2cm} l m{2cm} | m{2cm} | m{2cm} | m{2cm} }
+\begin{tabularx}{\textwidth}{l|l|X|X|X}
+% \begin{tabularx}{\textwidth}{l|l|X|X|m{3.0cm}}
+% Trabalho & Platforma  & Técnica & DataSet & Métricas \\
+Work                                         & Platforms    & Technique & DataSet & Metrics\\\hline\hline
+% Kasinathan et al
+\cite{dos-6lowpan-iot}                       & 6LoWPAN      & Suricata & Real data with metasploit & Accuracy, packets/second\\\hline
+% Sheikhan and Bostani
+\cite{Hybrid-ids-arch-iot}                   & 6LoWPAN      & Hybrid - MR OPF & NSL-KDD and simulated attacks & FAR and recall\\\hline
+% Raza et al
+\cite{SVELTE}                                & 6LoWPAN      & DAG analysis & No information & Recall, energy and memory consumption\\\hline
+% Furquim et al
+\cite{Fault-tolerance-disaster}              & WSN          & MLP of Weka & Real data & MAE, RMSE, R², R, accuracy, recall, precision, specificity\\\hline
+% Midi et al
+\cite{Kalis}                                 & WSN          & Independent modules, each with one technique & Trace replay and attack injection & Recall, accuracy, memory and CPU consumption\\\hline
+% Lloret et al
+\cite{IoT-arch-smartmeter}                   & Smart City   & Clustering, MLP and statistical models & Real data from meters & Water and energy consumption\\\hline
+% Diffalah et al
+\cite{scalable-anomaly-detection-smart-city} & Smart City   & LiSA, smoothing function & Real data & Outliers, comparison between simulation and collected data\\\hline
+% Faisal et al
+\cite{DS-based-IDS-SmartGrid}                & Smart Grid   & 7 MOA classifiers & KDD99 & Accuracy, Kappa, memory consumption, time, FAR and FNR \\\hline
+\end{tabularx}
+\label{tab:summary}
+\end{scriptsize}
+\end{table*}
 
 % ----------------------------------------------------------------------------------------------------------------------
 % - Escrever! Corpo:
