@@ -40,9 +40,10 @@
                 % \Return sample\;
             }{
                 UnkownSet = UnkownSet $\cup$ sample\;
-                \If{sizeOf(UnkownSet) $\geq$ p.k}{
+                \If{sizeOf(UnkownSet) $\geq$ p.noveltyDetectionTrigger}{
                     % \tcc{Novelty Detection}
-                    NoveltyDetection(p, *ModelSet, ModelSleepSet, *UnkownSet)\;
+                    novelties = NoveltyDetection(p, *ModelSet, ModelSleepSet, *UnkownSet)\;
+                    ModelSet = ModelSet $\oplus$ novelties\;
                 }
                 \If{now() $>$ lastCleanup $+$ p.cleaningWindow}{
                     ModelSet = handleModelSleep(ModelSet, ModelSleepSet)\;
@@ -57,6 +58,7 @@
     \SetKwFunction{FND}{NoveltyDetection}
     \SetKwProg{FnB}{Function}{:}{}
     \FnB{\FND{p, ModelSet, ModelSleepSet, UnkownSet}}{
+        novelPatternSet = $\emptyset$ \;
         newClusters = clustering(UnkownSet)\;
         \ForEach{cl in newClusters}{
             \lIf{sizeOf(cl.sampleSet) $<$ p.minExamplesPerCluster}{\textbf{continue}}
@@ -70,9 +72,9 @@
                 cl.type = novelty\;
             }
             UnkownSet = UnkownSet $\ominus$ cl.sampleSet\;
-            ModelSet = ModelSet $\oplus$ cl\;
+            novelPatternSet = novelPatternSet $\oplus$ cl\;
         }
-        % \Return{ModelSet}
+        \Return{novelPatternSet}
     }
 }
 \label{alg:MINAS}

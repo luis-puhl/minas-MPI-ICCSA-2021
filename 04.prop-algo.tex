@@ -1,0 +1,103 @@
+
+\begin{algorithm}[h]
+    {\scriptsize
+    \SetAlgoVlined
+    \SetKwFor{With}{with}{}{}
+    \SetKwProg{Fn}{Function}{:}{}
+    \KwIn{mpiParams as mp, params as p, ModelSet, Sample Stream}
+    \KwOut{Classified Stream as $out$}
+    % 
+    \SetKwFunction{FMain}{Mfog}
+    \Fn{\FMain{mp, p, ModelStream, InputStream}}{
+        ModelSet = $\emptyset$\;
+        ModelSetLock = \textbf{new} Lock()\;
+        \eIf(\emph{root}){mp.rank == 0}{
+            \textbf{new} Thread(Detector, [mp, p, ModelSet])\;
+            Sampler(mp, p, InputStream)\;
+        }(\emph{leaf}){
+            \textbf{new} Thread(modelReceiver, [mp, p, ModelSet])\;
+            Classifier(mp, p)\;
+        }
+    }
+
+    \SetKwFunction{Fa}{Sampler}
+    \Fn{\Fa{mp, p, InputStream}}{
+        % ModelSet = read()\;
+        % broadcast(ModelSet)\;
+        destination = 1\;
+        \ForEach{ sample from InputStream }{
+            \If{typeOf(sample) is Cluster}{
+                broadcast(ClusterType, sample, root)\;
+                \With{writeLock(ModelSetLock)}{
+                    ModelSet = ModelSet $\oplus$ sample\;
+                }
+                \textbf{continue}\;
+            }
+            % sample.label = unknown\;
+            send(destination, SampleType, sample)\;
+            destination = destination $+ 1$\;
+            \lIf{destination $>$ mp.size}{destination = 1}
+        }
+    }
+
+    \SetKwFunction{Fb}{Classifier}
+    \Fn{\Fb{mp, p}}{
+        \While{ True }{
+            sampe = receive(SampleType, root)\;
+            \lIf{sample == EndOfStream}{\textbf{break}}
+            sample.label = unknown\;
+            \With{readLock(ModelSetLock)}{
+                (distance, cluster) = mearestCluster(sample, ModelSet)\;
+            }
+            \If{distance $<$ cluster.radius}{
+                sample.label = cluster.label\;
+            }
+            send(root, SampleType, sample)\;
+        }
+    }
+}
+\label{alg:MFOG}
+\caption{MINAS implemented over MPI.}
+\end{algorithm}
+
+\begin{algorithm}[h]
+{\scriptsize
+    \SetAlgoVlined
+    \SetKwProg{Fn}{Function}{:}{}
+    \SetKwFor{With}{with}{}{}
+    
+    \SetKwFunction{Fb}{Detector}
+    \Fn{\Fb{mp, p, ModelSet}}{
+        \While{ True }{
+            sampe = receive(SampleType, any)\;
+            \lIf{sample == EndOfStream}{\textbf{break}}
+            $out \leftarrow$ sample\;
+            \If{sample.label == unknown}{
+                UnkownSet = UnkownSet $\cup$ sample\;
+                \If{sizeOf(UnkownSet) $\geq$ p.noveltyDetectionTrigger}{
+                    novelties = NoveltyDetection(p, *ModelSet, $\emptyset$, *UnkownSet)\;
+                    \With{writeLock(ModelSetLock)}{
+                        ModelSet = ModelSet $\oplus$ novelties\;
+                    }
+                    \ForEach{ cl in novelties }{
+                        broadcast(ClusterType, cl, root)\;
+                    }
+                }
+            }
+        }
+    }
+    
+    \SetKwFunction{Fc}{modelReceiver}
+    \Fn{\Fc{mp, p, ModelSet}}{
+        \While{ True }{
+            cl = receive(ClusterType, root)\;
+            \lIf{cl == EndOfStream}{\textbf{break}}
+            \With{writeLock(ModelSetLock)}{
+                ModelSet = ModelSet $\oplus$ cl\;
+            }
+        }
+    }
+}
+\label{alg:MFOG_2}
+\caption{mfog pt. 2.}
+\end{algorithm}
