@@ -15,55 +15,44 @@
 %           b\;
 %     }
 % \end{algorithm}
-
 \begin{algorithm}[h]
 {\scriptsize
-    \SetAlgoVlined
+% \ttfamily
+\begin{multicols}{2}
+    % \SetAlgoVlined
+    \SetKwProg{KwFunction}{Function}{:}{}
     % \DontPrintSemicolon
     % \KwIn{sample, ModelSet, params as p}
     % \KwOut{Classified Sample}
     % 
-    \KwIn{params as p, ModelSet, Sample Stream}
-    \KwOut{Classified Stream as $out$}
+    \SetKwData{CW}{CW}
+    \SetKwData{NDT}{NDT}
+    \SetKwData{MEPC}{MEPC}
+    \SetKwData{NF}{NF}
+    % 
+    \SetKwInput{KwParams}{Parameters}
+    \KwParams{cleaningWindow as \CW,\\
+    noveltyDetectionTrigger as \NDT,\\
+    minExamplesPerCluster as \MEPC,\\
+    noveltyFactor as \NF }
+    % 
+    \SetKwFunction{mearestCluster}{mearestCluster}
+    \SetKwFunction{clustering}{clustering}
+    \SetKwFunction{sizeOf}{sizeOf}
+    \SetKwFunction{NoveltyDetection}{NoveltyDetection}
+    \SetKwFunction{handleModelSleep}{handleModelSleep}
+    \SetKwFunction{removeOldSamples}{removeOldSamples}
+    \SetKwFunction{now}{now}
     % 
     % \KwData{ UnkownSet = $\emptyset$, ModelSleepSet = $\emptyset$, lastCleanupTime = now() }
     % 
-    \SetKwFunction{FMain}{MinasOnline}
-    \SetKwProg{FnA}{Function}{:}{}
-    \FnA{\FMain{p, ModelSet, SampleStream}}{
-        UnkownSet = $\emptyset$, ModelSleepSet = $\emptyset$, lastCleanupTime = now()\;
-        \ForEach{ sampe from SampleStream }{
-            sample.label = unknown\;
-            (distance, cluster) = mearestCluster(sample, ModelSet)\;
-            \eIf{distance $<$ cluster.radius}{
-                sample.label = cluster.label\;
-                % \Return sample\;
-            }{
-                UnkownSet = UnkownSet $\cup$ sample\;
-                \If{sizeOf(UnkownSet) $\geq$ p.noveltyDetectionTrigger}{
-                    % \tcc{Novelty Detection}
-                    novelties = NoveltyDetection(p, *ModelSet, ModelSleepSet, *UnkownSet)\;
-                    ModelSet = ModelSet $\oplus$ novelties\;
-                }
-                \If{now() $>$ lastCleanup $+$ p.cleaningWindow}{
-                    ModelSet = handleModelSleep(ModelSet, ModelSleepSet)\;
-                    UnkownSet = removeOldSamples(UnkownSet, lastCleanup)\;
-                }
-                % \Return sample\;
-            }
-            $out \leftarrow$ sample\;
-        }
-    }
-    % \;
-    \SetKwFunction{FND}{NoveltyDetection}
-    \SetKwProg{FnB}{Function}{:}{}
-    \FnB{\FND{p, ModelSet, ModelSleepSet, UnkownSet}}{
-        novelPatternSet = $\emptyset$ \;
-        newClusters = clustering(UnkownSet)\;
+    \KwFunction{\NoveltyDetection{p, ModelSet, ModelSleepSet, UnkownSet}}{
+        newModelSet = $\emptyset$ , \;
+        newClusters = \clustering(UnkownSet)\;
         \ForEach{cl in newClusters}{
-            \lIf{sizeOf(cl.sampleSet) $<$ p.minExamplesPerCluster}{\textbf{continue}}
-            (distance, near) = mearestCluster(cl, ModelSet $\cup$ ModelSleepSet)\;
-            \eIf{distance $<$ near.radius $\times$ p.noveltyFactor}{
+            \lIf{\sizeOf(cl.sampleSet) $<$ \MEPC}{\textbf{continue}}
+            (distance, near) = \mearestCluster(cl, ModelSet $\cup$ ModelSleepSet)\;
+            \eIf{distance $<$ near.radius $\times$ \NF}{
                 cl.label = near.label\;
                 cl.type = extension\;
             }{
@@ -72,10 +61,42 @@
                 cl.type = novelty\;
             }
             UnkownSet = UnkownSet $\ominus$ cl.sampleSet\;
-            novelPatternSet = novelPatternSet $\oplus$ cl\;
+            newModelSet = newModelSet $\oplus$ cl\;
         }
-        \Return{novelPatternSet}
+        \Return{newModelSet}
     }
+    % 
+    \KwIn{ModelSet, Sample Stream}
+    \KwOut{Classified Stream as $out$}
+    \SetKwFunction{FMain}{MinasOnline}
+    \KwFunction{\FMain{p, ModelSet, SampleStream}}{
+        UnkownSet = $\emptyset$, ModelSleepSet = $\emptyset$, lastCleanupTime = \now()\;
+        \ForEach{ sampe from SampleStream }{
+            sample.label = unknown\;
+            (distance, cluster) = \mearestCluster(sample, ModelSet)\;
+            \If{distance $<$ cluster.radius}{
+                sample.label = cluster.label\;
+                $out \leftarrow$ sample\;
+                \textbf{continue};
+                % \Return sample\;
+            }
+            % {
+                UnkownSet = UnkownSet $\cup$ sample\;
+                \If{\sizeOf(UnkownSet) $\geq$ \NDT}{
+                    % \tcc{Novelty Detection}
+                    novelties = \NoveltyDetection(p, ModelSet, ModelSleepSet, *UnkownSet)\;
+                    ModelSet = ModelSet $\oplus$ novelties\;
+                }
+                \If{\now() $>$ lastCleanup $+$ \CW}{
+                    ModelSet = \handleModelSleep(ModelSet, ModelSleepSet)\;
+                    UnkownSet = \removeOldSamples(UnkownSet, lastCleanup)\;
+                }
+                % \Return sample\;
+            % }
+            $out \leftarrow$ sample\;
+        }
+    }
+\end{multicols}
 }
 \label{alg:MINAS}
 \caption{Our interpretation of MINAS \cite{faria2013novelty,Faria2016minas,Cassales2019a}}

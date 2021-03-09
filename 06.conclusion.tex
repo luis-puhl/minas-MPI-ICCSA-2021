@@ -3,6 +3,19 @@
 \section{Conclusion {\color{red} Nao mexer por enquanto}} 
 \label{sec:conclusion}
 
+\footnote{\color{red} pode ser a conclusão do abstract}
+While there is some impact on the predictive results this is not reflected on
+classification quality metrics indicating that distribution of Novelty Detection
+algorithms incurs some penalty but is overshadow by the benefits of scalability.
+Beside that, in our experiments, a months worth of traffic flow descriptors is
+processed in around $300$ seconds even with non-optimal load sharing strategy
+(single sample round-robin that incurs the bigger networking overhead),
+sparing use of memory (unknown buffer limited to a fraction of the available memory),
+and potential system slowdown due to cascading effects on networking queue
+(caused by the Detector Module when its unknown buffer is full and novelty
+detection task is under way as it still a non-stream oriented algorithm limited
+to a single batch of fixed memory).
+
 Aplicação em cenário real.
 
 % ----------------------------------------------------------------------------------------------------------------------
