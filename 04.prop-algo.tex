@@ -1,22 +1,25 @@
 
 \begin{algorithm}[h]
-{\scriptsize
-\begin{multicols}{2}
+% {\scriptsize
+% \begin{multicols}{2}
     % \SetAlgoVlined
     \SetKwProg{Function}{Function}{:}{}
     \SetKwFor{With}{with}{}{}
     \SetKw{continue}{continue}
     % 
     \SetKwData{CW}{CW}
-    \SetKwData{NDT}{NDT}
+    \SetKwData{noveltyDetectionTrigger}{NDT}
     \SetKwData{MEPC}{MEPC}
     \SetKwData{NF}{NF}
+    \SetKwData{mpiSize}{mpiSize}
+    \SetKwData{mpiRank}{mpiRank}
+    \SetKwData{EndOfStream}{EndOfStream}
     % 
-    % \SetKwInput{KwParams}{Parameters}
-    % \KwParams{cleaningWindow as \CW,\\
-    % noveltyDetectionTrigger as \NDT,\\
-    % minExamplesPerCluster as \MEPC,\\
-    % noveltyFactor as \NF }
+    \KwSty{Parameters}: cleaningWindow as \CW,
+    noveltyDetectionTrigger as \noveltyDetectionTrigger,
+    mpiClusterSize as \mpiSize,
+    mpiNodeRank as \mpiRank
+    \\
     % 
     \SetKwFunction{Mfog}{Mfog}
     \SetKwFunction{Sampler}{Sampler}
@@ -24,49 +27,56 @@
     \SetKwFunction{Detector}{Detector}
     \SetKwFunction{modelReceiver}{modelReceiver}
     % 
+    \SetKwFunction{sizeOf}{sizeOf}
+    \SetKwFunction{typeOf}{typeOf}
+    % 
     \SetKwFunction{Thread}{Thread}
     \SetKwFunction{Lock}{Lock}
+    \SetKwFunction{readLock}{readLock}
+    \SetKwFunction{writeLock}{writeLock}
     % 
-    \SetKwFunction{mearestCluster}{mearestCluster}
-    \SetKwFunction{clustering}{clustering}
-    \SetKwFunction{sizeOf}{sizeOf}
+    \SetKwFunction{receive}{receive}
+    \SetKwFunction{send}{send}
+    \SetKwFunction{broadcast}{broadcast}
+    % 
+    \SetKwFunction{nearestCluster}{nearestCluster}
     \SetKwFunction{NoveltyDetection}{NoveltyDetection}
     \SetKwFunction{handleModelSleep}{handleModelSleep}
     \SetKwFunction{removeOldSamples}{removeOldSamples}
     \SetKwFunction{now}{now}
     % 
-    \KwIn{mpiParams as mp, params as p, ModelSet, Sample Stream}
+    \KwIn{ModelSet, Sample Stream}
     \KwOut{Classified Stream as $out$}
     % 
-    \Function{\Mfog{mp, p, ModelStream, InputStream}}{
+    \Function{\Mfog{ModelStream, InputStream}}{
         ModelSet = $\emptyset$\;
         ModelSetLock = \textbf{new} \Lock()\;
-        \eIf(\emph{root}){mp.rank == 0}{
-            \textbf{new} \Thread(\Detector, [mp, p, ModelSet])\;
-            \Sampler(mp, p, InputStream)\;
+        \eIf(\emph{root}){\mpiRank == 0}{
+            \textbf{new} \Thread(\Detector, [ModelSet])\;
+            \Sampler(InputStream)\;
         }(\emph{leaf}){
-            \textbf{new} \Thread(\modelReceiver, [mp, p, ModelSet])\;
-            \Classifier(mp, p)\;
+            \textbf{new} \Thread(\modelReceiver, [ModelSet])\;
+            \Classifier(ModelSet)\;
         }
     }
-    \Function{\Classifier{mp, p}}{
+    \Function{\Classifier{mp}}{
         \While{ True }{
-            sampe = receive(SampleType, root)\;
-            \lIf{sample == EndOfStream}{\textbf{break}}
+            sampe = \receive(SampleType, root)\;
+            \lIf{sample == \EndOfStream}{\textbf{break}}
             sample.label = unknown\;
-            \With{readLock(ModelSetLock)}{
-                (distance, cluster) = mearestCluster(sample, ModelSet)\;
+            \With{\readLock(ModelSetLock)}{
+                (distance, cluster) = \nearestCluster(sample, ModelSet)\;
             }
             \If{distance $<$ cluster.radius}{
                 sample.label = cluster.label\;
             }
-            send(root, SampleType, sample)\;
+            \send(root, SampleType, sample)\;
         }
     }
-    \Function{\modelReceiver{mp, p, ModelSet}}{
+    \Function{\modelReceiver{mp, ModelSet}}{
         \While{ True }{
-            cl = receive(ClusterType, root)\;
-            \lIf{cl == EndOfStream}{\textbf{break}}
+            cl = \receive(ClusterType, root)\;
+            \lIf{cl == \EndOfStream}{\textbf{break}}
             \With{writeLock(ModelSetLock)}{
                 ModelSet = ModelSet $\oplus$ cl\;
             }
@@ -76,47 +86,52 @@
     \Function{\Sampler{mp, p, InputStream}}{
         % ModelSet = read()\;
         % broadcast(ModelSet)\;
-        destination = 1\;
+        dest = 1\;
         \ForEach{ sample from InputStream }{
-            \If{typeOf(sample) is Cluster}{
-                broadcast(ClusterType, sample, root)\;
-                \With{writeLock(ModelSetLock)}{
+            \If{\typeOf(sample) is Cluster}{
+                \broadcast(ClusterType, sample, root)\;
+                \With{\writeLock(ModelSetLock)}{
                     ModelSet = ModelSet $\oplus$ sample\;
                 }
                 \continue\;
             }
             % sample.label = unknown\;
-            send(destination, SampleType, sample)\;
-            destination = destination $+ 1$\;
-            \lIf{destination $>$ mp.size}{destination = 1}
+            \send(dest, SampleType, sample)\;
+            dest = dest $+ 1$\;
+            \lIf{dest $>$ \mpiSize}{dest = 1}
         }
     }
 
 
 
-    \Function{\Detector{mp, p, ModelSet}}{
+    \Function{\Detector{mp, ModelSet}}{
+        lastCleanup = 
         \While{ True }{
-            sampe = receive(SampleType, any)\;
-            \lIf{sample == EndOfStream}{\textbf{break}}
+            sampe = \receive(SampleType, any)\;
+            \lIf{sample == \EndOfStream}{\textbf{break}}
             $out \leftarrow$ sample\;
             \If{sample.label == unknown}{
                 UnkownSet = UnkownSet $\cup$ sample\;
-                \If{sizeOf(UnkownSet) $\geq$ p.noveltyDetectionTrigger}{
-                    novelties = NoveltyDetection(p, *ModelSet, $\emptyset$, *UnkownSet)\;
-                    \With{writeLock(ModelSetLock)}{
+                \If{\sizeOf(UnkownSet) $\geq$ \noveltyDetectionTrigger}{
+                    novelties = \NoveltyDetection(p, ModelSet, *UnkownSet)\;
+                    \With{\writeLock(ModelSetLock)}{
                         ModelSet = ModelSet $\oplus$ novelties\;
                     }
                     \ForEach{ cl in novelties }{
-                        broadcast(ClusterType, cl, root)\;
+                        \broadcast(ClusterType, cl, root)\;
                     }
+                }
+                \If{\now() $>$ lastCleanup $+$ \CW}{
+                    ModelSet = \handleModelSleep(ModelSet, ModelSleepSet)\;
+                    UnkownSet = \removeOldSamples(UnkownSet, lastCleanup)\;
                 }
             }
         }
     }
-\end{multicols}
-}
+% \end{multicols}
+% }
 \label{alg:MFOG}
-\caption{MINAS implemented over MPI.}
+\caption{MFOG: MINAS implemented over MPI.}
 \end{algorithm}
 
 % \begin{algorithm}[h]

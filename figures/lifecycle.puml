@@ -30,9 +30,13 @@ end box
 ' l -> c ** : <<create>>
 ' l -> m ** :call
 
+activate s
 s --> m ++ : Initial Model
-' s -> d : Initial Model
-' c <-> m : Shared Model
+s -> d : Initial Model
+' group shared Memory
+c <- m : Shared Model
+deactivate m
+' end
 
 ' == Running ==
 ' loop input samples
