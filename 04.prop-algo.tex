@@ -3,7 +3,7 @@
 % {\scriptsize
 % \begin{multicols}{2}
     % \SetAlgoVlined
-    \SetKwProg{algorithm}{algorithm}{:}{}
+    \SetKwProg{Function}{Function}{:}{}
     \SetKwFor{With}{with}{}{}
     \SetKw{continue}{continue}
     % 
@@ -64,7 +64,6 @@
 \end{algorithm}
 
 \begin{algorithm}
-    \SetKwProg{algorithm}{algorithm}{:}{}
     \SetKwFor{With}{with}{}{}
     \SetKw{continue}{continue}
     % 
@@ -75,6 +74,8 @@
     \SetKwData{mpiSize}{mpiSize}
     \SetKwData{mpiRank}{mpiRank}
     \SetKwData{EndOfStream}{EndOfStream}
+    % 
+    \SetKwProg{Function}{Function}{:}{}
     \Function{\Classifier{mp}}{
         \While{ True }{
             sampe = \receive(SampleType, root)\;
@@ -93,7 +94,7 @@
     \caption{MFOG: Classifier task.}
 \end{algorithm}
 \begin{algorithm}
-    \SetKwProg{algorithm}{algorithm}{:}{}
+    % \SetKwProg{algorithm}{algorithm}{:}{}
     \SetKwFor{With}{with}{}{}
     \SetKw{continue}{continue}
     % 
@@ -104,6 +105,8 @@
     \SetKwData{mpiSize}{mpiSize}
     \SetKwData{mpiRank}{mpiRank}
     \SetKwData{EndOfStream}{EndOfStream}
+    % 
+    \SetKwProg{Function}{Function}{:}{}
     \Function{\modelReceiver{mp, ModelSet}}{
         \While{ True }{
             cl = \receive(ClusterType, root)\;
@@ -117,7 +120,6 @@
     \caption{MFOG: model receiver task.}
 \end{algorithm}
 \begin{algorithm}
-    \SetKwProg{algorithm}{algorithm}{:}{}
     \SetKwFor{With}{with}{}{}
     \SetKw{continue}{continue}
     % 
@@ -129,6 +131,7 @@
     \SetKwData{mpiRank}{mpiRank}
     \SetKwData{EndOfStream}{EndOfStream}
 
+    \SetKwProg{Function}{Function}{:}{}
     \Function{\Sampler{mp, p, InputStream}}{
         % ModelSet = read()\;
         % broadcast(ModelSet)\;
@@ -164,6 +167,7 @@
     \SetKwData{mpiRank}{mpiRank}
     \SetKwData{EndOfStream}{EndOfStream}
 
+    \SetKwProg{Function}{Function}{:}{}
     \Function{\Detector{mp, ModelSet}}{
         lastCleanup = 
         \While{ True }{

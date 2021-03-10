@@ -17,8 +17,9 @@
 % \end{algorithm}
 % \IncMargin{1em}
 \begin{algorithm}[h]
+
 % \begin{multicols}{2}
-    \SetKwProg{KwFunction}{algorithm}{:}{}
+    \SetKwProg{Function}{Function}{:}{}
     % \DontPrintSemicolon
     % \KwIn{sample, ModelSet, params as p}
     % \KwOut{Classified Sample}
@@ -42,7 +43,7 @@
     % 
     % \KwData{ UnkownSet $\leftarrow$ $\emptyset$, ModelSleepSet $\leftarrow$ $\emptyset$, lastCleanupTime $\leftarrow$ now() }
     % 
-    \KwFunction{\NoveltyDetection{Model, Samples}}{
+    \Function{\NoveltyDetection{Model, Samples}}{
         newModelSet $\leftarrow$ $\emptyset$\;
         \ForEach{cl in \clustering(Samples)}{
             \If{$|cl.sampleSet| \geq$ \MEPC}{
@@ -65,7 +66,7 @@
     \caption{Minas: Novelty Detection task.}
 \end{algorithm}
 \begin{algorithm}
-    \SetKwProg{KwFunction}{algorithm}{:}{}
+    \SetKwProg{function}{Function}{:}{}
     % \DontPrintSemicolon
     % \KwIn{sample, ModelSet, params as p}
     % \KwOut{Classified Sample}
@@ -102,7 +103,7 @@
     \KwIn{ModelSet, Sample Stream}
     \KwOut{Classified Stream as $out$}
     \SetKwFunction{MinasOnline}{MinasOnline}
-    \KwFunction{\MinasOnline{ModelSet, SampleStream}}{
+    \function{\MinasOnline{ModelSet, SampleStream}}{
         UnkownSet $\leftarrow$ $\emptyset$, ModelSleepSet $\leftarrow$ $\emptyset$ \;
         lastCleanup $\leftarrow 0$ , noveltyIndex $\leftarrow 0$\;
         % sampleIn $\leftarrow 0$\;
