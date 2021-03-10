@@ -3,7 +3,7 @@
 % {\scriptsize
 % \begin{multicols}{2}
     % \SetAlgoVlined
-    \SetKwProg{Function}{Function}{:}{}
+    \SetKwProg{algorithm}{algorithm}{:}{}
     \SetKwFor{With}{with}{}{}
     \SetKw{continue}{continue}
     % 
@@ -59,6 +59,22 @@
             \Classifier(ModelSet)\;
         }
     }
+\label{alg:MFOG}
+\caption{MFOG: main MPI entry-point.}
+\end{algorithm}
+
+\begin{algorithm}
+    \SetKwProg{algorithm}{algorithm}{:}{}
+    \SetKwFor{With}{with}{}{}
+    \SetKw{continue}{continue}
+    % 
+    \SetKwData{CW}{CW}
+    \SetKwData{noveltyDetectionTrigger}{NDT}
+    \SetKwData{MEPC}{MEPC}
+    \SetKwData{NF}{NF}
+    \SetKwData{mpiSize}{mpiSize}
+    \SetKwData{mpiRank}{mpiRank}
+    \SetKwData{EndOfStream}{EndOfStream}
     \Function{\Classifier{mp}}{
         \While{ True }{
             sampe = \receive(SampleType, root)\;
@@ -73,6 +89,21 @@
             \send(root, SampleType, sample)\;
         }
     }
+    \label{alg:MFOG-classifier}
+    \caption{MFOG: Classifier task.}
+\end{algorithm}
+\begin{algorithm}
+    \SetKwProg{algorithm}{algorithm}{:}{}
+    \SetKwFor{With}{with}{}{}
+    \SetKw{continue}{continue}
+    % 
+    \SetKwData{CW}{CW}
+    \SetKwData{noveltyDetectionTrigger}{NDT}
+    \SetKwData{MEPC}{MEPC}
+    \SetKwData{NF}{NF}
+    \SetKwData{mpiSize}{mpiSize}
+    \SetKwData{mpiRank}{mpiRank}
+    \SetKwData{EndOfStream}{EndOfStream}
     \Function{\modelReceiver{mp, ModelSet}}{
         \While{ True }{
             cl = \receive(ClusterType, root)\;
@@ -82,6 +113,21 @@
             }
         }
     }
+    \label{alg:MFOG-model}
+    \caption{MFOG: model receiver task.}
+\end{algorithm}
+\begin{algorithm}
+    \SetKwProg{algorithm}{algorithm}{:}{}
+    \SetKwFor{With}{with}{}{}
+    \SetKw{continue}{continue}
+    % 
+    \SetKwData{CW}{CW}
+    \SetKwData{noveltyDetectionTrigger}{NDT}
+    \SetKwData{MEPC}{MEPC}
+    \SetKwData{NF}{NF}
+    \SetKwData{mpiSize}{mpiSize}
+    \SetKwData{mpiRank}{mpiRank}
+    \SetKwData{EndOfStream}{EndOfStream}
 
     \Function{\Sampler{mp, p, InputStream}}{
         % ModelSet = read()\;
@@ -102,7 +148,21 @@
         }
     }
 
-
+    \label{alg:MFOG-sampler}
+    \caption{MFOG: sampler Module.}
+\end{algorithm}
+\begin{algorithm}
+    \SetKwProg{algorithm}{algorithm}{:}{}
+    \SetKwFor{With}{with}{}{}
+    \SetKw{continue}{continue}
+    % 
+    \SetKwData{CW}{CW}
+    \SetKwData{noveltyDetectionTrigger}{NDT}
+    \SetKwData{MEPC}{MEPC}
+    \SetKwData{NF}{NF}
+    \SetKwData{mpiSize}{mpiSize}
+    \SetKwData{mpiRank}{mpiRank}
+    \SetKwData{EndOfStream}{EndOfStream}
 
     \Function{\Detector{mp, ModelSet}}{
         lastCleanup = 
@@ -128,16 +188,19 @@
             }
         }
     }
-% \end{multicols}
-% }
-\label{alg:MFOG}
-\caption{MFOG: MINAS implemented over MPI.}
+    \label{alg:MFOG-detector}
+    \caption{MFOG: detector task.}
 \end{algorithm}
+% % \end{multicols}
+% % }
+% \label{alg:MFOG}
+% \caption{MFOG: MINAS implemented over MPI.}
+% \end{algorithm}
 
 % \begin{algorithm}[h]
 % {\scriptsize
 %     \SetAlgoVlined
-%     \SetKwProg{Fn}{Function}{:}{}
+%     \SetKwProg{Fn}{algorithm}{:}{}
 %     \SetKwFor{With}{with}{}{}
     
 %     \SetKwFunction{Fb}{Detector}

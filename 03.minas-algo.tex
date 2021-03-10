@@ -2,14 +2,14 @@
 % \begin{algorithm}
 %     \DontPrintSemicolon
 %     \SetKwFunction{FMain}{Main}
-%     \SetKwProg{Fn}{Function}{:}{}
+%     \SetKwProg{Fn}{algorithm}{:}{}
 %     \Fn{\FMain{$f$, $a$, $b$, $\varepsilon$}}{
 %           a\;
 %           b\;
 %           \KwRet\;
 %     }
 %     \;
-%     \SetKwProg{Pn}{Function}{:}{\KwRet}
+%     \SetKwProg{Pn}{algorithm}{:}{\KwRet}
 %     \Pn{\FMain{$f$, $a$, $b$, $\varepsilon$}}{
 %           a\;
 %           b\;
@@ -18,7 +18,7 @@
 % \IncMargin{1em}
 \begin{algorithm}[h]
 % \begin{multicols}{2}
-    \SetKwProg{KwFunction}{Function}{:}{}
+    \SetKwProg{KwFunction}{algorithm}{:}{}
     % \DontPrintSemicolon
     % \KwIn{sample, ModelSet, params as p}
     % \KwOut{Classified Sample}
@@ -61,11 +61,48 @@
         }
         \Return{newModelSet}
     }
+    \label{alg:MINAS-nd}
+    \caption{Minas: Novelty Detection task.}
+\end{algorithm}
+\begin{algorithm}
+    \SetKwProg{KwFunction}{algorithm}{:}{}
+    % \DontPrintSemicolon
+    % \KwIn{sample, ModelSet, params as p}
+    % \KwOut{Classified Sample}
+    % 
+    \SetKwData{CW}{cleaningWindow}
+    \SetKwData{NDT}{noveltyDetectionTrigger}
+    \SetKwData{MEPC}{minExamplesPerCluster}
+    \SetKwData{NF}{noveltyFactor}
+    % 
+    % \KwSty{Parameters}: cleaningWindow as \CW,
+    % noveltyDetectionTrigger as \NDT,
+    % minExamplesPerCluster as \MEPC,
+    % noveltyFactor as \NF\\
+    % 
+    \SetKwFunction{nearestCluster}{nearestCluster}
+    \SetKwFunction{clustering}{clustering}
+    \SetKwFunction{sizeOf}{sizeOf}
+    \SetKwFunction{NoveltyDetection}{NoveltyDetection}
+    \SetKwFunction{handleModelSleep}{moveToSleep}
+    \SetKwFunction{removeOldSamples}{removeOldSamples}
+    % 
+    \SetKwProg{algorithm}{algorithm}{:}{}
+    \SetKwFor{With}{with}{}{}
+    \SetKw{continue}{continue}
+    % 
+    \SetKwData{CW}{CW}
+    \SetKwData{noveltyDetectionTrigger}{NDT}
+    \SetKwData{MEPC}{MEPC}
+    \SetKwData{NF}{NF}
+    \SetKwData{mpiSize}{mpiSize}
+    \SetKwData{mpiRank}{mpiRank}
+    \SetKwData{EndOfStream}{EndOfStream}
     % 
     \KwIn{ModelSet, Sample Stream}
     \KwOut{Classified Stream as $out$}
-    \SetKwFunction{FMain}{MinasOnline}
-    \KwFunction{\FMain{ModelSet, SampleStream}}{
+    \SetKwFunction{MinasOnline}{MinasOnline}
+    \KwFunction{\MinasOnline{ModelSet, SampleStream}}{
         UnkownSet $\leftarrow$ $\emptyset$, ModelSleepSet $\leftarrow$ $\emptyset$ \;
         lastCleanup $\leftarrow 0$ , noveltyIndex $\leftarrow 0$\;
         % sampleIn $\leftarrow 0$\;
