@@ -5,6 +5,8 @@
 % \subsection{O Algoritmo MINAS}
 % Apresentar o MINAS de forma resumida (1 pagina no max): como funciona, etc. 
 
+
+
 MINAS is an offline-online clustering algorithm, which means it has two distinct phases.
 The first phase generates the model by creating several micro-clusters based
 on a separate training set that is processed offline.
@@ -62,17 +64,18 @@ execute novelty detection.
 % Figura do MINAS (offline + online) ...
 % \todo[inline, color=brown]{\textbf{Guilherme:} Não coloquei figura porque as figuras originais do MINAS ocupam bastante espaço (https://sci-hub.se/10.1007/s10618-015-0433-y pg 9) e a do MFog está mais completa.}
 
-{\color{red}Formally, a data stream $S$ is a massive sequence of data elements
-$x_1, x_2, \dots, x_n$ that is, $S={\{x_i\}}_{i=1}^n$, which is potentially
-unbounded (n → $\infty$).
-Compared to traditional (batch) data mining, stream processing algorithms have
-additional requirements.
-For instance, with a potentially infinite data stream, storing data for late
-processing is not a choice due to memory constraints.
-Algorithms need to incrementally process incoming data instances in a single
-pass while operating under memory and response time constraints.
-Furthermore, as data streams present transient behavior, prediction models often
-need to be incremented to adapt to concept drift observed in data. }
+% Formally, a data stream $S$ is a massive sequence of data elements
+% $x_1, x_2, \dots, x_n$ that is, $S={\{x_i\}}_{i=1}^n$, which is potentially
+% unbounded (n → $\infty$).
+% Compared to traditional (batch) data mining, stream processing algorithms have
+% additional requirements.
+% For instance, with a potentially infinite data stream, storing data for late
+% processing is not a choice due to memory constraints.
+% Algorithms need to incrementally process incoming data instances in a single
+% pass while operating under memory and response time constraints.
+% Furthermore, as data streams present transient behavior, prediction models often
+% need to be incremented to adapt to concept drift observed in data.
+
 
 \input{03.minas-algo}
 

@@ -18,13 +18,20 @@ This segment was filtered (from $7\:865\:245$ instances) to only examples
 associated to known attack types identified by existing IDS, and attack types
 with more than $10\:000$ instances for significance as done by \cite{Cassales2019a}.
 % , this removes 46,390 instances. TODO: revisar, pois 7M != 700K.
-The remaining instantes then were transformed by normalization, transforming
-each feature value space (e.g. IP Address, Duration, Service) to the
-Real interval $[0, 1]$.
-The result is stored in two sets, training set and test set, using the holdout
-technique filtering in only normal class resulting in $72\:000$ instances for
-training set and $653\:457$ for test set, containing $206\:278$ $N$ (normal) class
-and $447\:179$ $A$ (attack) class.
+The remaining instances then were transformed by normalization so
+each feature value space (e.g. IP Address, Duration, Service) 
+is translated to the Real interval $[0, 1]$.
+
+The resulting derived dataset is then stored in two sets,
+training set and test set, using the holdout technique.
+However, for the training set we filter in only normal class
+resulting in $72\:000$ instances.
+For the test set we use $653\:457$ instances with
+$206\:278$ instances with ``$N$'' (normal) class and
+$447\:179$ instances with ``$A$'' (attack) class.
+Note that this choice results in a possible over-fitting for the normal class and,
+under-fitting for attack class as the system first needs to detect a novel class and
+then add it to the model.
 
 % Count per class
 %            id
