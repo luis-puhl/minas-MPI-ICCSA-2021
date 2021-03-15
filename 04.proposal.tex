@@ -34,20 +34,30 @@
 % (iii)  as duas etapas anteriores, por sua vez também deverão ser executadas paralelamente, podendo ocorrer em partes distintas do sistema
 % (iv) possa ser implementada em dispositivos com recursos limitados 
 
-In this work, we investigate the use of the novelty detection techniques and strategies presented 
-by the MINAS algorithm and the IDSA-IoT architecture for IoT.
-However, given the distributed nature and the typical use of low-end devices in envisioned and currently deployed IoT scenarios,  
+In this work we investigate the use of the novelty detection techniques and strategies,
+presented by the MINAS algorithm~\cite{MINAS} and the IDSA-IoT architecture~\cite{Cassales2019a},
+by implementation and evaluation of a parallel and distributed descendant of those two works
+we named \mfog.
+However, given the distributed nature and the typical use of 
+low-end devices in envisioned and currently deployed IoT scenarios,  
 new constraints apply:
-(i) the classification phase of the algorithm must occur in parallel, at different spots at the same time;
-(ii) the novelty detection phase, which provides the model evolution, must also occur in parallel, at different spots;
-(iii) both phases must also operate in parallel, possibly at different places/nodes of the system;
-(iv) the algorithm complexity must allow it to be processed by modest computer devices.
+\begin{enumerate*}[label=(\emph{\roman*})]
+    \item the classification phase of the algorithm must occur in parallel,
+    at different spots at the same time;
+    \item the novelty detection phase, which provides the model evolution,
+    must also occur in parallel, at different spots;
+    \item both phases must also operate in parallel,
+    possibly at different places/nodes of the system;
+    \item the algorithm complexity must allow it to be processed by modest computer devices.
+\end{enumerate*}
+
 
 % \todo{Relembrar ids-iot, fase offline e online}
 
-Thus we propose a \nids using MINAS \cite{Faria2016minas} (a Novelty Detection algorithm)
+Thus we propose a \nids using MINAS \cite{Faria2016minas}
+% (a Novelty Detection algorithm)
 to effectively identify previous and new intrusion threats,
-implemented over a architecture \cite{Cassales2019a} using parallel and distributed techniques leveraging
+implemented by following the  architecture \cite{Cassales2019a} using parallel and distributed techniques leveraging
 edge and cloud for efficient computing.
 
 % \todo{[start] intro/related?}
@@ -59,11 +69,12 @@ analyze to identify any intrusion or misbehavior.
 % This requirement in turn, requesting more computing power at the edge.
 % While requesting more computing power in a cloud environment is trivial and
 % inexpensive, the same cannot be said 
-However, this problem requires both fast and accurate response:
-the former is needed to have a proper reaction before harm can be cast
+However, this problem requires both fast and accurate response \cite{DaCosta2019a}:
+fast response is needed to have a proper reaction before harm can be cast
 to the network and to cope with the traffic without imposing loss or delay
 in the \nids or observed network;
-the latter is required as to not misidentify harmless with harmful and vice-versa.
+accurate response is required as to not misidentify harmless with harmful and vice-versa,
+especially the case of false positive that leads to false alarms.
 To achieve those goals we leverage fog computing.
 
 % \hl{intro/related?}

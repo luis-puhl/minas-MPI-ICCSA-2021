@@ -112,6 +112,8 @@ The complete matrix is shown in Tab. \ref{tab:java-matrix}.
 % \end{center}\end{table*}
 
 \begin{table*}[htb]
+\caption{Confusion Matrix and Qualitative Metrics}
+\label{tab:confusion-matrixes-ref-serial}
 \begin{subtable}[h]{0.9\textwidth}\begin{center}
     \caption{Reference implementation}
     \input{experiments/revised-java.log.tex}
@@ -122,8 +124,6 @@ The complete matrix is shown in Tab. \ref{tab:java-matrix}.
     \input{experiments/online-nd.log.tex}
     \label{tab:libc-matrix}
 \end{center}\end{subtable}
-\caption{Confusion Matrix and Qualitative Metrics}
-\label{tab:confusion-matrixes-ref-serial}
 \end{table*}
 
 For the metric summary table, six metrics from two sources are displayed.
@@ -166,6 +166,8 @@ to overlapping.
 Figure \ref{fig:validation-java-serial} shows two complete stream visualization charts.
 
 \begin{figure*}[hbt]
+  \caption{Validation Comparison: Stream hits and novelties visualization}
+  \label{fig:validation-java-serial}
   \centerline{
     \begin{subfigure}{.5\textwidth}
       \centering
@@ -180,8 +182,6 @@ Figure \ref{fig:validation-java-serial} shows two complete stream visualization 
       \label{fig:validation-sub-serial}
     \end{subfigure}
   }
-  \caption{Validation Comparison: Stream hits and novelties visualization}
-  \label{fig:validation-java-serial}
 \end{figure*}
 
 % \hl{END Oritações de leitura das métricas e visualizações.}
@@ -200,10 +200,10 @@ The summary of all four experiments is shown in Table \ref{tab:exper-summary}.
 
 \begin{table*}[hbt]
 \begin{center}
-  \input{experiments/summary.tex}
   \caption{Collected Metrics Summary. \color{red}{deixo os tempos com ou sem a
   soma do tempo offline?}}
   \label{tab:exper-summary}
+  \input{experiments/summary.tex}
 \end{center}
 \end{table*}
 
@@ -253,6 +253,8 @@ Figure \ref{fig:validation-sub-serial}
 When observing the stream visualization on figure \ref{fig:cluster-sub-multi}
 
 \begin{table*}[htb]
+\caption{Confusion Matrix and Qualitative Metrics for MPI Clusters.}
+\label{tab:confusion-matrixes-single-multi}
 \begin{subtable}[h]{0.9\textwidth}\begin{center}
     \caption{Parallel single-node}
     \input{experiments/tmi-base.log.tex}
@@ -263,8 +265,6 @@ When observing the stream visualization on figure \ref{fig:cluster-sub-multi}
     \input{experiments/tmi-n12.log.tex}
     \label{tab:multi-node-matrix}
 \end{center}\end{subtable}
-\caption{Confusion Matrix and Qualitative Metrics for MPI Clusters.}
-\label{tab:confusion-matrixes-single-multi}
 \end{table*}
 
 % 22.40 user	0.02 system	0:22.48 elapsed
