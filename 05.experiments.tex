@@ -104,7 +104,7 @@ The complete matrix is shown in Tab. \ref{tab:java-matrix}.
 %   \label{tab:java-matrix}
 % \end{center}\end{table*}
 
-\begin{table}[htb]
+\begin{table*}[htb]
 \begin{subtable}[h]{0.9\textwidth}\begin{center}
     \caption{Reference implementation}
     \input{experiments/revised-java.log.tex}
@@ -117,7 +117,7 @@ The complete matrix is shown in Tab. \ref{tab:java-matrix}.
 \end{center}\end{subtable}
 \caption{Confusion Matrix and Qualitative Metrics}
 \label{tab:confusion-matrixes-ref-serial}
-\end{table}
+\end{table*}
 
 For the metric summary table, six metrics from two sources are displayed.
 Three metrics \emph{Hits} \emph{Unknowns} \emph{Misses} represented as ratio of the
@@ -191,11 +191,14 @@ Each experiment uses the adequate binary executable, initial model
 to compute a resulting output stream which is stored for qualitative evaluation.
 The summary of all four experiments is shown in Table \ref{tab:exper-summary}.
 
-\begin{table}[hbt]\begin{center}
-  \caption{Collected Metrics Summary. \color{red}{deixo os tempos com ou sem a soma do tempo offline?}}
+\begin{table*}[hbt]
+\begin{center}
   \input{experiments/summary.tex}
+  \caption{Collected Metrics Summary. \color{red}{deixo os tempos com ou sem a
+  soma do tempo offline?}}
   \label{tab:exper-summary}
-\end{center}\end{table}
+\end{center}
+\end{table*}
 
 The first two experiments (\emph{a} and \emph{b}) comparison does serve as
 validation for our implementation, while the latter three (\emph{b}, \emph{c}
@@ -242,7 +245,7 @@ Figure \ref{fig:validation-sub-serial}
 
 When observing the stream visualization on figure \ref{fig:cluster-sub-multi}
 
-\begin{table}[htb]
+\begin{table*}[htb]
 \begin{subtable}[h]{0.9\textwidth}\begin{center}
     \caption{Parallel single-node}
     \input{experiments/tmi-base.log.tex}
@@ -255,7 +258,7 @@ When observing the stream visualization on figure \ref{fig:cluster-sub-multi}
 \end{center}\end{subtable}
 \caption{Confusion Matrix and Qualitative Metrics for MPI Clusters.}
 \label{tab:confusion-matrixes-single-multi}
-\end{table}
+\end{table*}
 
 % 22.40 user	0.02 system	0:22.48 elapsed
 
