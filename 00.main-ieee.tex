@@ -1,26 +1,36 @@
 \documentclass[conference]{lib/IEEEtran}
-\usepackage{graphicx}
-\usepackage{babel}
+
+\usepackage[english]{babel}
 \usepackage[utf8]{inputenc}
-\IEEEoverridecommandlockouts
 \usepackage{xspace}
 % \usepackage{cite}
 \usepackage{amsmath,amssymb,amsfonts}
-\usepackage{algorithmic,algorithm2e}
+\usepackage[noalgohanging,lined,noend,linesnumbered]{algorithm2e}
+\SetAlCapSkip{1.5ex}
+% \SetAlFnt{\tiny }
+% \SetAlFnt{\scriptsize }
+% \SetAlFnt{\small }
+\setlength{\algomargin}{0em}
+\SetInd{.1em}{.5em}
+% \usepackage{multicol} % does not like llncs
+\usepackage[inline]{enumitem}
 \usepackage{textcomp}
-\usepackage{tabularx}
+\usepackage{graphicx,tabularx,placeins}
 \usepackage{xcolor}
+\usepackage{soul}
 % \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
 %     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
-\usepackage{hyperref}
+\PassOptionsToPackage{hyphens}{url}\usepackage{hyperref}
 \hypersetup{colorlinks=true, allcolors=black}
 \usepackage{subcaption}
 \usepackage{mdframed}
-\usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
+%\usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
+\usepackage[colorinlistoftodos,prependcaption]{todonotes}
 \newcounter{todocounter}
 \newcommand{\toreview}{}
 \include{lib/review-tools}
 
+\IEEEoverridecommandlockouts
 \begin{document}
 
 \title{IoT Data Stream Novelty Detection:
