@@ -7,16 +7,15 @@
     \SetKwFor{With}{with}{}{}
     \SetKw{continue}{continue}
     % 
-    \SetKwData{CW}{CW}
-    \SetKwData{noveltyDetectionTrigger}{NDT}
+    \SetKwData{cleaningWindow}{cleaningWindow}
+    \SetKwData{noveltyDetectionTrigger}{noveltyDetectionTrigger}
     \SetKwData{MEPC}{MEPC}
     \SetKwData{NF}{NF}
     \SetKwData{mpiSize}{mpiSize}
     \SetKwData{mpiRank}{mpiRank}
     \SetKwData{EndOfStream}{EndOfStream}
     % 
-    \KwSty{Parameters}: cleaningWindow as \CW,
-    noveltyDetectionTrigger as \noveltyDetectionTrigger,
+    \KwSty{Parameters}: \cleaningWindow, \noveltyDetectionTrigger,
     mpiClusterSize as \mpiSize,
     mpiNodeRank as \mpiRank
     \\
@@ -67,8 +66,8 @@
     \SetKwFor{With}{with}{}{}
     \SetKw{continue}{continue}
     % 
-    \SetKwData{CW}{CW}
-    \SetKwData{noveltyDetectionTrigger}{NDT}
+    % \SetKwData{CW}{CW}
+    % \SetKwData{noveltyDetectionTrigger}{NDT}
     \SetKwData{MEPC}{MEPC}
     \SetKwData{NF}{NF}
     \SetKwData{mpiSize}{mpiSize}
@@ -112,7 +111,7 @@
             cl = \receive(ClusterType, root)\;
             \lIf{cl == \EndOfStream}{\textbf{break}}
             \With{writeLock(ModelSetLock)}{
-                ModelSet = ModelSet $\oplus$ cl\;
+                ModelSet = ModelSet $\cup$ cl\;
             }
         }
     }
@@ -142,7 +141,7 @@
             \If{\typeOf(sample) is Cluster}{
                 \broadcast(ClusterType, sample, root)\;
                 \With{\writeLock(ModelSetLock)}{
-                    ModelSet = ModelSet $\oplus$ sample\;
+                    ModelSet = ModelSet $\cup$ sample\;
                 }
                 \continue\;
             }
@@ -181,7 +180,7 @@
                 \If{\sizeOf(UnkownSet) $\geq$ \noveltyDetectionTrigger}{
                     novelties = \NoveltyDetection(p, ModelSet, *UnkownSet)\;
                     \With{\writeLock(ModelSetLock)}{
-                        ModelSet = ModelSet $\oplus$ novelties\;
+                        ModelSet = ModelSet $\cup$ novelties\;
                     }
                     \ForEach{ cl in novelties }{
                         \broadcast(ClusterType, cl, root)\;
@@ -222,7 +221,7 @@
 %                 \If{sizeOf(UnkownSet) $\geq$ p.noveltyDetectionTrigger}{
 %                     novelties = NoveltyDetection(p, *ModelSet, $\emptyset$, *UnkownSet)\;
 %                     \With{writeLock(ModelSetLock)}{
-%                         ModelSet = ModelSet $\oplus$ novelties\;
+%                         ModelSet = ModelSet $\cup$ novelties\;
 %                     }
 %                     \ForEach{ cl in novelties }{
 %                         broadcast(ClusterType, cl, root)\;
@@ -238,7 +237,7 @@
 %             cl = receive(ClusterType, root)\;
 %             \lIf{cl == EndOfStream}{\textbf{break}}
 %             \With{writeLock(ModelSetLock)}{
-%                 ModelSet = ModelSet $\oplus$ cl\;
+%                 ModelSet = ModelSet $\cup$ cl\;
 %             }
 %         }
 %     }

@@ -3,13 +3,21 @@
 \section{Related Work}
 \label{sec:related}
 
-Recent works explored those areas, to name a few: BigFlow \cite{Viegas2019}
-employing Apache Kafka and Apache Flink for distributed stream processing
-evaluating with package stream dataset,
-CATRACA \cite{Lopez2018,AndreoniLopez2019a} uses 
-Apache Kafka and Apache Spark for stream processing and 
+Network Intrusion Detection based on Machine Learning is not a novel concept,
+as there are many network applications and just as may % many (?)
+ways of exploiting them,
+the interest of teach a machine how to detect a novel attack is formed.
+There are, though, open questions and challenges on this subject, such as
+reducing false positive rate and detect attacks in a timely fashion \cite{DaCosta2019a}.
 
-\cite{DaCosta2019a}
+A few recent works inspired our work, such as: BigFlow \cite{Viegas2019}
+employing Apache Kafka and Apache Flink for distributed stream processing,
+four algorithms (Hoeffding Tree, OzaBoosting, Leveraging Bag) and one Ensemble
+from the Massive Online Analysis (MOA) library \cite{MOA}, and
+evaluating with package stream dataset solving the time constraint for \nids;
+CATRACA \cite{Lopez2018,AndreoniLopez2019a}, in a similar way, uses 
+Apache Kafka and Apache Spark for stream processing and also achieves
+a timely and scalable \nids.
 
 % {\color{red} muito próximo de \cite{Cassales2019a}}
 6LoWPAN is a standard defined by the IETF in RFC 6282, to transmit data with
