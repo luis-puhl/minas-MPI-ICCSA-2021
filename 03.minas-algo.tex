@@ -6,8 +6,7 @@
     \SetKwFunction{handleModelSleep}{moveToSleep}
     \SetKwFunction{removeOldSamples}{removeOldSamples}
     % 
-    \SetKwProg{function}{Function}{:}{}
-    \SetKwProg{algorithm}{algorithm}{:}{}
+    \SetKwProg{Function}{Function}{:}{}
     \SetKwFor{With}{with}{}{}
     \SetKw{continue}{continue}
     % 
@@ -17,11 +16,11 @@
     \SetKwData{cleaningWindow}{cleaningWindow}
     \SetKwData{noveltyDetectionTrigger}{noveltyDetectionTrigger}
     \SetKwInOut{KwParams}{Parameters}
-    % \KwSty{Parameters}: \cleaningWindow, \noveltyDetectionTrigger\\
     \KwParams{\cleaningWindow, \noveltyDetectionTrigger}
+    % \KwSty{Parameters}: \cleaningWindow, \noveltyDetectionTrigger\\
     % 
     \SetKwFunction{MinasOnline}{MinasOnline}
-    \function{\MinasOnline{ModelSet, inputStream}}{
+    \Function{\MinasOnline{ModelSet, inputStream}}{
         UnkownSet $\leftarrow$ $\emptyset$, ModelSleepSet $\leftarrow$ $\emptyset$ \;
         lastCleanup $\leftarrow 0$ , noveltyIndex $\leftarrow 0$\;
         % sampleIn $\leftarrow 0$\;
@@ -62,11 +61,12 @@
     % 
     \SetKwData{minExamplesPerCluster}{minExamplesPerCluster}
     \SetKwData{noveltyFactor}{noveltyFactor}
-    \KwSty{Parameters}: \minExamplesPerCluster, \noveltyFactor\\
+    % \KwSty{Parameters}: \minExamplesPerCluster, \noveltyFactor\\
+    \SetKwInOut{KwParams}{Parameters}
+    \KwParams{\minExamplesPerCluster, \noveltyFactor}
     % 
     \SetKwFunction{nearestCluster}{nearestCluster}
     \SetKwFunction{clustering}{clustering}
-    \SetKwFunction{sizeOf}{sizeOf}
     \SetKwFunction{NoveltyDetection}{NoveltyDetection}
     \SetKwFunction{handleModelSleep}{moveToSleep}
     \SetKwFunction{removeOldSamples}{removeOldSamples}
@@ -90,10 +90,12 @@
                 newModelSet $\leftarrow$ newModelSet $\cup$ cl\;
             }
         }
-        \Return{newModelSet}
+        \Return{newModelSet}\;
     }
     \label{alg:MINAS-nd}
     \caption{Minas: Novelty Detection task.}
+% \label{alg:MINAS}
+% \caption{Our interpretation of MINAS \cite{faria2013novelty,Faria2016minas,Cassales2019a}}
 \end{algorithm}
 
 % \begin{algorithm}

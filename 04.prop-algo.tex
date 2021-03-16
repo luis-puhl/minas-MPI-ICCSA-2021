@@ -90,10 +90,10 @@
             \send(root, SampleType, sample)\;
         }
     }
-    \label{alg:MFOG-classifier}
-    \caption{MFOG: Classifier task.}
-\end{algorithm}
-\begin{algorithm}
+%     \label{alg:MFOG-classifier}
+%     \caption{MFOG: Classifier task.}
+% \end{algorithm}
+% \begin{algorithm}
     % \SetKwProg{algorithm}{algorithm}{:}{}
     \SetKwFor{With}{with}{}{}
     \SetKw{continue}{continue}
@@ -116,8 +116,10 @@
             }
         }
     }
-    \label{alg:MFOG-model}
-    \caption{MFOG: model receiver task.}
+    % \label{alg:MFOG-model}
+    % \caption{MFOG: model receiver task.}
+\label{alg:MFOG-leaf}
+\caption{MFOG Leaf Tasks: Model Receiver and Classifier.}
 \end{algorithm}
 \begin{algorithm}
     \SetKwFor{With}{with}{}{}
@@ -151,10 +153,10 @@
         }
     }
 
-    \label{alg:MFOG-sampler}
-    \caption{MFOG: sampler Module.}
-\end{algorithm}
-\begin{algorithm}
+%     \label{alg:MFOG-sampler}
+%     \caption{MFOG: sampler Module.}
+% \end{algorithm}
+% \begin{algorithm}
     \SetKwProg{algorithm}{algorithm}{:}{}
     \SetKwFor{With}{with}{}{}
     \SetKw{continue}{continue}
@@ -192,8 +194,10 @@
             }
         }
     }
-    \label{alg:MFOG-detector}
-    \caption{MFOG: detector task.}
+    % \label{alg:MFOG-detector}
+    % \caption{MFOG: detector task.}
+\label{alg:MFOG-root}
+\caption{MFOG Root Tasks: Sampler and Detector.}
 \end{algorithm}
 % % \end{multicols}
 % % }
