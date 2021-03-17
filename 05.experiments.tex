@@ -200,8 +200,7 @@ The summary of all four experiments is shown in Table \ref{tab:exper-summary}.
 
 \begin{table*}[hbt]
 \begin{center}
-  \caption{Collected Metrics Summary. \color{red}{deixo os tempos com ou sem a
-  soma do tempo offline?}}
+  \caption{Collected Metrics Summary.}
   \label{tab:exper-summary}
   \input{experiments/summary.tex}
 \end{center}
@@ -237,9 +236,11 @@ our implementation runs it once and reuses the initial model for
 \emph{b}, \emph{c} and \emph{d}.
 
 As for the effects of running a MPI cluster with our implementation
-we observe an increase of time when e go from 
-\st{we have to say it is pretty shitty because of our choice of distribution 
-using round-robin, use some load balancing and micro-batching for better results.}
+we observe an increase of time when e go from $2$ to $4$ instances in a single
+node, hinting that our choice of load distribution is not as eff
+% \st{we have to say it is pretty shitty because of our choice of distribution 
+% using round-robin, use some load balancing and micro-batching for better results.}
+
 Nevertheless, we can also show the effects of delay in the
 Classify, Novelty Detect, Model Update and Classify loop, as in the
 first non-serial experiment \emph{b} we observe a reduction in Novelty Labels
@@ -255,12 +256,12 @@ When observing the stream visualization on figure \ref{fig:cluster-sub-multi}
 \begin{table*}[htb]
 \caption{Confusion Matrix and Qualitative Metrics for MPI Clusters.}
 \label{tab:confusion-matrixes-single-multi}
-\begin{subtable}[h]{0.9\textwidth}\begin{center}
+\begin{subtable}[h]{0.5\textwidth}\begin{center}
     \caption{Parallel single-node}
     \input{experiments/tmi-base.log.tex}
     \label{tab:single-node-matrix}
 \end{center}\end{subtable}
-\begin{subtable}[h]{0.9\textwidth}\begin{center}
+\begin{subtable}[h]{0.5\textwidth}\begin{center}
     \caption{Parallel multi-node}
     \input{experiments/tmi-n12.log.tex}
     \label{tab:multi-node-matrix}
@@ -303,7 +304,7 @@ When observing the stream visualization on figure \ref{fig:cluster-sub-multi}
 \begin{figure}
   \centering
   % \includegraphics[width=\linewidth]{experiments/speedup-clean.png}
-  \includegraphics[width=0.75\linewidth,page=1]{experiments/speedup-clean.pdf}
+  \includegraphics[width=0.65\linewidth,page=1]{experiments/speedup-clean.pdf}
   \caption{Time measurements per added instance}
   \label{fig:speedup}
 \end{figure}

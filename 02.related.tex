@@ -19,27 +19,27 @@ CATRACA \cite{Lopez2018,AndreoniLopez2019a}, in a similar way, uses
 Apache Kafka and Apache Spark for stream processing and also achieves
 a timely and scalable \nids.
 
-% {\color{red} muito próximo de \cite{Cassales2019a}}
-6LoWPAN is a standard defined by the IETF in RFC 6282, to transmit data with
-IpV6 and other protocols on low power wireless devices using IEEE 802.15.4 in
-the lower layers. However, this technology still lacks protection and security
-mechanisms. %\cite{dos-6lowpan-iot, Hybrid-ids-arch-iot, SVELTE}.
-%
-For instance, in \cite{dos-6lowpan-iot}, signature detection is used to detect
-DoS and UDP flood attacks. The architecture uses a probe to promiscuously listen
-the whole traffic of a 6LoWPAN network and sends the data to analysis on a
-non-constrained host.
-%Results were expressed by flood metrics, as the number of packets in the network.
-The work in \cite{SVELTE} proposed an hybrid IDS which focuses on specific
-routing attacks, such as sink-hole and selective-forwarding. Higher complexity
-tasks which demand more computational resources are executed on the border
-router, while simpler tasks execute on constrained nodes. Results were expressed
-by metrics as recall and memory and energy consumption.
-% 
-The work in \cite{Hybrid-ids-arch-iot} proposed the use of anomaly detection to
-identify internal routing attacks, and signature detection to identify external
-attacks. Anomaly detection was tested with simulated attacks, while signature
-detection used a subset of NSL-KDD. They used the recall and FAR as metrics.
+% % {\color{red} muito próximo de \cite{Cassales2019a}}
+% 6LoWPAN is a standard defined by the IETF in RFC 6282, to transmit data with
+% IpV6 and other protocols on low power wireless devices using IEEE 802.15.4 in
+% the lower layers. However, this technology still lacks protection and security
+% mechanisms. %\cite{dos-6lowpan-iot, Hybrid-ids-arch-iot, SVELTE}.
+% %
+% For instance, in \cite{dos-6lowpan-iot}, signature detection is used to detect
+% DoS and UDP flood attacks. The architecture uses a probe to promiscuously listen
+% the whole traffic of a 6LoWPAN network and sends the data to analysis on a
+% non-constrained host.
+% %Results were expressed by flood metrics, as the number of packets in the network.
+% The work in \cite{SVELTE} proposed an hybrid IDS which focuses on specific
+% routing attacks, such as sink-hole and selective-forwarding. Higher complexity
+% tasks which demand more computational resources are executed on the border
+% router, while simpler tasks execute on constrained nodes. Results were expressed
+% by metrics as recall and memory and energy consumption.
+% % 
+% The work in \cite{Hybrid-ids-arch-iot} proposed the use of anomaly detection to
+% identify internal routing attacks, and signature detection to identify external
+% attacks. Anomaly detection was tested with simulated attacks, while signature
+% detection used a subset of NSL-KDD. They used the recall and FAR as metrics.
 
 A three-layer architecture (composed of WSN, Fog and Cloud) with focus on fault
 tolerance in disaster scenarios is proposed in \cite{Fault-tolerance-disaster}.
