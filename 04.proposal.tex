@@ -220,36 +220,43 @@ several policies, some of them are:
 \begin{itemize}
     \item Regarding the allocation of the Novelty Detection Module:
     \begin{itemize}
-        \item 
-        It can be located at each fog node meaning novelties will be only
-        detected if sufficient patterns occurs in the local observed network,
-        it also spends the local node processing power and a model sharing mechanism 
-        must be added;
-        \item It can be located in the cloud and thus detect patterns even when
-        their footprint is small in each local network, also a model sharing mechanism
-        is not needed as the model has a single instance stored in the cloud,
-        the penalty of this choice is increased internet usage as any sample with
-        \emph{unknown} label must be sent from edge to cloud, implying some delay
-        between the appearance of a novel pattern, its detection and its propagation
+        \item At each fog node:
+        patterns will be only detected if sufficient samples of them
+        occur in the local observed network,
+        use of the local node processing power and,
+        a model synchronization mechanism must be added;
+        \item In the cloud:
+        detect patterns even when scattered on each local network,
+        % also a model sharing mechanism
+        % is not needed as the model has a single instance stored in the cloud,
+        % the penalty of this choice is increased internet usage as any 
+        each sample with \emph{unknown} label must be sent from edge to cloud implying 
+        increased internet link usage and increased delay
+        between the appearance of a pattern, its detection and its propagation
         to fog classifiers;
-        \item It can be located in both, meaning that a local \emph{unknown} buffer
-        is maintained, novelty detection is performed on that buffer, and once
-        a sample is to be discarded as noise or outlier it must be sent to the cloud
-        where the process repeats but with global data. This choice also need the model
-        sharing mechanism and is clearly the more complex.
+        \item On both:
+        local \emph{unknown} buffer is maintained and novelty detection is local as well,
+        once a sample is considered as noise or outlier it shall be sent to the cloud
+        where the process repeats but with global data.
+        This choice needs a more complex a model synchronization mechanism.
     \end{itemize}
     \item Regarding the model cleanup (forget mechanism):
     Even when a global novelty detection is used, local models can be optimized for faster
     classification using the its local model statistics, sorting last or removing clusters that
     are not in frequent use;
-    \item Lastly, a feature not explicitly shown in the original MINAS is the reclassification
-    of \emph{unknowns} after the detection of a novelty pattern with the newfound label:
-    As the last step in the novelty detection step in MINAS, the \emph{unknown} sample buffer is
-    classified using the newfound subset of clusters, if the sample can be explained by a new cluster
-    it is removed from the \emph{unknown} sample buffer, however, this new labeling is not put forward
-    to the systems output restraining the system data-stream behavior to a \emph{map} (meaning each input
-    has one output), whereas if this feature was enabled the behavior would be a \emph{flatMap} (each input
-    can have many outputs) and introduce new outputs, more recent and perhaps more accurate but later.
+    \item Lastly, reclassification of \emph{unknowns}:
+    In the novelty detection task in MINAS, the \emph{unknown} sample buffer is effectively
+    classified using the new set of clusters, in 
+    Algorithm \ref{alg:MINAS-nd} at line \ref{alg:MINAS-nd:reclassify} 
+    % if the sample can be explained by a new cluster
+    % it is removed from the \emph{unknown} sample buffer, however, this new labeling is not put forward
+    the new cluster information also includes the set of samples composing that cluster,
+    thus, if this new label assignment was put forth to the system output
+    it would change the system data stream behavior from a 
+    \emph{map} (meaning each input has one output)
+    % , whereas if this feature was enabled the behavior would be
+    to a \emph{flatMap} (each input can have many outputs)
+    and introduce delayed outputs, more recent and perhaps more accurate.
 \end{itemize}
 
 % \begin{highlight}

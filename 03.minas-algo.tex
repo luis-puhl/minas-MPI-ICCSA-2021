@@ -73,9 +73,9 @@
     % 
     % \KwData{ UnkownSet $\leftarrow$ $\emptyset$, ModelSleepSet $\leftarrow$ $\emptyset$, lastCleanupTime $\leftarrow$ now() }
     % 
-    \Function{\NoveltyDetection{Model, SampleSet}}{
+    \Function{\NoveltyDetection{Model, Unknowns}}{
         newModelSet $\leftarrow$ $\emptyset$\;
-        \ForEach{cl in \clustering(SampleSet)}{
+        \ForEach{cl in \clustering(Unknowns)}{
             \If{$|\;cl.sampleSet\;| \geq$ \minExamplesPerCluster}{
                 (distance, near) $\leftarrow$ \nearestCluster(cl, Model)\;
                 \eIf{distance $<$ near.radius $\times$ \noveltyFactor}{
@@ -86,14 +86,15 @@
                     noveltyIndex $\leftarrow$ noveltyIndex $+ 1$\;
                     cl.type $\leftarrow$ novelty\;
                 }
-                SampleSet $\leftarrow$ SampleSet $-$ cl.sampleSet\;
+                \label{alg:MINAS-nd:reclassify}
+                Unknowns $\leftarrow$ Unknowns $-$ cl.sampleSet\;
                 newModelSet $\leftarrow$ newModelSet $\cup$ cl\;
             }
         }
         \Return{newModelSet}\;
     }
     \label{alg:MINAS-nd}
-    \caption{Minas: Novelty Detection task.}
+    \caption{\minas Novelty Detection task.}
 % \label{alg:MINAS}
 % \caption{Our interpretation of MINAS \cite{faria2013novelty,Faria2016minas,Cassales2019a}}
 \end{algorithm}
