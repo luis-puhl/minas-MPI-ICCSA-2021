@@ -45,3 +45,19 @@
   % \hoffset=-25mm
   % \textwidth=165mm
 \fi
+
+
+\SetAlFnt{\small }
+\setlength{\algomargin}{1em}
+
+\makeatletter
+\if@twocolumn
+\newcommand{\whencolumns}[2]{
+#2
+}
+\else
+\newcommand{\whencolumns}[2]{
+#1
+}
+\fi
+\makeatother
