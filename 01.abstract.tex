@@ -1,36 +1,44 @@
+\newcommand{\refminas}{\textit{Ref}\xspace}
+\newcommand{\mfog}{\textit{MFOG}\xspace}
+\newcommand{\iot}{IoT\xspace}
+\newcommand{\nids}{NIDS\xspace}
+\newcommand{\nd}{DSND\xspace}
+\newcommand{\minas}{MINAS\xspace}
 
 \begin{abstract}
-  The ongoing implementation of the Internet of Things (IoT) is sharply increasing the 
-  %small devices count 
-  number and variety of small devices on edge networks and, following this increase, the
-  attack opportunities for hostile agents also increases, requiring more from
-  the network administrator role and the need for tools to detect and react to those
-  threats.
+
+  The ongoing implementation of the Internet of Things (\iot) is sharply
+  increasing the number and variety of small devices on edge networks and,
+  following this increase, the attack opportunities for hostile agents also
+  increases, requiring more from network administrators and the need for tools
+  to detect and react to those threats.
   % 
-  One such tool are the Network Intrusion Detection Systems (NIDS) %where 
-  which captures and analyses network traffic, %is captured and analysed raising alarms 
+  One such tool are the Network Intrusion Detection Systems (\nids)
+  which captures and analyses network traffic,
   acting when a known attack or a new pattern is detected.
   For a network security tool to operate in the context of edge and
-  IoT it has to comply with processing time, storage space and energy
+  \iot it has to comply with processing time, storage space and energy
   requirements alongside traditional requirements for stream and network
   analysis like accuracy and scalability.
   % 
-  This work addresses the construction %details
-  and evaluation of a prototype
-  distributed IDS using %MINAS
-  a Novelty Detection (ND) algorithm.
-  %following up the 
-  Using a previously defined %IDSA-IoT
-  architecture~\cite{Cassales2019a}, 
-  we discuss the algorithm steps, how it can be deployed in a distributed environment,
-  the impacts on the accuracy of the ND %MINAS
-  and evaluate its performance and scalability
-  using a cluster of constrained devices commonly found in IoT scenarios.
+  Using a previously defined architecture (IDSA-IoT),
+  we address the construction and evaluation of a prototype distributed \nids
+  with the Data Stream Novelty Detection algorithm (\nd) MINAS
+  employing C and MPI library.
   % 
-  We found an increase of \textit{A 0.0} processed network flow descriptors per core
-  added to the cluster. Also \textit{B 0.0\%} and \textit{C 0.0\%} change in
-  \textit{F1Score} in the tested datasets when stream was unlimited in speed and
-  limited to \textit{0.0 z MB/s} respectively.
+  We discuss the algorithm steps, how it can be deployed in a distributed
+  environment, the impacts on the accuracy and evaluate performance and
+  scalability using a cluster of constrained devices commonly found in \iot
+  scenarios.
+  % 
+  % We found an increase of \textit{A 0.0} processed network flow descriptors per
+  % core added to the cluster.
+  % Also \textit{B 0.0\%} and \textit{C 0.0\%} change in
+  % \textit{F1Score} in the tested datasets when stream was unlimited in speed and
+  % limited to \textit{0.0 z MB/s} respectively.
+  We found a marginal ($2$ to $4\%$) difference in true positive (hits) between
+  original, serial and distributed executions, consuming a months worth of flow
+  descriptors in $300$ seconds.
 \end{abstract}
 
 \ifdefined\IEEEkeywords
