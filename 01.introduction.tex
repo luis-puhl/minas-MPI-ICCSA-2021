@@ -4,12 +4,6 @@
 
 \section{Introduction}
 
-\newcommand{\refminas}{\textit{Ref}\xspace}
-\newcommand{\mfog}{\textit{MFOG}\xspace}
-\newcommand{\iot}{IoT\xspace}
-\newcommand{\nids}{NIDS\xspace}
-\newcommand{\ds}{DS\xspace}
-\newcommand{\minas}{MINAS\xspace}
 
 % \todo{poderia trocar esses surveys por mais novos ou menos preditivos e mais acertvivos}
 
@@ -26,7 +20,7 @@ to other devices, servers, and applications
 with little human intervention or supervision
 \cite{Tahsien2020,abane2019,haddadpajouh2019survey,Shanbhag2015}.
 % 
-Security and privacy is a major concern in the IoT, specially regarding
+Security and privacy is a major concern in the \iot, specially regarding
 % devices like smart home assistants and wearable
 devices having access to user personal data like
 location, health, and many other sensitive data \cite{sengupta2020comprehensive}.
@@ -35,11 +29,10 @@ Furthermore, if compromised such devices can also be used to attack other
 devices and systems, steal information, cause immediate physical damage or
 perform various other malicious acts \cite{Kolias2017mirai}.
 % 
-As an additional concern, IoT devices likely have long lifespan and less frequent
-software patches, and the ever growing diversity of 
-% increase of the 
-% mesh of devices of diverse
-technologies considerably increases the attack surface.
+As an additional concerns, \iot devices likely have long lifespan, less frequent
+software patches, growing diversity of technologies combined with lack of
+control over the software and hardware of such devices by the host organization
+(where the device is deployed) considerably increases the attack surface.
 
 % A study reveals that nearly $20\%$ of organizations have experienced at least one
 % IoT-based attack in the last three years.
@@ -55,20 +48,18 @@ technologies considerably increases the attack surface.
 % i.e. 'id est', which means "that is."
 % e.g. 'exempli gratia', which means "for example."
 % {\color{red} muito próximo de \cite{Cassales2019a}}
-Because most IoT devices have limited resources (i.e., battery, processing
-power, bandwidth, and memory), configurable and expensive algorithm-based
+Because most \iot devices have limited resources (i.e., battery, processing,
+memory, and bandwidth), configurable and expensive algorithm-based
 security techniques may not fit \cite{Zhou2017}.
 Machine Learning (ML) techniques have been studied for years to detect attacks
 from known patterns or to discover new attacks at an early stage
 \cite{buczak2016survey,mitchell2014survey}.
-A recent survey in \cite{Tahsien2020} shows that ML based methods are a
-promising alternative which can provide potential security tools for the IoT
-devices which make them more reliable and accessible than before.
+A recent survey \cite{Tahsien2020} shows that ML based methods are a
+promising alternative which can provide potential security tools for the \iot
+network making them more reliable and accessible than before.
 
-Despite the promising use of ML to secure IoT systems,
-studies presented in the literature
-\cite{buczak2016survey,mitchell2014survey,Tahsien2020}
-are limited to
+Despite the promising use of ML to secure \iot systems, studies in the
+literature \cite{buczak2016survey,mitchell2014survey,Tahsien2020} are limited to
 traditional ML methods that use static models of traffic behavior.
 % With traditional ML methods, the data set is static and can be traversed
 % repeatedly, and the detection of new attack patterns requires a new cycle of
@@ -78,28 +69,32 @@ their reliability over time when facing evolving attacks \cite{Viegas2019}.
 Unlike traditional methods, stream mining algorithms can be applied to intrusion
 detection with several advantages, such as:
 \begin{enumerate*}[label=(\emph{\roman*})]
-    \item working with limited memory, which allows the implementation in small
-    devices (commonly employed in edge services);
     \item processing traffic data with a single read;
+    \item working with limited memory (allowing the implementation in small
+    devices commonly employed in edge services);
     \item producing real-time response; and
     \item detecting novelty and changes in concepts already learned.
 \end{enumerate*}
 
 % Nao tinha mencionado quais previous works...
 % {\color{red} %This paper elaborates on the previous work in the following aspects.
-Given the successful
-% \footnote{\color{red}citation needed}
-use of Novelty Detection in network data streams,
-this paper shows the results of adapting these mechanisms to edge services
-for use in IoT environments.
-First, we instantiated and experimentally validated the IDSA-IoT
-architecture \cite{Cassales2019a} on a distributed system
-composed of small devices with limited resources on the edge of the network.
+
+{\color{red} Adicionar referencias e relacionados. Argumentar que além de \nids,
+\nd para \iot tem outras aplicações}
+
+Given the recent use of Data Stream Novelty Detection (\nd) in network data
+streams, this paper shows the effects of adapting these mechanisms to edge
+services for use in \iot environments.
+Our proposal, \mfog, instantiated and experimentally validated the \arch
+architecture \cite{Cassales2019a} employed the \nd algorithm \minas
+\cite{Faria2013Minas,Faria2015minas} (as it was already tested in a similar \iot
+scenario) on a distributed system composed of small devices with limited
+resources on the edge of the network.
 % Our implementation can be fully executed on the edge, thus avoiding any dependency
 % and high latency of cloud resources.
 % We proposed and implemented dMINAS, a distributed extension
 % of MINAS \cite{Faria2016minas} (a novelty detection for data streams).
-We evaluated through experimental method, how the distribution of
+We evaluated through experimental methodology, how the distribution of
 % the chosen novelty detection algorithm
 \minas
 affects the capability to detect changes (novelty) in
@@ -108,11 +103,20 @@ Finally, some distribution strategies and policies for the data stream
 novelty detection system are discussed.
 % }
 
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{figures/cassalesimgs-000.png}
+    \caption{\arch \cite{Cassales2019a} physical architecture and deployment scenario overview.}
+    \label{fig:mfog-phy-arch-cloud}
+\end{figure}
+
 This paper is organized as follows:
 % Section \ref{sec:related} presents the related works.
-Section \ref{sec:minas} reviews the chosen novelty detection algorithm MINAS.
-A distributed extension of the novelty detection algorithm, including its
-implementation and evaluation are presented in Section \ref{sec:prop}.
+Section \ref{sec:minas} reviews the chosen \nd algorithm \minas.
+A distributed extension of \minas, including its
+implementation and evaluation are presented in Section \ref{sec:prop}
+and in Section \ref{sec:experiments} we show how we evaluated \mfog and
+the discuss results we found.
 Finally, Section \ref{sec:conclusion} summarizes the main findings and presents
 possible future work.
 

@@ -321,20 +321,6 @@
   year={2015}
 }
 
-@article{Faria2016,
-  author={Faria, Elaine R. and Gon{\c{c}}alves, Isabel J. C. R. and de Carvalho, Andr{\'e} C. P. L. F. and Gama, Jo{\~a}o},
-  title={Novelty detection in data streams},
-  journal={Artificial Intelligence Review},
-  year={2016},
-  month={Feb},
-  day={01},
-  volume={45},
-  number={2},
-  pages={235--269},
-  issn={1573-7462},
-  doi={10.1007/s10462-015-9444-8}
-}
-
 @article{MASUD2011,
   author={M. Masud and J. Gao and L. Khan and J. Han and B. M. Thuraisingham},
   journal={IEEE Trans. on Knowledge and Data Engineering},
@@ -451,6 +437,35 @@
   doi={10.23919/PEMWN47208.2019.8986906}
 }
 
+@inproceedings{Faria2013Minas,
+  author    = {Faria, Elaine R. and Gama, Jo\~{a}o and Carvalho, Andr\'{e} C. P. L. F.},
+  title     = {Novelty Detection Algorithm for Data Streams Multi-Class Problems},
+  year      = {2013},
+  isbn      = {9781450316569},
+  publisher = {Association for Computing Machinery},
+  address   = {New York, NY, USA},
+  url       = {https://doi.org/10.1145/2480362.2480515},
+  doi       = {10.1145/2480362.2480515},
+  abstract = {Novelty detection has been presented in the literature as
+  one-class problem. In this case, new examples are classified as either
+  belonging to the target class or not. The examples not explained by the model
+  are detected as belonging to a class named novelty. However, novelty detection
+  is much more general, especially in data streams scenarios, where the number
+  of classes might be unknown before learning and new classes can appear any
+  time. In this case, the novelty concept is composed by different classes. This
+  work presents a new algorithm to address novelty detection in data streams
+  multi-class problems, the MINAS algorithm. Moreover, we also present a new
+  experimental methodology to evaluate novelty detection methods in multi-class
+  problems. The data used in the experiments include artificial and real data
+  sets. Experimental results show that MINAS is able to discover novelties in
+  multi-class problems.},
+  booktitle = {Proceedings of the 28th Annual ACM Symposium on Applied Computing},
+  pages     = {795–800},
+  numpages  = {6},
+  keywords  = {data stream, multi-class, novelty detection, clustering},
+  location  = {Coimbra, Portugal},
+  series    = {SAC '13}
+}
 
 @article{Faria2015minas,
   author={Faria, Elaine Ribeiro de and Ponce de Leon Ferreira Carvalho, Andr{\'e} Carlos and Gama, Jo{\~a}o},
@@ -465,6 +480,54 @@
   issn={1573-756X},
   doi={10.1007/s10618-015-0433-y},
   url={https://doi.org/10.1007/s10618-015-0433-y}
+}
+
+@article{DeFaria2015evaluation,
+  title    = {Evaluation of Multiclass Novelty Detection Algorithms for Data Streams},
+  author   = {de Faria, Elaine Ribeiro and Gonçaalves, Isabel Ribeiro and Gama, Joao
+  and Carvalho, Andre Carlos Ponce de Leon Ferreira},
+  abstract = {{\textcopyright} 2015 IEEE. Data stream mining is an emergent
+  research area that investigates knowledge extraction from large amounts of
+  continuously generated data, produced by non-stationary distribution. Novelty
+  detection, the ability to identify new or previously unknown situations, is a
+  useful ability for learning systems, especially when dealing with data
+  streams, where concepts may appear, disappear, or evolve over time. There are
+  several studies currently investigating the application of novelty detection
+  techniques in data streams. However, there is no consensus regarding how to
+  evaluate the performance of these techniques. In this study, we propose a new
+  evaluation methodology for multiclass novelty detection in data streams able
+  to deal with: i) unsupervised learning, which generates novelty patterns
+  without an association with the true classes, where one class may be composed
+  of a novelty set, ii) confusion matrix that increases over time, iii)
+  confusion matrix with a column representing unknown examples, i.e., those not
+  explained by the model, and iv) representation of the evaluation measures over
+  time. We propose a new methodology to associate the novelty patterns detected
+  by the algorithm, in an unsupervised fashion, with the true classes. Finally,
+  we evaluate the performance of the proposed methodology through the use of
+  known novelty detection algorithms with artificial and real data sets.},
+  journal  = {IEEE Transactions on Knowledge and Data Engineering},
+  year     = {2015},
+  volume   = {27},
+  number   = {11},
+  pages    = {2961-2973},
+  doi      = {10.1109/TKDE.2015.2441713},
+  issn     = {1041-4347},
+  month    = {nov},
+  url      = {http://ieeexplore.ieee.org/document/7118190/}
+}
+
+@article{Faria2016NDinDS,
+  author  = {Faria, Elaine R. and Gon{\c{c}}alves, Isabel J. C. R. and de Carvalho, Andr{\'e} C. P. L. F. and Gama, Jo{\~a}o},
+  title   = {Novelty detection in data streams},
+  journal = {Artificial Intelligence Review},
+  year    = {2016},
+  month   = {Feb},
+  day     = {01},
+  volume  = {45},
+  number  = {2},
+  pages   = {235--269},
+  issn    = {1573-7462},
+  doi     = {10.1007/s10462-015-9444-8}
 }
 
 @inproceedings{Cassales2019a,
@@ -570,40 +633,6 @@
   pages={29--36}
 }
 
-@article{DeFaria2015evaluation,
-  title={Evaluation of Multiclass Novelty Detection Algorithms for Data Streams},
-  author={de Faria, Elaine Ribeiro and Gonçaalves, Isabel Ribeiro and Gama, Joao
-  and Carvalho, Andre Carlos Ponce de Leon Ferreira},
-  abstract={{\textcopyright} 2015 IEEE. Data stream mining is an emergent
-  research area that investigates knowledge extraction from large amounts of
-  continuously generated data, produced by non-stationary distribution. Novelty
-  detection, the ability to identify new or previously unknown situations, is a
-  useful ability for learning systems, especially when dealing with data
-  streams, where concepts may appear, disappear, or evolve over time. There are
-  several studies currently investigating the application of novelty detection
-  techniques in data streams. However, there is no consensus regarding how to
-  evaluate the performance of these techniques. In this study, we propose a new
-  evaluation methodology for multiclass novelty detection in data streams able
-  to deal with: i) unsupervised learning, which generates novelty patterns
-  without an association with the true classes, where one class may be composed
-  of a novelty set, ii) confusion matrix that increases over time, iii)
-  confusion matrix with a column representing unknown examples, i.e., those not
-  explained by the model, and iv) representation of the evaluation measures over
-  time. We propose a new methodology to associate the novelty patterns detected
-  by the algorithm, in an unsupervised fashion, with the true classes. Finally,
-  we evaluate the performance of the proposed methodology through the use of
-  known novelty detection algorithms with artificial and real data sets.},
-  journal={IEEE Transactions on Knowledge and Data Engineering},
-  year    = {2015},
-  volume  = {27},
-  number  = {11},
-  pages   = {2961-2973},
-  doi     = {10.1109/TKDE.2015.2441713},
-  issn={1041-4347},
-  month={nov},
-  url={http://ieeexplore.ieee.org/document/7118190/},
-}
-
 @article{DaCosta2019a,
   abstract={In the world scenario, concerns with security and privacy regarding computer networks are always increasing. Computer security has become a necessity due to the proliferation of information technologies in everyday life. The increase in the number of Internet accesses and the emergence of new technologies, such as the Internet of Things (IoT paradigm, are accompanied by new and modern attempts to invade computer systems and networks. Companies are increasingly investing in studies to optimize the detection of these attacks. Institutions are selecting intelligent techniques to test and verify by comparing the best rates of accuracy. This research, therefore, focuses on rigorous state-of-the-art literature on Machine Learning Techniques applied in Internet-of-Things and Intrusion Detection for computer network security. The work aims, therefore, recent and in-depth research of relevant works that deal with several intelligent techniques and their applied intrusion detection architectures in computer networks with emphasis on the Internet of Things and machine learning. More than 95 works on the subject were surveyed, spanning across different themes related to security issues in IoT environments.},
   author={da Costa, Kelton A.P. and Papa, Jo{\~{a}}o P. and Lisboa, Celso O. and Munoz, Roberto and de Albuquerque, Victor Hugo C.},
@@ -616,15 +645,6 @@
   title={Internet of Things: A survey on machine learning-based intrusion detection approaches},
   volume={151},
   year={2019}
-}
-
-
-@inproceedings{faria2013novelty,
-  title={Novelty detection algorithm for data streams multi-class problems},
-  author={Faria, Elaine R and Gama, João and Carvalho, André CPLF},
-  booktitle={Proceedings of the 28th annual ACM symposium on applied computing},
-  pages={795--800},
-  year={2013}
 }
 
 @article{MOA,

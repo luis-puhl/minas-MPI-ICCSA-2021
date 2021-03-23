@@ -33,7 +33,7 @@
 % (iv) possa ser implementada em dispositivos com recursos limitados 
 
 In this work we investigate the use of the novelty detection techniques and strategies,
-presented by the MINAS algorithm~\cite{MINAS} and the IDSA-IoT architecture~\cite{Cassales2019a},
+presented by the MINAS algorithm~\cite{MINAS} and the \arch architecture~\cite{Cassales2019a},
 by implementation and evaluation of a parallel and distributed descendant of those two works
 we named \mfog.
 However, given the distributed nature and the typical use of 
@@ -127,24 +127,24 @@ resources need to be dedicated and, as any networked system, more
 latency between action and reaction is observed.
 % }
 
-\begin{figure*}[hbt]
-  \centerline{
-    \begin{subfigure}{.5\textwidth}
-      \centering
-      \includegraphics[width=1.0\linewidth]{figures/cassalesimgs-000.png}
-      \caption{IDSA-IoT physical architecture and deployment scenario overview
-      from \cite{Cassales2019a}.}
-      \label{fig:mfog-phy-arch-cloud}
-    \end{subfigure}
-    \begin{subfigure}{.5\textwidth}
-      \centerline{\includegraphics[width=0.95\linewidth]{figures/mfog-arch-v2_en.png}}
-      \caption{\mfog components and communications overview, }
-      \label{fig:mfog-architecture}
-    \end{subfigure}
-  }
-  \caption{Architecture overview.}
-  \label{fig:arch-overview}
-\end{figure*}
+% \begin{figure*}[hbt]
+%   \centerline{
+%     \begin{subfigure}{.5\textwidth}
+%       \centering
+%       \includegraphics[width=1.0\linewidth]{figures/cassalesimgs-000.png}
+%       \caption{\arch physical architecture and deployment scenario overview
+%       from \cite{Cassales2019a}.}
+%       \label{fig:mfog-phy-arch-cloud}
+%     \end{subfigure}
+%     \begin{subfigure}{.5\textwidth}
+%       \centerline{\includegraphics[width=0.95\linewidth]{figures/mfog-arch-v2_en.png}}
+%       \caption{\mfog components and communications overview, }
+%       \label{fig:mfog-architecture}
+%     \end{subfigure}
+%   }
+%   \caption{Architecture overview.}
+%   \label{fig:arch-overview}
+% \end{figure*}
 
 %   \includegraphics[width=0.9\linewidth,page=1]{figures/mfog-arch-fisica.svg.pdf}
 % The overall organization of components, connections and interactions with external
@@ -158,8 +158,8 @@ and they do not have the same reach and availability as traditional public cloud
 For that reason we also leverage the public cloud for model storage and distribution,
 global novelty detection and alarm forwarding.
 
-In Figure \ref{fig:mfog-architecture} we depict the overall architecture cut down to
-individual modules:
+% In Figure \ref{fig:mfog-architecture} we depict 
+The overall \mfog architecture can be cut down to individual modules:
 three main functional modules being Training, Classification
 and Novelty Detection handling MINAS main tasks;
 and three auxiliary Source, Sink and Model Store, addressing external and internal connections
@@ -201,14 +201,14 @@ triggers MINAS Novelty Detection task (clustering followed by validation).
 % In Figure \ref{fig:mfog-architecture} we depict each logical component associated
 % with each MINAS step and its communications, we also depict extra modules for sampling
 % and measurements.
-Each communication in Figure \ref{fig:mfog-architecture} shows the direction of the data flow
-and identifies the data contained:
-$Model$ is MINAS internal Model containing a set of cluster data structures,
-$x,c$ identifies a sample with the real class,
-$x$ is the sample without the real class,
-$x,l$ identifies a sample with the assigned label,
-$x,u$ is  sample with the \emph{unknown} label,
-$summary$ is a statistical summary of model usage.
+% Each communication in Figure \ref{fig:mfog-architecture} shows the direction of the data flow
+% and identifies the data contained:
+% $Model$ is MINAS internal Model containing a set of cluster data structures,
+% $x,c$ identifies a sample with the real class,
+% $x$ is the sample without the real class,
+% $x,l$ identifies a sample with the assigned label,
+% $x,u$ is  sample with the \emph{unknown} label,
+% $summary$ is a statistical summary of model usage.
 
 \subsection{Polices}\label{sec:polices}
 
