@@ -7,9 +7,10 @@
 \newcommand{\minas}{MINAS\xspace}
 
 \begin{abstract}
-
+% cenário, problema, 
   The ongoing implementation of the Internet of Things (\iot) is sharply
   increasing the number and variety of small devices on edge networks and,
+%   break to 2-3 lines
   following this increase, the attack opportunities for hostile agents also
   increases, requiring more from network administrators and the need for tools
   to detect and react to those threats.
@@ -18,14 +19,15 @@
   which captures and analyses network traffic,
   acting when a known attack or a new pattern is detected.
   For a network security tool to operate in the context of edge and
-  \iot it has to comply with processing time, storage space and energy
+  \iot it has to comply with processing, storage and energy
   requirements alongside traditional requirements for stream and network
   analysis like accuracy and scalability.
   % 
   Using a previously defined architecture (\arch),
-  we address the construction and evaluation of a prototype distributed \nids
+  we address the construction and evaluation of a distributed \nids
   with the Data Stream Novelty Detection (\nd) algorithm MINAS
   employing C and MPI library.
+%   apresentar a estratégia,
   % 
   We discuss the algorithm steps, how it can be deployed in a distributed
   environment, the impacts on the accuracy and evaluate performance and
@@ -40,6 +42,9 @@
   We found a marginal ($2$ to $4\%$) difference in true positive (hits) between
   original, serial and distributed executions, consuming a months worth of flow
   descriptors in $300$ seconds.
+%   concluindo que é viável e barato utiliar este tipo de abordagem
+  \todo[inline]{Manter IDS? Fazer novelty detection distribuído utilizando recursos na borda, em pequenos dispositivos buscado escalabilidade (?) e baixa latência, 
+  Os resultados mostram que ..., permitindo concluir que ... }
 \end{abstract}
 
 \ifdefined\IEEEkeywords
