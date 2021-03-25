@@ -116,15 +116,14 @@ valid clusters and starts using them to classify new instances.
                     noveltyIndex $\leftarrow$ noveltyIndex $+ 1$\;
                     cl.type $\leftarrow$ novelty\;
                 }
-                \label{alg:MINAS-nd:reclassify}
                 Unknowns $\leftarrow$ Unknowns $-$ cl.sampleSet\;
+                \label{alg:MINAS-nd:reclassify}
                 newModelSet $\leftarrow$ newModelSet $\cup$ cl\;
             }
         }
         \Return{newModelSet}\;
     }
-    \label{alg:MINAS-nd}
-    \caption{\minas \cite{Faria2015minas} Novelty Detection task.}
+    \caption{\label{alg:MINAS-nd}\minas \cite{Faria2015minas} Novelty Detection task.}
 \end{algorithm}
 
 

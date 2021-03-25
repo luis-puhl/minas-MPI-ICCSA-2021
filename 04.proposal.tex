@@ -32,32 +32,29 @@
 % (iii)  as duas etapas anteriores, por sua vez também deverão ser executadas paralelamente, podendo ocorrer em partes distintas do sistema
 % (iv) possa ser implementada em dispositivos com recursos limitados 
 
-In this work we investigate the use of the novelty detection techniques and strategies,
-presented by the MINAS algorithm~\cite{MINAS} and the \arch architecture~\cite{Cassales2019a},
-by implementation and evaluation of a parallel and distributed descendant of those two works
-we named \mfog.
-However, given the distributed nature and the typical use of 
-low-end devices in envisioned and currently deployed IoT scenarios,  
-new constraints apply:
+In this work we investigate application of \arch architecture
+\cite{Cassales2019a} with \nd techniques by use of \minas algorithm
+\cite{Faria2015minas}, by implementation and evaluation of a parallel and
+distributed descendant of those two works we named \mfog.
+However, given the distributed nature and the typical use of small computing
+devices in IoT scenarios, new constraints apply:
 \begin{enumerate*}[label=(\emph{\roman*})]
-    \item the classification phase of the algorithm must occur in parallel,
-    at different spots at the same time;
-    \item the novelty detection phase, which provides the model evolution,
-    must also occur in parallel, at different spots;
-    \item both phases must also operate in parallel,
-    possibly at different places/nodes of the system;
-    \item the algorithm complexity must allow it to be processed by modest computer devices.
+  \item the classification phase of the algorithm must occur in parallel at
+  different nodes;
+  \item the novelty detection phase, which provides the model evolution, must
+  also be asynchronous;
+  \item the algorithm complexity (time and space) must allow it to be processed
+  by modest computing devices.
 \end{enumerate*}
 
-
 % \todo{Relembrar ids-iot, fase offline e online}
+% Thus we propose a \nids using MINAS \cite{Faria2016minas}
+% % (a Novelty Detection algorithm)
+% to effectively identify previous and new intrusion threats,
+% implemented by following the  architecture \cite{Cassales2019a} using parallel and distributed techniques leveraging
+% edge and cloud for efficient computing.
 
-Thus we propose a \nids using MINAS \cite{Faria2016minas}
-% (a Novelty Detection algorithm)
-to effectively identify previous and new intrusion threats,
-implemented by following the  architecture \cite{Cassales2019a} using parallel and distributed techniques leveraging
-edge and cloud for efficient computing.
-
+{\color{red} introdução?}
 % \todo{[start] intro/related?}
 \nids 
 monitor the packet network traffic, aggregate into flow descriptors and
@@ -78,30 +75,30 @@ To achieve those goals we leverage fog computing.
 % \hl{intro/related?}
 
 In common \iot scenarios, data is captured by small devices and sent to the
-cloud for any compute or storage tasks, but this is not feasible in our
-\nids scenario. Even though we also capture data produced in the edge,
-sending this data to the cloud would in the worst case double the
-internet communication requirements of the overall system.
-Fog computing infrastructure aims to offload
-computing resources from cloud providers by placing edge
-devices closer to end-users and/or data sources.
-But two MINAS steps limit this fog offload,
-the processing intensive novelty detection and,
-long term model storage and distribution of the internal model.
-Those steps surpass the capabilities of common fog hardware and
-therefore need to be at least shared to a cloud where such
-requirements are easy and cheap to fulfill.
+cloud for any compute or storage tasks, but this is not feasible in our \nids
+scenario.
+% Even though we also capture data produced in the edge, sending this data to the
+% cloud would in the worst case double the internet communication requirements of
+% the overall system.
+Fog computing infrastructure aims to offload computing resources from cloud
+providers by placing edge devices closer to end-users and/or data sources.
+% But two \minas steps limit this fog offload, the processing intensive novelty
+% detection and, long term model storage and distribution of the internal model.
+% Those steps surpass the capabilities of common fog hardware and therefore need
+% to be at least shared to a cloud where such requirements are easy and cheap to
+% fulfill.
+
 % \todo{[end] intro/related?}
 
-In our proposed \nids, fog and cloud computing resources are
-employed as to minimize the time elapsed between a flow descriptor
-ingestion and intrusion alarm, allocating the 
-classification step of MINAS in a MPI cluster running multiple
+In our proposal, fog and cloud computing resources are employed as to minimize
+the time elapsed between a flow descriptor ingestion and intrusion alarm,
+allocating the classification step of \minas in a MPI cluster running multiple
 classifier instances.
 After the initial classification, the resulting label can be used immediately,
-but if the sample is labeled as \emph{unknown}, this sample must be stored
-and the novelty detection step will be triggered, and those steps require more resources
-and thus are divided in fog and cloud.
+but if the sample is labeled as \emph{unknown}, this sample must be stored and
+the novelty detection step will be triggered.
+% , and those steps require more
+% resources and thus are divided in fog and cloud.
 
 % Therefore, our objective is a Distributed novelty detection in streams using limited hardware.
 % Previous attempts to attain the objective of distributed fast
@@ -153,57 +150,60 @@ latency between action and reaction is observed.
 % and novelty detection cluster; cloud storage for model, alarms and statistics
 % and; human supervisor addressing alarms and statistics.
 
-While our proposal focuses on fog computing resources, those resources are often limited
-and they do not have the same reach and availability as traditional public cloud.
-For that reason we also leverage the public cloud for model storage and distribution,
-global novelty detection and alarm forwarding.
+% While our proposal focuses on fog computing resources, those resources are often limited
+% and they do not have the same reach and availability as traditional public cloud.
+% For that reason we also leverage the public cloud for model storage and distribution,
+% global novelty detection and alarm forwarding.
 
 % In Figure \ref{fig:mfog-architecture} we depict 
 The overall \mfog architecture can be cut down to individual modules:
-three main functional modules being Training, Classification
-and Novelty Detection handling MINAS main tasks;
-and three auxiliary Source, Sink and Model Store, addressing external and internal connections
-as well as providing facilities to our tests and experiments.
+three main functional modules being Classification and Novelty
+% three main functional modules being Training, Classification and Novelty
+Detection handling \minas main tasks.
+% Three auxiliary Source, Sink and Model Store, addressing external and
+% internal connections as well as providing facilities to our tests and
+% experiments.
 
 % enumerar módulos e funções
-% \\descrever etapas do MINAS e onde se encaixa
+% \\descrever etapas do \minas e onde se encaixa
 % \\descrever onde módulos são multiplexados
 % \\descrever casos de muiltiplos fluxos (redes locais)
 
 % \todo{Needs review}
-Source Module provides the input data stream for Offline and Online phases of MINAS
-and is deployed in cloud and in fog for each respective phase and a variant for
-testing on our experiments.
-Model Store is another trivial module handling the initial Model storage and distribution
-for Classification and Novelty Detection modules.
-Last of the auxiliary modules is the Sink module, it denotes the consumer of labeling
-output stream such as an alarm system, however in our implementation it is much more
-complex, handling all tests metrics extraction and evaluations for our experiments,
-aggregating all output (stream and logs) in files for proper analysis and later comparisons.
-This module also differs in its software stack from the C language and MPI library,
-for the ease of implementing such analysis needed by our experiments, 
-courtesy of Pandas and NumPy libraries, we employed Python for this module.
+% Source Module provides the input data stream for Offline and Online phases of \minas
+% and is deployed in cloud and in fog for each respective phase and a variant for
+% testing on our experiments.
+% Model Store is another trivial module handling the initial Model storage and distribution
+% for Classification and Novelty Detection modules.
+% Last of the auxiliary modules is the Sink module, it denotes the consumer of labeling
+% output stream such as an alarm system, however in our implementation it is much more
+% complex, handling all tests metrics extraction and evaluations for our experiments,
+% aggregating all output (stream and logs) in files for proper analysis and later comparisons.
+% This module also differs in its software stack from the C language and MPI library,
+% for the ease of implementing such analysis needed by our experiments, 
+% courtesy of Pandas and NumPy libraries, we employed Python for this module.
 
 
-Training Module encapsulates the Offline phase of MINAS and its output, being the
-initial model, is stored by the Model Store.
-Classification Module houses the homonymous task of MINAS Online phase and
+% Training Module encapsulates the Offline phase of \minas and its output, being the
+% initial model, is stored by the Model Store.
+Classification Module houses the homonymous task of \minas Online phase and
 is the focal point for parallelism in our proposal,
 being replicated in the fog on each local network containing a cluster with one
 or more nodes and each node multiple processes (limited to the individual CPU core count).
+
 Novelty Detection Module can be also replicated,
 one instance per local network and one global instance,
-also handling the homonymous task of MINAS Online phase.
+also handling the homonymous task of \minas Online phase.
 This modules takes as input all samples labeled with \emph{unknown},
 stores them in a internal \emph{unknown} buffer and when this buffer is full,
-triggers MINAS Novelty Detection task (clustering followed by validation).
+triggers \minas Novelty Detection task (clustering followed by validation).
 
 % In Figure \ref{fig:mfog-architecture} we depict each logical component associated
-% with each MINAS step and its communications, we also depict extra modules for sampling
+% with each \minas step and its communications, we also depict extra modules for sampling
 % and measurements.
 % Each communication in Figure \ref{fig:mfog-architecture} shows the direction of the data flow
 % and identifies the data contained:
-% $Model$ is MINAS internal Model containing a set of cluster data structures,
+% $Model$ is \minas internal Model containing a set of cluster data structures,
 % $x,c$ identifies a sample with the real class,
 % $x$ is the sample without the real class,
 % $x,l$ identifies a sample with the assigned label,
@@ -212,51 +212,50 @@ triggers MINAS Novelty Detection task (clustering followed by validation).
 
 \subsection{Polices}\label{sec:polices}
 
-The distribution of steps and tasks in various modules opens
-data distribution and its impacts to discussion.
-The decisions following these discussions can be organized in
-several policies, some of them are:
+The distribution of steps and tasks in various modules opens data distribution
+and its impacts to discussion.
+The decisions following these discussions can be organized in several policies,
+some of them were recurring during our implementation discussions and are:
 
 \begin{itemize}
-    \item Regarding the allocation of the Novelty Detection Module:
-    \begin{itemize}
-        \item At each fog node:
-        patterns will be only detected if sufficient samples of them
-        occur in the local observed network,
-        use of the local node processing power and,
-        a model synchronization mechanism must be added;
-        \item In the cloud:
-        detect patterns even when scattered on each local network,
-        % also a model sharing mechanism
-        % is not needed as the model has a single instance stored in the cloud,
-        % the penalty of this choice is increased internet usage as any 
-        each sample with \emph{unknown} label must be sent from edge to cloud implying 
-        increased internet link usage and increased delay
-        between the appearance of a pattern, its detection and its propagation
-        to fog classifiers;
-        \item On both:
-        local \emph{unknown} buffer is maintained and novelty detection is local as well,
-        once a sample is considered as noise or outlier it shall be sent to the cloud
-        where the process repeats but with global data.
-        This choice needs a more complex a model synchronization mechanism.
-    \end{itemize}
-    \item Regarding the model cleanup (forget mechanism):
-    Even when a global novelty detection is used, local models can be optimized for faster
-    classification using the its local model statistics, sorting last or removing clusters that
-    are not in frequent use;
-    \item Lastly, reclassification of \emph{unknowns}:
-    In the novelty detection task in MINAS, the \emph{unknown} sample buffer is effectively
-    classified using the new set of clusters, in 
-    Algorithm \ref{alg:MINAS-nd} at line \ref{alg:MINAS-nd:reclassify} 
-    % if the sample can be explained by a new cluster
-    % it is removed from the \emph{unknown} sample buffer, however, this new labeling is not put forward
-    the new cluster information also includes the set of samples composing that cluster,
-    thus, if this new label assignment was put forth to the system output
-    it would change the system data stream behavior from a 
-    \emph{map} (meaning each input has one output)
-    % , whereas if this feature was enabled the behavior would be
-    to a \emph{flatMap} (each input can have many outputs)
-    and introduce delayed outputs, more recent and perhaps more accurate.
+  \item Regarding the allocation of the Novelty Detection Module:
+  \begin{itemize}
+    
+    \item At each fog node: patterns will be only detected if sufficient samples
+    of them occur in the local observed network, use of the local node
+    processing power and, a model synchronization mechanism between networks
+    must be added;
+
+    \item In the cloud: detect patterns even when scattered on each local
+    network, each sample with \emph{unknown} label must be sent from edge to
+    cloud implying increased internet link usage and increased delay between the
+    appearance of a pattern, its detection and propagation to fog classifiers;
+
+    \item On both: local \emph{unknown} buffer is maintained and novelty
+    detection is local as well, once a sample is considered as noise or outlier
+    it shall be sent to the cloud where the process repeats but with global
+    data.
+    This choice needs a even more complex a model synchronization mechanism.
+
+  \end{itemize}
+    
+  \item Regarding the model cleanup (forget mechanism): Even when a global
+  novelty detection is used, local models can be optimized for faster
+  classification using the local model statistics by sorting by (or removing)
+  least used clusters;
+
+  \item Lastly, reclassification of \emph{unknowns}: In the novelty detection
+  task in \minas, the \emph{unknown} sample buffer is effectively classified
+  using the new set of clusters.
+  In Algorithm \ref{alg:MINAS-nd}, at line \ref{alg:MINAS-nd:reclassify}, the
+  new cluster valid (novelty or extension) includes the set of samples composing
+  that cluster, thus, if this new label assignment was put forth to the system
+  output it would introduce delayed outputs, more recent and perhaps more
+  accurate.
+  Also, it would change the system data stream behavior from a \emph{map}
+  (meaning each input has one output) to a \emph{flatMap} (each input can have
+  many outputs).
+
 \end{itemize}
 
 % \begin{highlight}
@@ -272,16 +271,16 @@ several policies, some of them are:
 
 \subsection{Implementation}\label{sec:implementation}
 
-The original MINAS algorithm has a companion implementation (\refminas)
+The original MINAS algorithm has a companion unpublished implementation (\refminas)
 written in Java using MOA library base algorithms such as K-means and CluStream,
-however in the new implementation only K-means is used.
+however our implementation only used K-means.
 % \refminas employs Java's double, a $64 bits$ number whose precision is not
 % absolutely necessary and, as it is often necessary to shuffle between nodes via
 % network and a small economy could be made with only a float number with $32 bits$.
 Another difference between \refminas and \mfog is cluster radius calculation
-from the distances of elements forming the cluster and the cluster's center,
-where the former uses the maximum distance, the latter uses the standard deviation
-of all distances as described in \cite{Faria2016minas}.
+from the distances of elements forming the cluster and the cluster's center.
+\refminas uses the maximum distance while \mfog uses the standard deviation
+of all distances as described in \cite{Faria2015minas}.
 
 % Desafios de implementação:
 % <!--
@@ -309,9 +308,10 @@ of all distances as described in \cite{Faria2016minas}.
 The stream format for input and output also of note.
 Input information needed is the samples value (\val), this \val is a number
 sequence of length $d$ (dimension).
-In addition to the \val for evaluation and training purposes the class
-identifier as single character, optionally an unique item identifier
-(\emph{uid}) can be provided.
+In addition to \val, for evaluation and training purposes the class
+identifier as single character, and unique item identifier
+(\emph{uid}) can be provided or be the sample index in the stream.
+
 For output information and format the decision isn't so clear as we can't
 predict future system integrations needs like only novelty alarms or every
 samples original \val with assigned label so, we have a compromise and put only
@@ -328,19 +328,19 @@ defined as a tuple containing \emph{uid} and assigned label.
 %     inflar a métrica de precisão;
 %   - **Solução:** *em aberto*;
 
-Another implementation decision related to the output stream is whether or not
-to reprocess, and add to the output stream, examples in the unknown buffer after
-the novelty detection procedure, meaning one item can be classified once as
-unknown and again with a label.
-Our preliminary tests using this technique had increased true positives when compared to
-not using it.
-However this changes the stream operator behavior from a \textit{Map} to a
-\textit{FlatMap} having duplicate entries on the output stream as previously
-mentioned.
-Regardless of choice the classification of the unknown buffer after a model
-update, using the full model or just the added set of clusters, is done to
-remove the examples ``consumed'' in the creation of a new cluster in the internals
-of the clustering algorithm.
+% Another implementation decision related to the output stream is whether or not
+% to reprocess, and add to the output stream, examples in the unknown buffer after
+% the novelty detection procedure, meaning one item can be classified once as
+% unknown and again with a label.
+% Our preliminary tests using this technique had increased true positives when compared to
+% not using it.
+% However this changes the stream operator behavior from a \textit{Map} to a
+% \textit{FlatMap} having duplicate entries on the output stream as previously
+% mentioned.
+% Regardless of choice the classification of the unknown buffer after a model
+% update, using the full model or just the added set of clusters, is done to
+% remove the examples ``consumed'' in the creation of a new cluster in the internals
+% of the clustering algorithm.
 % This removal can be made less complex if using only new clusters 
 
 % Próximos desafios:
@@ -349,7 +349,8 @@ of the clustering algorithm.
 %   - Volume máximo do sistema;
 %   - Diferenças de precisão de acordo com a carga;
 
-For \mfog the Message Passing Interface (MPI, from \emph{Open MPI 4.0.4}) library was used.
+For \mfog, the Message Passing Interface (MPI, from \emph{Open MPI 4.0.4})
+library was used.
 In MPI programming, multiple processes of the same program are created by the
 run-time and each process instance receives a rank parameter, for \mfog this
 parameters indicate if the process is root, rank $0$, or leaf otherwise.
@@ -367,8 +368,3 @@ The overall sequence of interactions is shown in Figure \ref{fig:mfog-mpi-life}.
   \caption{\mfog life line overview.}
   \label{fig:mfog-mpi-life}
 \end{figure}
-
-The Sink Module was also build following reference techniques like
-multi-class confusion matrix with label-class association
-\cite{Faria2016minas}
-to extract classification quality metrics.

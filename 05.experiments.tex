@@ -69,12 +69,13 @@ then add it to the model.
 
 \subsection{Metrics and Visualizations}
 
-There are two broad evaluation metrics for each experiment:
-a time mesure extracted by using \emph{GNU Time 1.9} and,
-a set of qualitative mesures extracted by a python program.
-The first metric is straightforward and is the time measure of the full program execution.
-The latter metric is not as simple and for its extraction required a
-purposely build python program.
+There are two broad evaluation metrics for each experiment: a time mesure
+extracted by using \emph{GNU Time 1.9} measuring of the full program execution
+and, a set of qualitative mesures extracted by a python program.
+
+Our evaluation script was build following reference techniques like multi-class
+confusion matrix with label-class association \cite{Faria2015minas} to extract
+classification quality mesures.
 This program takes two inputs, the test dataset and the captured output stream,
 and outputs the confusion matrix, label-class association,
 final quality summary with: Hits (accuracy), Misses (Err), Unknowns (UnkR); and
