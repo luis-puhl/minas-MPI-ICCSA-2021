@@ -31,10 +31,13 @@ metrics.
 % pode ser a conclusão do abstract
 While there is some impact on the predictive metrics this is not reflected on
 overall classification quality metrics indicating that distribution of \minas
-resulted some penalty but not a significant one.
+shows a negligible loss of accuracy.
 % but is overshadow by the benefits of scalability.
-In our experiments, a months worth of traffic flow descriptors is processed in
-around $300$ seconds even with non-optimal load sharing round-robin strategy.
+In regards of time and scale, our distributed executions used less time than
+previous implementation but efficient distribution was not achieved as the
+observed time as we added nodes remained constant.
+% In our experiments, a months worth of traffic flow descriptors is processed in
+% around $300$ seconds even with non-optimal load sharing round-robin strategy.
 % (single sample round-robin that incurs the bigger networking overhead),
 % sparing use of memory (unknown buffer limited to a fraction of the available memory),
 % and potential system slowdown due to cascading effects on networking queue
