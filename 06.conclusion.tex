@@ -14,23 +14,27 @@
 %     - mais roots (melhor algo de distribuição)
 %     - mini batching
 
-Novelty Detection (ND) in Data Streams (DS) is a useful tool for
-IoT Network Intrusion Detection (\nids) (or other related application of ND in DS),
-in this context is expected that small edge devices perform such maintenance tasks.
-In that small edge computing ambient, we propose \mfog: a distributed ND implementation
-based on the ND algorithm \minas, and, evaluated with a \nids task with appropriate dataset.
-The main goal of our proposal is to observe the effects on the results of such approach to
-a previously serial only algorithm, specially in regards to time and quality metrics.
+Novelty Detection in Data Streams (\nd) is a useful tool for IoT Network
+Intrusion Detection (\nids) or other related application of \nd using continuous
+network or system behavior monitoring and analysis.
+However, in the \iot context, it is expected that small edge devices perform
+such maintenance tasks.
+In that small computing on edge scenario, we propose \mfog: a distributed \nd
+implementation based on the \nd algorithm \minas, and, evaluated with a \nids
+task with appropriate dataset.
+The main goal this work is to observe the effects of our approach to a
+previously serial only algorithm, specially in regards to time and quality
+metrics.
 
 % \mfog is a demonstration piece
 
 % pode ser a conclusão do abstract
 While there is some impact on the predictive metrics this is not reflected on
-classification quality metrics indicating that distribution of \minas
-resulted some penalty but not a significant.
+overall classification quality metrics indicating that distribution of \minas
+resulted some penalty but not a significant one.
 % but is overshadow by the benefits of scalability.
-Beside that, in our experiments, a months worth of traffic flow descriptors is
-processed in around $300$ seconds even with non-optimal load sharing round-robin strategy.
+In our experiments, a months worth of traffic flow descriptors is processed in
+around $300$ seconds even with non-optimal load sharing round-robin strategy.
 % (single sample round-robin that incurs the bigger networking overhead),
 % sparing use of memory (unknown buffer limited to a fraction of the available memory),
 % and potential system slowdown due to cascading effects on networking queue
