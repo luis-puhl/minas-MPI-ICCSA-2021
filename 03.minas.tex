@@ -28,7 +28,7 @@ old instances as they represent noise or outliers and, has a mechanism to forget
 clusters that became obsolete and unrepresentative of the current data stream
 distribution \cite{Faria2015minas}.
 
-\begin{algorithm}
+\begin{algorithm}[htb]
     % \DontPrintSemicolon
     \SetKwFunction{nearestCluster}{nearestCluster}
     \SetKwFunction{clustering}{clustering}
@@ -90,7 +90,7 @@ Valid clusters are analyzed to decide if they represent an extension of a
 known pattern or a completely new pattern. In both cases, the model absorbs the
 valid clusters and starts using them to classify new instances.
 
-\begin{algorithm}[h]
+\begin{algorithm}[htb]
     \SetKwProg{Function}{Function}{:}{}
     \SetKwData{minExamplesPerCluster}{minExamplesPerCluster}
     \SetKwData{noveltyFactor}{noveltyFactor}
