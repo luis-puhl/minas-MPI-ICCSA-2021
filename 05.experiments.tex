@@ -3,8 +3,8 @@
 \section{Experiments and Results}
 \label{sec:experiments}
 
-For the experimental setup we dedicated three Raspberry Pi 3 model B single board computers
-connected via Gigabit Ethernet Switch forming a simple cluster.
+For the experimental setup we dedicated three Raspberry Pi 3 model B single
+board computers connected via Ethernet Switch forming a simple cluster.
 This cluster stored all source code, binaries (compiled and linked in place) and
 datasets, being accessed via our laboratory network over Secure Shell (SSH).
 All experiments were executed in this cluster for isolation of otherwise unforeseen
@@ -15,8 +15,9 @@ Kyoto 2006+ Dataset\footnote{Available at \url{http://www.takakura.com/Kyoto\_da
 (Traffic Data from Kyoto University's Honeypots)
 \cite{Song2011}.
 This segment was filtered (from $7\:865\:245$ instances) to only examples
-associated to known attack types identified by existing IDS, and attack types
-with more than $10\:000$ instances for significance as done by \cite{Cassales2019a}.
+associated to known attack types identified by existing \nids, and attack types
+with more than $10\:000$ instances for significance as previously done by
+\cite{Cassales2019a}.
 % , this removes 46,390 instances. TODO: revisar, pois 7M != 700K.
 The remaining instances then were transformed by normalization so
 each feature value space (e.g. IP Address, Duration, Service) 
@@ -67,9 +68,9 @@ then add it to the model.
 
 % \hl{BEGIN Oritações de leitura das métricas e visualizações.}
 
-\subsection{Metrics and Visualizations}
+\subsection{Mesures and Visualizations}
 
-There are two broad evaluation metrics for each experiment: a time mesure
+There are two broad evaluation mesures for each experiment: a time mesure
 extracted by using \emph{GNU Time 1.9} measuring of the full program execution
 and, a set of qualitative mesures extracted by a python program.
 
@@ -78,33 +79,40 @@ confusion matrix with label-class association \cite{Faria2015minas} to extract
 classification quality mesures.
 This program takes two inputs, the test dataset and the captured output stream,
 and outputs the confusion matrix, label-class association,
-final quality summary with: Hits (accuracy), Misses (Err), Unknowns (UnkR); and
+final quality summary with:
+% needs review
+Hits (true positive), Misses (Err), Unknowns (UnkR); and
 stream visualization chart with per example instance summary with novelty label markers.
+% 
+For clarity, it is necessary to detail how to interpret and compare each mesure,
+as for some it is trivial but others are not so much.
 
-For clarity, it is necessary to detail how to interpret and compare each metric,
-as for some it is trivial but others are not so straightforward.
+In the confusion matrix $M = m_{ij} \in \mathbb{N} ^{c \times{} l}$, computed by
+our evaluation program, each row denotes one of the datasets original (actual)
+class $c$ and each column denotes the marked (predicted) label $l$ present in
+the captured output stream.
+Thus, each cell $M_{c, l}$ contains the count of examples from the test dataset
+of class $c$ found in the output stream with the label $l$ assigned by the under
+evaluation experiment.
 
-In the confusion matrix $M = m_{ij} \in \mathbb{N} ^{c \times{} l}$,
-computed by our evaluation program,
-each row denotes one of the datasets original (actual) class
-and each column denotes the marked (predicted) label present in the captured output stream.
-Thus, each cell $M_{c, l}$ contains the count of examples from the test dataset of class $c$
-found in the output stream with the label $l$ assigned by the under evaluation experiment.
-For the dataset under use, original classes are \emph{``N''} and \emph{``A''}, and
-for the labels we have the training class \emph{``N''}, \emph{unknown} label \emph{``-''} and
-the novelties $i \in \mathbb{N}$.
+For the dataset under use, original classes are $c \in \{N, A\}$, and for the
+labels we have the training class
+\emph{``N''}, \emph{unknown} label \emph{``-''} and the novelties $i \in
+\mathbb{N}$ so $l \in \{N, -\} \cup \mathbb{N}$.
 
 Added to the original confusion matrix $C$ are the rows \emph{Assigned} and
 \emph{Hits}.
-The former represents which original class $c$ (or if \emph{unknown}, \emph{``-''}) the
-label $l$ is assigned to, this is computed by using the original class if
-$c = l$ or by associated novelty label to original class as described in
-\cite{DeFaria2015} section 4.1.
-The latter row, \emph{Hits}, shows the true positive count for each label,
+\emph{Assigned} row represents which original class $c$ (or if \emph{unknown},
+\emph{``-''}) the label $l$ is assigned to, this is computed by using the
+original class if $c = l$ or by associated novelty label to original class as
+described in \cite{DeFaria2015evaluation} section 4.1
+(class from where the most samples came from).
+\emph{Hits} row shows the true positive count for each label,
 computed by coping the value of the cell $M_{c, l}$ where the label is the same
 and the class $c$ is the value in the above \emph{Assigned} row.
-The \emph{Hits} row is also used to compute the overall accuracy.
-The complete matrix is shown in Tab. \ref{tab:java-matrix}.
+The \emph{Hits} row is also used to compute the overall true positive.
+% accuracy.
+One complete matrix is shown in Tab. \ref{tab:java-matrix}.
 
 % \begin{table*}[htb]\begin{center}
 %   \caption{Reference implementation: Confusion Matrix and Qualitative Metrics}
@@ -113,65 +121,78 @@ The complete matrix is shown in Tab. \ref{tab:java-matrix}.
 % \end{center}\end{table*}
 
 \begin{table*}[htb]
-\caption{Confusion Matrix and Qualitative Metrics}
+\caption{Confusion Matrixs and Qualitative Mesures}
 \label{tab:confusion-matrixes-ref-serial}
-\begin{subtable}[h]{0.9\textwidth}\begin{center}
+\begin{subtable}[h]{\textwidth}\begin{center}
     \caption{Reference implementation}
     \input{experiments/revised-java.log.tex}
     \label{tab:java-matrix}
 \end{center}\end{subtable}
-\begin{subtable}[h]{0.9\textwidth}\begin{center}
+\begin{subtable}[h]{\textwidth}\begin{center}
+    \whencolumns{}{\vspace{5mm}}
     \caption{Serial implementation}
     \input{experiments/online-nd.log.tex}
     \label{tab:libc-matrix}
+    \whencolumns{}{\vspace{5mm}}
+\end{center}\end{subtable}
+\begin{subtable}[h]{0.5\textwidth}\begin{center}
+  \caption{Parallel single-node}
+  \input{experiments/tmi-base.log.tex}
+  \label{tab:single-node-matrix}
+\end{center}\end{subtable}
+\begin{subtable}[h]{0.5\textwidth}\begin{center}
+  \caption{Parallel multi-node}
+  \input{experiments/tmi-n12.log.tex}
+  \label{tab:multi-node-matrix}
 \end{center}\end{subtable}
 \end{table*}
 
-For the metric summary table, six metrics from two sources are displayed.
-Three metrics \emph{Hits} \emph{Unknowns} \emph{Misses} represented as ratio of the
-captured output stream, extracted from the evaluation python
-program, computed as follows:
-\emph{Hits} (overall accuracy) is the summation of the homograph row in the
+For the mesure summary table, six mesures from two sources are displayed. Three
+mesures \emph{Hits}, \emph{Unknowns} and \emph{Misses} represented as ratio of
+the captured output stream, extracted from the evaluation python program,
+computed as follows:
+\emph{Hits} (true positive rate) is the sum of the \emph{Hits} row in the
 extended confusion matrix;
 \emph{Unknowns} is the count of examples in the captured output stream marked
-with the \emph{unknown} label \emph{``-''};
+with the \emph{unknown} label (\emph{``-''});
 \emph{Misses} is the count of all examples in the captured output stream marked
 with a label distinct from the \emph{Assigned} original class and are not marked
 as unknown.
-Lastly, \emph{Time}, \emph{System} and \emph{Elapsed} metrics represented in seconds,
-are extracted from \emph{GNU Time}.
+
+Also in the mesure summary table, \emph{Time}, \emph{System} and \emph{Elapsed}
+mesures represented in seconds, are extracted from \emph{GNU Time}.
 \emph{Time} is the amount of CPU seconds expended in user-mode
 (indicates time used doing CPU intensive computing, e.g. math);
 \emph{System} is the amount of CPU seconds expended in kernel-mode
 (for our case it indicates time doing input or output);
-\emph{Elapsed} is the real-world (wall clock) elapsed time
-(indicates how long another system or person had to wait for the result).
-To compare the time metric is simple, the lower time taken, the better.
+\emph{Elapsed} is the real-world (wall clock) elapsed time and
+indicates how long another system or person had to wait for the result.
+To compare the time mesure is simple, the lower time taken, the better.
 Our four main experiments are shown in Tab. \ref{tab:exper-summary}.
 
-Lastly, the stream visualization chart shows the summary quality metrics
-(\emph{Hits} \emph{Unknowns} \emph{Misses})
+Lastly, the stream visualization chart shows the summary quality mesures
+(\emph{Hits}, \emph{Unknowns}, \emph{Misses})
 computed for each example in the captured output stream.
 This summary is computed for each example but it uses the \emph{Assigned} row
-computed previously to evaluate \emph{Hits}, other metrics are derived as
+computed previously to evaluate \emph{Hits}, other mesures are derived as
 described before.
-Therefore, horizontal axis (x, domain) plots the index of the example and the
-vertical axis (y, image) shows the metric computed until that example index on the captured
+Horizontal axis (x, domain) plots the index of the example and the
+vertical axis (y, image) shows the mesure computed until that example index on the captured
 output stream.
-Adding to the summary metrics, novelty label markers are represented as vertical
-lines indicating \emph{when} in the captured output stream a new label first
-appeared.
+
+Adding to the stream visualization chart, novelty label markers are represented
+as vertical lines indicating \emph{when} in the captured output stream a new
+label first appeared.
 Some of the novelty label markers include the label itself ($l \in \mathbb{N}$)
-for reference as if showing every label would turn this feature unreadable due
-to overlapping.
-Figure \ref{fig:validation-java-serial} shows two complete stream visualization charts.
+for reference (showing every label would turn this feature unreadable due
+to overlapping).
+Figure \ref{fig:visualization} shows complete stream visualization charts.
 
 \begin{figure*}[hbt]
-  \caption{Validation Comparison: Stream hits and novelties visualization}
-  \label{fig:validation-java-serial}
   \centerline{
     \begin{subfigure}{.5\textwidth}
       \centering
+      % \includegraphics[trim={0.2cm 0 1.9mm 0},clip,width=\linewidth]{experiments/revised-java.log.png}
       \includegraphics[width=\linewidth]{experiments/revised-java.log.png}
       \caption{Reference Implementation}
       \label{fig:validation-sub-java}
@@ -183,101 +204,7 @@ Figure \ref{fig:validation-java-serial} shows two complete stream visualization 
       \label{fig:validation-sub-serial}
     \end{subfigure}
   }
-\end{figure*}
-
-% \hl{END Oritações de leitura das métricas e visualizações.}
-
-\subsection{Results Discussion}
-
-Four main experiments need detailed discussion:
-(\emph{a}) reference implementation of Minas (\refminas) \cite{Faria2016minas};
-(\emph{b}) new implementation in serial mode;
-(\emph{c}) new implementation in single-node, multi-task mode and
-(\emph{d}) new implementation in multi-node, multi-task mode.
-Each experiment uses the adequate binary executable, initial model
-(or training set for the reference implementation) and test set
-to compute a resulting output stream which is stored for qualitative evaluation.
-The summary of all four experiments is shown in Table \ref{tab:exper-summary}.
-
-\begin{table*}[hbt]
-\begin{center}
-  \caption{Collected Metrics Summary.}
-  \label{tab:exper-summary}
-  \input{experiments/summary.tex}
-\end{center}
-\end{table*}
-
-The first two experiments (\emph{a} and \emph{b}) comparison does serve as
-validation for our implementation, while the latter three (\emph{b}, \emph{c}
-and \emph{d}) serves as showcase for the effects of distribution.
-
-As stated, to validate our implementation we compare it to \refminas
-(the original \minas companion implementation), so we extracted the same metrics
-using same process for both \emph{a} and \emph{b}, they can be viewed on
-Tables \ref{tab:java-matrix}, \ref{tab:libc-matrix} and for ease of comparison
-on Table \ref{tab:exper-summary} the summary can be compared side by side.
-
-In general the observed classification quality metrics are very similar,
-they diverge slightly where \emph{a} has more \emph{Hits} and \emph{Misses}
-whereas \emph{b} shifted those to \emph{Unknowns}.
-This phenomenon was watched very closely during development and we found that
-small changes to MINAS parameters, MINAS internals like K-means ordering,
-cluster edge inclusion and cluster radius formula as stated in
-Subsection \ref{sec:implementation}.
-As for the efficiency metrics on Table \ref{tab:exper-summary}
-our implementation used less time to analyze the test data set,
-this is due to small optimizations on the minimal sample to cluster center
-on the classifier task and more importantly on the stop condition
-on the internal K-means algorithm, while \refminas uses a fixed iteration
-limit of $100$, our implementations adds the ``no improvment'' check
-and thus stops earlier on most cases and this in turn reduces time taken
-on the Novelty Detection step.
-Also note that \refminas time includes the Offline phase while
-our implementation runs it once and reuses the initial model for
-\emph{b}, \emph{c} and \emph{d}.
-
-As for the effects of running a MPI cluster with our implementation
-we observe an increase of time when e go from $2$ to $4$ instances in a single
-node, hinting that our choice of load distribution is not as eff
-% \st{we have to say it is pretty shitty because of our choice of distribution 
-% using round-robin, use some load balancing and micro-batching for better results.}
-
-Nevertheless, we can also show the effects of delay in the
-Classify, Novelty Detect, Model Update and Classify loop, as in the
-first non-serial experiment \emph{b} we observe a reduction in Novelty Labels
-on the Confusion Matrix (Tables \ref{tab:libc-matrix} and \ref{tab:single-node-matrix})
-from $10$ to $4$.
-The same effect is observed on the stream visualization as well, where
-Figure \ref{fig:validation-sub-serial}
-
-% \todo{discutir o delay de 80k entre etiqueta 0 em serial vs node}
-
-When observing the stream visualization on figure \ref{fig:cluster-sub-multi}
-
-\begin{table*}[htb]
-\caption{Confusion Matrix and Qualitative Metrics for MPI Clusters.}
-\label{tab:confusion-matrixes-single-multi}
-\begin{subtable}[h]{0.5\textwidth}\begin{center}
-    \caption{Parallel single-node}
-    \input{experiments/tmi-base.log.tex}
-    \label{tab:single-node-matrix}
-\end{center}\end{subtable}
-\begin{subtable}[h]{0.5\textwidth}\begin{center}
-    \caption{Parallel multi-node}
-    \input{experiments/tmi-n12.log.tex}
-    \label{tab:multi-node-matrix}
-\end{center}\end{subtable}
-\end{table*}
-
-% 22.40 user	0.02 system	0:22.48 elapsed
-
-% \begin{table*}[htb]\begin{center}
-%   \caption{Serial implementation: Confusion Matrix and Qualitative Metrics}
-%   \input{experiments/online-nd.log.tex}
-%   \label{tab:libc-matrix}
-% \end{center}\end{table*}
-
-\begin{figure*}[htb]
+  \whencolumns{}{\vspace{5mm}}
   \centerline{
     \begin{subfigure}{.5\textwidth}
       \centering
@@ -291,37 +218,170 @@ When observing the stream visualization on figure \ref{fig:cluster-sub-multi}
       \caption{Parallel multi-node}
       \label{fig:cluster-sub-multi}
     \end{subfigure}
-    % \begin{subfigure}{.5\textwidth}
-    %   \centering
-    %   \includegraphics[width=\linewidth]{experiments/speedup-clean.png}
-    %   \caption{Time measurements per added instance}
-    %   \label{fig:cluster-sub-multi}
-    % \end{subfigure}
   }
-  \caption{Parallelism Comparison: Stream hits and novelties visualization}
-  \label{fig:cluster}
+  % \caption{Validation Comparison: Stream hits and novelties visualization}
+  % \label{fig:validation-java-serial}
+  \caption{Stream hits and novelties visualization}
+  \label{fig:visualization}
 \end{figure*}
 
-\begin{figure}
+% \hl{END Oritações de leitura das métricas e visualizações.}
+
+\subsection{Results Discussion}
+
+Four main experiments need detailed discussion:
+(\emph{a}) reference implementation of Minas (\refminas) \cite{Faria2015minas};
+(\emph{b}) new implementation in serial mode;
+(\emph{c}) new implementation in single-node, multi-task mode and
+(\emph{d}) new implementation in multi-node, multi-task mode.
+Each experiment uses the adequate binary executable, initial model
+(or training set for the reference implementation) and test set
+to compute a resulting output stream which is stored for qualitative evaluation.
+The summary of all four experiments is shown in Table \ref{tab:exper-summary}.
+
+\begin{table*}[hbt]
+\begin{center}
+  \caption{Collected Mesures Summary.}
+  \label{tab:exper-summary}
+  \input{experiments/summary.tex}
+\end{center}
+\end{table*}
+
+The comparison of the first two experiments (\emph{a} and \emph{b}) does serve as
+validation for our implementation, while the latter three (\emph{b}, \emph{c}
+and \emph{d}) serves as showcase for the effects of distribution.
+
+As stated, to validate our implementation we compare it to \refminas
+(the original \minas companion implementation), so we extracted the same mesures
+using same process for both \emph{a} and \emph{b}, they can be viewed on
+Tables \ref{tab:java-matrix}, \ref{tab:libc-matrix} and for ease of comparison
+on Table \ref{tab:exper-summary} the summary can be compared side by side.
+
+In general the observed classification quality mesures are very similar,
+they diverge slightly where \emph{a} has more \emph{Hits} and \emph{Misses}
+whereas \emph{b} shifted those to \emph{Unknowns}.
+This phenomenon was watched very closely during development and we found that
+small changes to \minas parameters, \minas internals like K-means ordering,
+cluster edge inclusion and cluster radius formula as stated in
+Subsection \ref{sec:implementation}.
+
+As for the time mesures on Table \ref{tab:exper-summary}
+our implementation used less time to analyze the test data set.
+This is mostly due to 
+the stop condition
+on the internal K-means algorithm, while \refminas uses a fixed iteration
+limit of $100$, our implementations adds the ``no improvement'' check
+and stops earlier on most cases and this in turn reduces time taken
+on the \emph{NoveltyDetection} function.
+There are also small optimizations on the \emph{nearestCluster} function
+(minimal distance from sample to cluster center in the set)
+affecting the \emph{classifier} task and \emph{NoveltyDetection} function.
+Also note that \refminas time in \emph{a} includes the Offline phase while our
+implementation runs it once and reuses the initial model for \emph{b}, \emph{c}
+and \emph{d}, in the table the offline time is on its separated column.
+
+As for the effects of running a MPI cluster with our implementation we observe
+an increase of time when e go from $2$ to $4$ instances in a single node
+(\emph{b} and \emph{c} respectively), hinting that our choice of load
+distribution is not as effective as we expected.
+Further experiments were conducted with instances varying from $1$ (serial) to
+$12$ (3 nodes with 4 CPUs each) and true positive rate (\emph{Hits}) and elapsed
+time had no major difference.
+More detailed time measurements can be seen on Figure \ref{fig:speedup},
+where we observe near constant time for \emph{elapsed} (near $100s$),
+the \emph{system} increases gradually while \emph{user} decreases at the same rate.
+We interpret this behavior as a display of potential for gains using a better
+load balancing than our choice of round-robin such as micro-batching for better
+compute-to-communication ratio (CCR).
+
+% \st{we have to say it is pretty shitty because of our choice of distribution 
+% using round-robin, use some load balancing and micro-batching for better results.}
+
+% Tempo gasto com distribuição e tempo gasto com processamento mostra que é viável.
+
+% relação $p/n$ 
+
+% relação do tempo comm / tempo processing
+% coom time / processing time does not inhibit the use of our aproach.
+% CCR
+
+% compute-to-communication ratio (CCR) indicates that our approach is viable 
+
+% compute-to-communication ratio (CCR).
+
+\begin{figure}[hbt]
   \centering
   % \includegraphics[width=\linewidth]{experiments/speedup-clean.png}
-  \includegraphics[width=\whencolumns{0.65}{1.05}\linewidth,page=1]{experiments/speedup-clean.pdf}
+  \includegraphics[width=\whencolumns{0.6}{1}\linewidth,page=1]{experiments/speedup-clean.pdf}
   \caption{Time measurements per added instance}
   \label{fig:speedup}
 \end{figure}
 
-Tempo gasto com distribuição e tempo gasto com processamento mostra que é viável.
+Nevertheless, we can also show the effects of delay in the
+Classify, Novelty Detection, Model Update and Classify feedback loop.
+Comparing \emph{b} and \emph{c} we observe a reduction in Novelty labels
+on the Confusion Matrix (tabs. \ref{tab:libc-matrix} and \ref{tab:single-node-matrix})
+from $10$ to $4$.
+The same effect is observed on the stream visualization (figs.
+\ref{fig:validation-sub-serial} and \ref{fig:cluster-sub-single}) where our
+serial implementation has less novelty markers and they appear latter, but the
+mesures keeps the same ``shape''.
+Comparing \emph{c} and \emph{d} the difference is even smaller,
+(figs. \ref{fig:validation-sub-serial} and \ref{fig:cluster-sub-single})
+as they both suffer the expected delay in the feedback loop.
 
-relação $p/n$ 
+% \todo{discutir o delay de 80k entre etiqueta 0 em serial vs node}
 
-relação do tempo comm / tempo processing
-coom time / processing time does not inhibit the use of our aproach.
-CCR
+% When observing the stream visualization on figure \ref{fig:cluster-sub-multi}
 
-compute-to-communication ratio (CCR) indicates that our approach is viable 
+% \begin{table*}[htb]
+% \caption{Confusion Matrix and Qualitative Mesures for MPI Clusters.}
+% \label{tab:confusion-matrixes-single-multi}
+% \begin{subtable}[h]{0.5\textwidth}\begin{center}
+%     \caption{Parallel single-node}
+%     \input{experiments/tmi-base.log.tex}
+%     \label{tab:single-node-matrix}
+% \end{center}\end{subtable}
+% \begin{subtable}[h]{0.5\textwidth}\begin{center}
+%     \caption{Parallel multi-node}
+%     \input{experiments/tmi-n12.log.tex}
+%     \label{tab:multi-node-matrix}
+% \end{center}\end{subtable}
+% \end{table*}
 
+% 22.40 user	0.02 system	0:22.48 elapsed
 
-compute-to-communication ratio (CCR).
+% \begin{table*}[htb]\begin{center}
+%   \caption{Serial implementation: Confusion Matrix and Qualitative Metrics}
+%   \input{experiments/online-nd.log.tex}
+%   \label{tab:libc-matrix}
+% \end{center}\end{table*}
+
+% \begin{figure*}[htb]
+%   \centerline{
+%     \begin{subfigure}{.5\textwidth}
+%       \centering
+%       \includegraphics[width=\linewidth]{experiments/tmi-base.log.png}
+%       \caption{Parallel single-node}
+%       \label{fig:cluster-sub-single}
+%     \end{subfigure}
+%     \begin{subfigure}{.5\textwidth}
+%       \centering
+%       \includegraphics[width=\linewidth]{experiments/tmi-n12.log.png}
+%       \caption{Parallel multi-node}
+%       \label{fig:cluster-sub-multi}
+%     \end{subfigure}
+%     % \begin{subfigure}{.5\textwidth}
+%     %   \centering
+%     %   \includegraphics[width=\linewidth]{experiments/speedup-clean.png}
+%     %   \caption{Time measurements per added instance}
+%     %   \label{fig:cluster-sub-multi}
+%     % \end{subfigure}
+%   }
+%   \caption{Parallelism Comparison: Stream hits and novelties visualization}
+%   \label{fig:cluster}
+% \end{figure*}
+
 
 % \begin{table}[htb]\begin{center}
 %   \caption{Parallel single-node: Confusion Matrix and Qualitative Metrics}
