@@ -30,8 +30,8 @@ resulting in $72\:000$ instances.
 For the test set we use $653\:457$ instances with
 $206\:278$ instances with ``$N$'' (normal) class and
 $447\:179$ instances with ``$A$'' (attack) class.
-Note that this choice results in a possible over-fitting for the normal class and,
-under-fitting for attack class as the system first needs to detect a novel class and
+Note that this choice results in a possible overfitting for the normal class and,
+under-fitting for the attack class as the system first needs to detect a novel class and
 then add it to the model.
 
 % Count per class
@@ -68,15 +68,15 @@ then add it to the model.
 
 % \hl{BEGIN Oritações de leitura das métricas e visualizações.}
 
-\subsection{Mesures and Visualizations}
+\subsection{Measures and Visualizations}
 
-There are two broad evaluation mesures for each experiment: a time mesure
+There are two broad evaluation measures for each experiment: a time mesure
 extracted by using \emph{GNU Time 1.9} measuring of the full program execution
-and, a set of qualitative mesures extracted by a python program.
+and, a set of qualitative measures extracted by a Python program.
 
 Our evaluation script was build following reference techniques like multi-class
 confusion matrix with label-class association \cite{Faria2015minas} to extract
-classification quality mesures.
+classification quality measures.
 This program takes two inputs, the test dataset and the captured output stream,
 and outputs the confusion matrix, label-class association,
 final quality summary with:
@@ -147,7 +147,7 @@ One complete matrix is shown in Tab. \ref{tab:java-matrix}.
 \end{center}\end{subtable}
 \end{table*}
 
-For the mesure summary table, six mesures from two sources are displayed. Three
+For the measure summary table, six measures from two sources are displayed. Three
 mesures \emph{Hits}, \emph{Unknowns} and \emph{Misses} represented as ratio of
 the captured output stream, extracted from the evaluation python program,
 computed as follows:
@@ -159,25 +159,25 @@ with the \emph{unknown} label (\emph{``-''});
 with a label distinct from the \emph{Assigned} original class and are not marked
 as unknown.
 
-Also in the mesure summary table, \emph{Time}, \emph{System} and \emph{Elapsed}
-mesures represented in seconds, are extracted from \emph{GNU Time}.
+Furthermore in the measure summary table, \emph{Time}, \emph{System} and \emph{Elapsed}
+measures represented in seconds, are extracted from \emph{GNU Time}.
 \emph{Time} is the amount of CPU seconds expended in user-mode
 (indicates time used doing CPU intensive computing, e.g. math);
 \emph{System} is the amount of CPU seconds expended in kernel-mode
 (for our case it indicates time doing input or output);
 \emph{Elapsed} is the real-world (wall clock) elapsed time and
 indicates how long another system or person had to wait for the result.
-To compare the time mesure is simple, the lower time taken, the better.
+To compare the time measure is simple, the lower time taken, the better.
 Our four main experiments are shown in Tab. \ref{tab:exper-summary}.
 
-Lastly, the stream visualization chart shows the summary quality mesures
+Lastly, the stream visualization chart shows the summary quality measure
 (\emph{Hits}, \emph{Unknowns}, \emph{Misses})
 computed for each example in the captured output stream.
 This summary is computed for each example but it uses the \emph{Assigned} row
-computed previously to evaluate \emph{Hits}, other mesures are derived as
+computed previously to evaluate \emph{Hits}, other measures are derived as
 described before.
 Horizontal axis (x, domain) plots the index of the example and the
-vertical axis (y, image) shows the mesure computed until that example index on the captured
+vertical axis (y, image) shows the measure computed until that example index on the captured
 output stream.
 
 Adding to the stream visualization chart, novelty label markers are represented
@@ -242,7 +242,7 @@ The summary of all four experiments is shown in Table \ref{tab:exper-summary}.
 
 \begin{table*}[hbt]
 \begin{center}
-  \caption{Collected Mesures Summary.}
+  \caption{Collected Measures Summary.}
   \label{tab:exper-summary}
   \input{experiments/summary.tex}
 \end{center}
@@ -253,12 +253,12 @@ validation for our implementation, while the latter three (\emph{b}, \emph{c}
 and \emph{d}) serves as showcase for the effects of distribution.
 
 As stated, to validate our implementation we compare it to \refminas
-(the original \minas companion implementation), so we extracted the same mesures
+(the original \minas companion implementation), so we extracted the same measures
 using same process for both \emph{a} and \emph{b}, they can be viewed on
 Tables \ref{tab:java-matrix}, \ref{tab:libc-matrix} and for ease of comparison
 on Table \ref{tab:exper-summary} the summary can be compared side by side.
 
-In general the observed classification quality mesures are very similar,
+In general, the observed classification quality measures are very similar,
 they diverge slightly where \emph{a} has more \emph{Hits} and \emph{Misses}
 whereas \emph{b} shifted those to \emph{Unknowns}.
 This phenomenon was watched very closely during development and we found that

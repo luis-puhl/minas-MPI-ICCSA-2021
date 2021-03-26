@@ -12,21 +12,23 @@ set.
 Each cluster can be associated with only one class of the problem, but each
 class can have many clusters.
 
-The online phase is where the model performs three tasks in (near) real-time.
+During its online phase, which is the main focus of our work, the model performs three tasks in (near) real-time,
 % Our proposal focuses on the online phase, therefore we will describe it in more detail.
-We describe the online phase in more detail since we focus on its tasks.
+% We describe the online phase in more detail since we focus on its tasks.
 In summary, the online phase of \minas executes classification, novelty
 detection, and model update tasks until the possible end of stream, as shown in
 Algorithm \ref{alg:MINAS}.
 \minas tries to classify each incoming unlabeled instance according to the
 current decision model. Instances not explained by the current model
-receive an \textit{unknown} label and are stored in the unknowns-buffer.
-When the unknowns-buffer reaches a parametric size, \minas executes the
+receive an \textit{unknown} label and are stored in an unknowns-buffer.
+When the unknowns-buffer reaches a preset threshold, \minas executes the
 Novelty Detection function.
-Beyond the Novelty Detection, \minas also cleans the unknowns-buffer removing
-old instances as they represent noise or outliers and, has a mechanism to forget
-clusters that became obsolete and unrepresentative of the current data stream
-distribution \cite{Faria2015minas}.
+% Não entendi o "beyond the ND..." - vejam se fez sentido - helio
+Long unseen samples are considered to be outliers and eventually removed from the unknowns-buffer, as they correspond to obsolete and nonrepresentative clusters in the current data stream.
+% Beyond the Novelty Detection, \minas also cleans the unknowns-buffer removing
+% old instances as they represent noise or outliers and, has a mechanism to forget
+%clusters that became obsolete and unrepresentative of the current data stream distribution 
+\cite{Faria2015minas}.
 
 \begin{algorithm}[htb]
     % \DontPrintSemicolon

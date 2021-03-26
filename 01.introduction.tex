@@ -16,7 +16,7 @@ including mobile, wearable, consumer electronics, automotive, and sensors of
 various types.
 % 
 Such devices can either be accessed by users through the Internet or connect
-to other devices, servers, and applications
+to other devices, servers, and applications,
 with little human intervention or supervision
 \cite{Tahsien2020,abane2019,haddadpajouh2019survey,Shanbhag2015}.
 % 
@@ -25,14 +25,14 @@ Security and privacy is a major concern in the \iot, specially regarding
 devices having access to user personal data like
 location, health, and many other sensitive data \cite{sengupta2020comprehensive}.
 % 
-Furthermore, if compromised such devices can also be used to attack other
+Furthermore, if compromised, such devices can also be used to attack other
 devices and systems, steal information, cause immediate physical damage or
 perform various other malicious acts \cite{Kolias2017mirai}.
 % 
-As an additional concerns, \iot devices likely have long lifespan, less frequent
+As an additional concern, \iot devices likely have long lifespan, less frequent
 software patches, growing diversity of technologies combined with lack of
 control over the software and hardware of such devices by the host organization
-(where the device is deployed) considerably increases the attack surface.
+(where their are deployed), which considerably increases the attack surface.
 
 % A study reveals that nearly $20\%$ of organizations have experienced at least one
 % IoT-based attack in the last three years.
@@ -50,15 +50,17 @@ control over the software and hardware of such devices by the host organization
 % {\color{red} muito próximo de \cite{Cassales2019a}}
 Because most \iot devices have limited resources (i.e., battery, processing,
 memory, and bandwidth), configurable and expensive algorithm-based
-security techniques may not fit \cite{Zhou2017}.
-Machine Learning (ML) techniques have been studied for years to detect attacks
+security techniques are not usual, giving way to network based approaches 
+% may not fit 
+\cite{Zhou2017}.
+Machine Learning (ML) techniques, for instance, have been studied for years to detect attacks
 from known patterns or to discover new attacks at an early stage
 \cite{buczak2016survey,mitchell2014survey}.
 A recent survey \cite{Tahsien2020} shows that ML based methods are a
 promising alternative which can provide potential security tools for the \iot
 network making them more reliable and accessible than before.
 
-Despite the promising use of ML to secure \iot systems, studies in the
+Despite the promising use of ML to secure \iot systems, studies found in the
 literature \cite{buczak2016survey,mitchell2014survey,Tahsien2020} are limited to
 traditional ML methods that use static models of traffic behavior.
 % With traditional ML methods, the data set is static and can be traversed
@@ -85,20 +87,22 @@ detection with several advantages, such as:
 Given the recent use of Data Stream Novelty Detection (\nd) in network data
 streams, this paper shows the effects of adapting these mechanisms to edge
 services for use in \iot environments.
-Our proposal, \mfog, instantiated and experimentally validated the \arch
+Our proposal, called \mfog, adapted and experimentally validated the \arch
 architecture \cite{Cassales2019a} employed the \nd algorithm \minas
-\cite{Faria2013Minas,Faria2015minas} (as it was already tested in a similar \iot
-scenario) on a distributed system composed of small devices with limited
+\cite{Faria2013Minas,Faria2015minas}, making it suitable to run
+% (as it was already tested in a similar \iot scenario) 
+on a distributed system composed of small devices with limited
 resources on the edge of the network.
 % Our implementation can be fully executed on the edge, thus avoiding any dependency
 % and high latency of cloud resources.
 % We proposed and implemented dMINAS, a distributed extension
 % of MINAS \cite{Faria2016minas} (a novelty detection for data streams).
-We evaluated through experimental methodology, how the distribution of
-% the chosen novelty detection algorithm
-\minas
+Using our newer version of the \minas algorithm, We have experimentally evaluated 
+% through experimental methodology, 
+how the distribution 
+% the chosen novelty detection algorithm \minas
 affects the capability to detect changes (novelty) in
-traffic patterns, and the impact on the computational efficiency.
+traffic patterns, and its impact on the computational efficiency.
 Finally, some distribution strategies and policies for the data stream
 novelty detection system are discussed.
 % }
