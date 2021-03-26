@@ -12,7 +12,7 @@
   increasing the number and variety of small devices on edge networks.  
 %   break to 2-3 lines
   Likewise, the attack opportunities for hostile agents also
-  increases, requiring more from network administrators and the need for strategies
+  increases, damanding more effort from network administrators and  strategies
   to detect and react to those threats.
   % 
   % One such tool are the Network Intrusion Detection Systems (\nids)
@@ -24,10 +24,14 @@
   analysis like accuracy and scalability.
   % 
   Using a previously defined architecture (\arch),
-  we address the construction and evaluation of a distributed 
+  we address the construction and evaluation of a 
+  support mechanism for 
+  distributed 
   Network Intrusion Detection Systems (\nids)
-  with the Data Stream Novelty Detection (\nd) algorithm MINAS
-  employing MPI library.
+  % with 
+  based on 
+  the MINAS Data Stream Novelty Detection (\nd) algorithm.
+  % MINAS employing MPI library.
 %   apresentar a estratégia,
   % 
   We discuss the algorithm steps, how it can be deployed in a distributed
@@ -44,6 +48,8 @@
   distributed executions while using less time than previous implementation,
   however efficient distribution was not achieved as the observed time as we
   added nodes remained constant.
+  % Segue proposta para o parágrafo acima - helio
+  % The obtained results show a negligible accuracy loss in the distributed version, but also a small reduction in the execution time using low profile devices. Although not efficient, the parallel version showed to be viable as the proposed granularity provides equivalent accuracy and response times. 
   % , consuming a months worth of flow descriptors in $300$ seconds.
   % We also found some per
 %   concluindo que é viável e barato utiliar este tipo de abordagem
