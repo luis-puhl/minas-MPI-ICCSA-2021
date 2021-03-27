@@ -33,9 +33,9 @@
 % (iv) possa ser implementada em dispositivos com recursos limitados 
 
 % acho que falta casar melhor esse começo com a estória contada no abstract... - helio
-% In this work we seek a good enough architecture for using \nd at the edge, as a means of allowing small IoT devices to filter undesirable network traffic.
+% In this work we investigate an appropriate architecture for performing \nd at the edge, as a means of allowing small IoT devices to filter undesirable network traffic.
 % Our approach is based on the \arch architecture \cite{Cassales2019aI} and \nd techniques provide by the \minas algorithm \cite{Faria2015minas}. Named \mfog, our distributed algorithm explores load balancing to enable low profile devices at the edge of the net to also work on the classification and detection of unwanted traffic.
-
+% eu trocaria a frase abaixo pelas 2 acima - helio
 In this work we investigate the application of the \arch architecture
 \cite{Cassales2019a} with \nd techniques by use of \minas algorithm
 \cite{Faria2015minas}, by implementation and evaluation of a parallel and
@@ -61,9 +61,10 @@ devices in IoT scenarios, new constraints apply:
 {\color{red} introdução?}
 % \todo{[start] intro/related?}
 \nids 
-monitor the packet network traffic, aggregate into flow descriptors and
+monitor network traffic, and analyze the characteristics of each flow 
 % aggregated into flow descriptors and further processed in a classification
-analyze to identify any intrusion or misbehavior.
+% analyze 
+to identify any intrusion or misbehavior.
 % using methods such as classification and Novelty Detection
 % This requirement in turn, requesting more computing power at the edge.
 % While requesting more computing power in a cloud environment is trivial and
@@ -84,7 +85,7 @@ scenario.
 % Even though we also capture data produced in the edge, sending this data to the
 % cloud would in the worst case double the internet communication requirements of
 % the overall system.
-Fog computing infrastructure aims to offload computing resources from cloud
+Fog computing infrastructure aims to offload processing from cloud
 providers by placing edge devices closer to end-users and/or data sources.
 % But two \minas steps limit this fog offload, the processing intensive novelty
 % detection and, long term model storage and distribution of the internal model.
@@ -94,9 +95,9 @@ providers by placing edge devices closer to end-users and/or data sources.
 
 % \todo{[end] intro/related?}
 
-In our proposal, fog and cloud computing resources are employed as to minimize
+In our proposal, fog and cloud computing resources are combined to minimize
 the time elapsed between a flow descriptor ingestion and intrusion alarm,
-allocating the classification step of \minas in a MPI cluster running multiple
+performing the classification step of \minas in an MPI cluster running multiple
 classifier instances.
 After the initial classification, the resulting label can be used immediately,
 but if the sample is labeled as \emph{unknown}, this sample must be stored and
@@ -112,11 +113,11 @@ the novelty detection step will be triggered.
 % visão geral de iot nessa fig
 % quais redes envolvidas
 % processamento extra na borda
-To have a better overview of our proposal and how it integrate in existing
+To have a better overview of our proposal and how it integrates with existing
 \iot environments, Figure \ref{fig:mfog-phy-arch-cloud} depicts such scenario
 showing from bottom to top:
 \iot devices directly connected to a (local) gateway network;
-this gateway network could be as simple as a single router to the internet
+this gateway network could be as simple as a single Internet router 
 or be more complex by connecting to private clouds or 
 containing more devices providing fog computing capabilities;
 lastly, available over the internet, traditional public cloud provides
@@ -124,8 +125,8 @@ inexpensive computing and storage on demand.
 % \todo{the following is needed?}
 % {
 In this scenario the further apart resources are, more network
-resources need to be dedicated and, as any networked system, more
-latency between action and reaction is observed.
+resources need to be employed and, as with any networked system, the
+higher is the latency.
 % }
 
 % \begin{figure*}[hbt]
@@ -161,7 +162,7 @@ latency between action and reaction is observed.
 
 % In Figure \ref{fig:mfog-architecture} we depict 
 The overall \mfog architecture can be cut down to individual modules:
-three main functional modules being Classification and Novelty
+three main functional modules, being the Classification and Novelty
 % three main functional modules being Training, Classification and Novelty
 Detection handling \minas main tasks.
 % Three auxiliary Source, Sink and Model Store, addressing external and
@@ -190,13 +191,13 @@ Detection handling \minas main tasks.
 
 % Training Module encapsulates the Offline phase of \minas and its output, being the
 % initial model, is stored by the Model Store.
-Classification Module houses the homonymous task of \minas Online phase and
-is the focal point for parallelism in our proposal,
-being replicated in the fog on each local network containing a cluster with one
-or more nodes and each node multiple processes (limited to the individual CPU core count).
+The Classification Module performs the same task of the \minas Online phase and
+is the focal point for parallelism in our proposal. 
+It is replicated in the fog, and runs on each cluster node, using a configurable number of threads, 
+% with one or more nodes and each node multiple processes (limited to the individual CPU core count).
 
-Novelty Detection Module can be also replicated,
-one instance per local network and one global instance,
+The Novelty Detection Module can be also replicated,
+but one instance is intended per local network and one global instance,
 also handling the homonymous task of \minas Online phase.
 This modules takes as input all samples labeled with \emph{unknown},
 stores them in a internal \emph{unknown} buffer and when this buffer is full,
@@ -216,8 +217,12 @@ triggers \minas Novelty Detection task (clustering followed by validation).
 
 \subsection{Polices}\label{sec:polices}
 
-The distribution of steps and tasks in various modules opens data distribution
-and its impacts to discussion.
+% achei confuso o uso de "opens data distribution..."
+The design of our distributed \nd architecture includes partitioning the functionalities of the \minas code and establishing the appropriate data flows between different actors.
+% The distribution of steps and tasks in various modules opens data distribution and its impacts to discussion.
+
+% acho que falta deixar claro o que quer comparar...
+
 The decisions following these discussions can be organized in several policies,
 some of them were recurring during our implementation discussions and are:
 
@@ -277,11 +282,11 @@ some of them were recurring during our implementation discussions and are:
 
 The original MINAS algorithm has a companion unpublished implementation (\refminas)
 written in Java using MOA library base algorithms such as K-means and CluStream,
-however our implementation only used K-means.
+but our implementation only used K-means.
 % \refminas employs Java's double, a $64 bits$ number whose precision is not
 % absolutely necessary and, as it is often necessary to shuffle between nodes via
 % network and a small economy could be made with only a float number with $32 bits$.
-Another difference between \refminas and \mfog is cluster radius calculation
+Another difference between \refminas and \mfog is the calculus of the cluster radius 
 from the distances of elements forming the cluster and the cluster's center.
 \refminas uses the maximum distance while \mfog uses the standard deviation
 of all distances as described in \cite{Faria2015minas}.
@@ -309,7 +314,7 @@ of all distances as described in \cite{Faria2015minas}.
 %   - **Solução:** O formato mínimo é `(id, label)`;
 
 \newcommand{\val}{$\vec{v}\,$\xspace}
-The stream format for input and output also of note.
+The stream formats for input and output are also of note.
 Input information needed is the samples value (\val), this \val is a number
 sequence of length $d$ (dimension).
 In addition to \val, for evaluation and training purposes the class
