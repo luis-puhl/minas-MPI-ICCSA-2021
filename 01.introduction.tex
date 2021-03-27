@@ -67,7 +67,7 @@ traditional ML methods that use static models of traffic behavior.
 % repeatedly, and the detection of new attack patterns requires a new cycle of
 % training, testing, and dissemination of new models.
 Most existing ML solutions for network-based intrusion detection cannot maintain
-their reliability over time when facing evolving attacks \cite{Viegas2019}.
+their reliability over time when facing evolving attacks \cite{Viegas2019,AndreoniLopez2019}.
 Unlike traditional methods, stream mining algorithms can be applied to intrusion
 detection with several advantages, such as:
 \begin{enumerate*}[label=(\emph{\roman*})]
@@ -84,9 +84,11 @@ detection with several advantages, such as:
 % {\color{red} Adicionar referencias e relacionados. Argumentar que além de \nids,
 % \nd para \iot tem outras aplicações}
 
-Given the recent use of Data Stream Novelty Detection (\nd) in network data
-streams, this paper shows the effects of adapting these mechanisms to edge
-services for use in \iot environments.
+% CATRACA \cite{AndreoniLopez2018,AndreoniLopez2019} SBRC AndreoniLopez2019
+% BigFlow \cite{Viegas2019}
+Given the recent \cite{Viegas2019,AndreoniLopez2019} use of Data Stream Novelty
+Detection (\nd) in network data streams, this paper shows the effects of
+adapting these mechanisms to edge services for use in \iot environments.
 Our proposal, called \mfog, adapted and experimentally validated the \arch
 architecture \cite{Cassales2019a} employed the \nd algorithm \minas
 \cite{Faria2013Minas,Faria2015minas}, making it suitable to run
