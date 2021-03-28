@@ -3,6 +3,14 @@
 \section{Experiments and Results}
 \label{sec:experiments}
 
+% Hermes Sugestão:
+% Aiming to evaluate ... what we want evaluate (ex: the distributed novelty
+% detection ...) we implemented an experimental scenario composed of ... three
+% dedicated Raspberry Pi 3 connected by a 100 Gbps
+% Ethernet switch to simulate an IoT network with constrained resources ...
+% In this scenario a trafic genenrator reproduces the network traffic of the
+% dataset ... describe the dataset. The load generator does bla bla bla ... The
+
 For the experimental setup we dedicated three Raspberry Pi 3 model B single
 board computers connected via Ethernet Switch forming a simple cluster.
 This cluster stored all source code, binaries (compiled and linked in place) and
@@ -70,7 +78,7 @@ then add it to the model.
 
 \subsection{Measures and Visualizations}
 
-There are two broad evaluation measures for each experiment: a time mesure
+There are two broad evaluation measures for each experiment: a time measure
 extracted by using \emph{GNU Time 1.9} measuring of the full program execution
 and, a set of qualitative measures extracted by a Python program.
 
@@ -84,7 +92,7 @@ final quality summary with:
 Hits (true positive), Misses (Err), Unknowns (UnkR); and
 stream visualization chart with per example instance summary with novelty label markers.
 % 
-For clarity, it is necessary to detail how to interpret and compare each mesure,
+For clarity, it is necessary to detail how to interpret and compare each measure,
 as for some it is trivial but others are not so much.
 
 In the confusion matrix $M = m_{ij} \in \mathbb{N} ^{c \times{} l}$, computed by
@@ -121,7 +129,7 @@ One complete matrix is shown in Tab. \ref{tab:java-matrix}.
 % \end{center}\end{table*}
 
 \begin{table*}[htb]
-\caption{Confusion Matrixs and Qualitative Mesures}
+\caption{Confusion Matrixs and Qualitative measures}
 \label{tab:confusion-matrixes-ref-serial}
 \begin{subtable}[h]{\textwidth}\begin{center}
     \caption{Reference implementation}
@@ -148,7 +156,7 @@ One complete matrix is shown in Tab. \ref{tab:java-matrix}.
 \end{table*}
 
 For the measure summary table, six measures from two sources are displayed. Three
-mesures \emph{Hits}, \emph{Unknowns} and \emph{Misses} represented as ratio of
+measures \emph{Hits}, \emph{Unknowns} and \emph{Misses} represented as ratio of
 the captured output stream, extracted from the evaluation python program,
 computed as follows:
 \emph{Hits} (true positive rate) is the sum of the \emph{Hits} row in the
@@ -266,7 +274,7 @@ small changes to \minas parameters, \minas internals like K-means ordering,
 cluster edge inclusion and cluster radius formula as stated in
 Subsection \ref{sec:implementation}.
 
-As for the time mesures on Table \ref{tab:exper-summary}
+As for the time measures on Table \ref{tab:exper-summary}
 our implementation used less time to analyze the test data set.
 This is mostly due to 
 the stop condition
@@ -328,7 +336,7 @@ from $10$ to $4$.
 The same effect is observed on the stream visualization (figs.
 \ref{fig:validation-sub-serial} and \ref{fig:cluster-sub-single}) where our
 serial implementation has less novelty markers and they appear latter, but the
-mesures keeps the same ``shape''.
+measures keeps the same ``shape''.
 Comparing \emph{c} and \emph{d} the difference is even smaller,
 (figs. \ref{fig:validation-sub-serial} and \ref{fig:cluster-sub-single})
 as they both suffer the expected delay in the feedback loop.
@@ -338,7 +346,7 @@ as they both suffer the expected delay in the feedback loop.
 % When observing the stream visualization on figure \ref{fig:cluster-sub-multi}
 
 % \begin{table*}[htb]
-% \caption{Confusion Matrix and Qualitative Mesures for MPI Clusters.}
+% \caption{Confusion Matrix and Qualitative measures for MPI Clusters.}
 % \label{tab:confusion-matrixes-single-multi}
 % \begin{subtable}[h]{0.5\textwidth}\begin{center}
 %     \caption{Parallel single-node}
