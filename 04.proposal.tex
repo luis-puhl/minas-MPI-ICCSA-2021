@@ -315,18 +315,15 @@ of all distances as described in \cite{Faria2015minas}.
 
 \newcommand{\val}{$\vec{v}\,$\xspace}
 The stream formats for input and output are also of note.
-Input information needed is the samples value (\val), this \val is a number
-sequence of length $d$ (dimension).
-In addition to \val, for evaluation and training purposes the class
-identifier as single character, and unique item identifier
-(\emph{uid}) can be provided or be the sample index in the stream.
+As input, the algorithm takes samples (\val), which are a sequence of numbers
+with dimension $d$.
+In addition to \val, for both training and evaluation, the class
+identifier is provided as a single character, along with an unique item identifier
+(\emph{uid}), which can otherwise be determined from the sample index in the stream.
 
-For output information and format the decision isn't so clear as we can't
-predict future system integrations needs like only novelty alarms or every
-samples original \val with assigned label so, we have a compromise and put only
-enough information for the Sink Module (where the full information
-from the testing file or stream can be accessed) meaning the format can be
-defined as a tuple containing \emph{uid} and assigned label.
+% muito longo, difícil de entender... - helio
+%For output information and format the decision isn't so clear as we can't predict future system integrations needs like only novelty alarms or every samples original \val with assigned label so, we have a compromise and put only enough information for the Sink Module (where the full information from the testing file or stream can be accessed) meaning the format can be defined as a tuple containing \emph{uid} and assigned label.
+As its output, the algorithm returns the original sample \val followed by the assigned label. Adjustments can easily be made to provide the output results as a tuple containing \emph{uid} and the assigned label.
 
 % - Reprocessamento dos exemplos utilizados para atualização do modelo:
 %   - Muda o comportamento do operador de fluxo de `Map` para `Flatmap`, ou seja,
@@ -358,14 +355,18 @@ defined as a tuple containing \emph{uid} and assigned label.
 %   - Volume máximo do sistema;
 %   - Diferenças de precisão de acordo com a carga;
 
-For \mfog, the Message Passing Interface (MPI, from \emph{Open MPI 4.0.4})
-library was used.
-In MPI programming, multiple processes of the same program are created by the
-run-time and each process instance receives a rank parameter, for \mfog this
-parameters indicate if the process is root, rank $0$, or leaf otherwise.
-Beyond this division, each process also operates two threads, for the root
-there is a sampler and detector threads, for the leafs each has a model receiver
-thread and multiple classifier threads.
+% For \mfog, the Message Passing Interface (MPI, from \emph{Open MPI 4.0.4}) library was used.
+% In MPI programming, multiple processes of the same program are created by the
+% run-time and each process instance receives a rank parameter, for \mfog this
+% parameters indicate if the process is root, rank $0$, or leaf otherwise.
+% Beyond this division, each process also operates two threads, for the root
+% there is a sampler and detector threads, for the leafs each has a model receiver
+% thread and multiple classifier threads.
+
+For evaluation purposes, an \mfog implementation was made using MPI (\emph{Open MPI 4.0.4}). The program is organized in an SPMD programming model, so a single version of the \mfog program was initiated on all nodes, being that one of them would perform the root role, while the others ran as leafs. 
+On the root process, a sampler thread is responsible for distributing the sampled flow information (\val) to the classifier nodes, using a round-robin load balancing scheme. The other thread on the root process is responsible for receiving the classification results and for processing the unknown samples in search for novelties. 
+Each leaf node runs a model adjustment thread and multiple (up to the number of cores) classifier threads.
+
 The overall sequence of interactions is shown in Figure \ref{fig:mfog-mpi-life}.
 
 \begin{figure}[htb]
