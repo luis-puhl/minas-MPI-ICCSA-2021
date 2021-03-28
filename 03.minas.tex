@@ -12,23 +12,34 @@ set.
 Each cluster can be associated with only one class of the problem, but each
 class can have many clusters.
 
-During its online phase, which is the main focus of our work, the model performs three tasks in (near) real-time,
+During its online phase, which is the main focus of our work, \minas performs
+three tasks in (near) real-time,
 % Our proposal focuses on the online phase, therefore we will describe it in more detail.
 % We describe the online phase in more detail since we focus on its tasks.
-In summary, the online phase of \minas executes classification, novelty
-detection, and model update tasks until the possible end of stream, as shown in
-Algorithm \ref{alg:MINAS}.
-\minas tries to classify each incoming unlabeled instance according to the
+in summary,
+%  the online phase of \minas executes 
+classification, novelty detection, and model update tasks
+in a potentially infinite data stream, as shown in Algorithm \ref{alg:MINAS}.
+
+\minas attempts to to classify each incoming unlabeled instance according to the
 current decision model. Instances not explained by the current model
-receive an \textit{unknown} label and are stored in an unknowns-buffer.
+receive an \textit{unknown} label and are stored in a unknowns-buffer.
+%  "in the" vs "in a": Como só exite um buffer, único, achei que fosse THE.
 When the unknowns-buffer reaches a preset threshold, \minas executes the
+% (parametic) 
 Novelty Detection function.
 % Não entendi o "beyond the ND..." - vejam se fez sentido - helio
-Long unseen samples are considered to be outliers and eventually removed from the unknowns-buffer, as they correspond to obsolete and nonrepresentative clusters in the current data stream.
+After a set interval, samples in the unknowns-buffer are considered to be
+noise or outliers and removed.
+The algorithm alo has a mechanism to forget clusters that became obsolete and
+unrepresentative of the current data stream distribution, removing them from
+the Model and storing in a Sleep Model for possible recurring pattern
+detection \cite{Faria2015minas}.
+% cluster in the model with no recent match
+% are removed as well, as they correspond to obsolete and nonrepresentative
+% patterns in the current data stream 
 % Beyond the Novelty Detection, \minas also cleans the unknowns-buffer removing
-% old instances as they represent noise or outliers and, has a mechanism to forget
-%clusters that became obsolete and unrepresentative of the current data stream distribution 
-\cite{Faria2015minas}.
+% old instances as they represent noise or outliers and, has a 
 
 \begin{algorithm}[htb]
     % \DontPrintSemicolon
@@ -81,11 +92,11 @@ Long unseen samples are considered to be outliers and eventually removed from th
             outputStream.append(sample)\;
         }
     }
-\label{alg:MINAS}
 \caption{Our interpretation of \minas \cite{Faria2015minas}}
+\label{alg:MINAS}
 \end{algorithm}
 
-The Novelty Detection function, shown in Algorithm \ref{alg:MINAS-nd} groups the
+The Novelty Detection function, illustrated in Algorithm \ref{alg:MINAS-nd} groups the
 instances to form new clusters and each new cluster is validated to discard the
 non-cohesive or unrepresentative ones.
 Valid clusters are analyzed to decide if they represent an extension of a
@@ -125,7 +136,8 @@ valid clusters and starts using them to classify new instances.
         }
         \Return{newModelSet}\;
     }
-    \caption{\label{alg:MINAS-nd}\minas \cite{Faria2015minas} Novelty Detection task.}
+    \caption{\minas \cite{Faria2015minas} Novelty Detection task.}
+    \label{alg:MINAS-nd}
 \end{algorithm}
 
 
