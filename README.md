@@ -3,3 +3,5 @@
 ## [Read-it IEEE format](./00.main-ieee.pdf)
 
 ## [Read-it LLNCS format](./00.main-ICCSA.pdf)
+
+## [Read-it LLNCS format - compact](./lib/chop-the-a4.pdf)
