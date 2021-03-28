@@ -172,8 +172,6 @@ higher is the latency.
   \label{fig:mfog-phy-arch-cloud}
 \end{figure}
 
-\input{04.prop-algo}
-
 % \begin{figure*}[hbt]
 %   \centerline{
 %     \begin{subfigure}{.5\textwidth}
@@ -455,18 +453,24 @@ a tuple containing \emph{uid} and the assigned label.
 % there is a sampler and detector threads, for the leafs each has a model receiver
 % thread and multiple classifier threads.
 
+\input{04.prop-algo}
+
 For evaluation purposes, an \mfog implementation was made using MPI (\emph{Open
-MPI 4.0.4}). The program is organized in an SPMD programming model, so a single
-version of the \mfog program was initiated on all nodes, being that one of them
-would perform the root role, while the others ran as leafs.
+MPI 4.0.4}).
+The program is organized in an single program multiple data (SPMD)
+programming model, so a single version of the \mfog program was initiated on all
+nodes, being that one of them would perform the root role, while the others ran
+as leafs, the program entry point is illustrated on Algorithm \ref{alg:MFOG}.
 On the root process, a sampler thread is responsible for distributing the
 sampled flow information (\val) to the classifier nodes, using a round-robin
-load balancing scheme. The other thread on the root process is responsible for
-receiving the classification results and for processing the unknown samples in
-search for novelties.
+load balancing scheme.
+The other thread on the root process is responsible for receiving the
+classification results and for processing the unknown samples in search for
+novelties.
+The root process functions are illustrated in Algorithm \ref{alg:MFOG-root}.
 Each leaf node runs a model adjustment thread and multiple (up to the number of
-cores) classifier threads.
-
+cores) classifier threads and the leaf tasks are illustrated in Algorithm
+\ref{alg:MFOG-leaf}.
 % >>>>>>> dd70e6dd2f93dbb63f7f84ee937aafc4b6ff9684
 The overall sequence of interactions is shown in Figure \ref{fig:mfog-mpi-life}.
 

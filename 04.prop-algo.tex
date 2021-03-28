@@ -26,7 +26,6 @@
     \SetKwFunction{Detector}{Detector}
     \SetKwFunction{modelReceiver}{modelReceiver}
     % 
-    \SetKwFunction{sizeOf}{sizeOf}
     \SetKwFunction{typeOf}{typeOf}
     % 
     \SetKwFunction{Thread}{Thread}
@@ -52,7 +51,7 @@
         ModelSetLock = \textbf{new} \Lock()\;
         \eIf(\emph{root}){\mpiRank == 0}{
             \textbf{new} \Thread(\Detector, [ModelSet])\;
-            \Sampler(InputStream)\;
+            \Sampler(InputStream, ModelSet)\;
         }(\emph{leaf}){
             \textbf{new} \Thread(\modelReceiver, [ModelSet])\;
             \Classifier(ModelSet)\;
@@ -75,7 +74,7 @@
     \SetKwData{EndOfStream}{EndOfStream}
     % 
     \SetKwProg{Function}{Function}{:}{}
-    \Function{\Classifier{mp}}{
+    \Function{\Classifier{}}{
         \While{ True }{
             sampe = \receive(SampleType, root)\;
             \lIf{sample == \EndOfStream}{\textbf{break}}
@@ -106,7 +105,7 @@
     \SetKwData{EndOfStream}{EndOfStream}
     % 
     \SetKwProg{Function}{Function}{:}{}
-    \Function{\modelReceiver{mp, ModelSet}}{
+    \Function{\modelReceiver{ModelSet}}{
         \While{ True }{
             cl = \receive(ClusterType, root)\;
             \lIf{cl == \EndOfStream}{\textbf{break}}
@@ -133,7 +132,7 @@
     \SetKwData{EndOfStream}{EndOfStream}
 
     \SetKwProg{Function}{Function}{:}{}
-    \Function{\Sampler{mp, p, InputStream}}{
+    \Function{\Sampler{InputStream, ModelSet}}{
         % ModelSet = read()\;
         % broadcast(ModelSet)\;
         dest = 1\;
@@ -160,8 +159,9 @@
     \SetKwFor{With}{with}{}{}
     \SetKw{continue}{continue}
     % 
-    \SetKwData{CW}{CW}
-    \SetKwData{noveltyDetectionTrigger}{NDT}
+    \SetKwData{cleaningWindow}{cleaningWindow}
+    \SetKwFunction{removeOldSamples}{removeOldSamples}
+    \SetKwData{noveltyDetectionTrigger}{noveltyDetectionTrigger}
     \SetKwData{MEPC}{MEPC}
     \SetKwData{NF}{NF}
     \SetKwData{mpiSize}{mpiSize}
@@ -169,15 +169,16 @@
     \SetKwData{EndOfStream}{EndOfStream}
 
     \SetKwProg{Function}{Function}{:}{}
-    \Function{\Detector{mp, ModelSet}}{
-        lastCleanup = 
+    \Function{\Detector{ModelSet}}{
+        lastCleanup $\leftarrow 0$\;
         \While{ True }{
             sampe = \receive(SampleType, any)\;
             \lIf{sample == \EndOfStream}{\textbf{break}}
-            $out \leftarrow$ sample\;
+            % $out \leftarrow$ sample\;
+            outputStream.append(sample)\;
             \If{sample.label == unknown}{
                 UnkownSet = UnkownSet $\cup$ sample\;
-                \If{\sizeOf(UnkownSet) $\geq$ \noveltyDetectionTrigger}{
+                \If{$|\;UnkownSet\;| \geq$ \noveltyDetectionTrigger}{
                     novelties = \NoveltyDetection(p, ModelSet, *UnkownSet)\;
                     \With{\writeLock(ModelSetLock)}{
                         ModelSet = ModelSet $\cup$ novelties\;
@@ -186,9 +187,9 @@
                         \broadcast(ClusterType, cl, root)\;
                     }
                 }
-                \If{\now() $>$ lastCleanup $+$ \CW}{
-                    ModelSet = \handleModelSleep(ModelSet, ModelSleepSet)\;
-                    UnkownSet = \removeOldSamples(UnkownSet, lastCleanup)\;
+                \If{ sampe.uid $ > $ ( lastCleanup $ + $ \cleaningWindow )}{
+                    UnkownSet $\leftarrow$ \removeOldSamples(UnkownSet, lastCleanup)\;
+                    lastCleanup $ \leftarrow $ sampe.uid\;
                 }
             }
         }
