@@ -7,18 +7,14 @@
     \SetKwFor{With}{with}{}{}
     \SetKw{continue}{continue}
     % 
-    \SetKwData{cleaningWindow}{cleaningWindow}
-    \SetKwData{noveltyDetectionTrigger}{noveltyDetectionTrigger}
     \SetKwData{MEPC}{MEPC}
     \SetKwData{NF}{NF}
     \SetKwData{mpiSize}{mpiSize}
     \SetKwData{mpiRank}{mpiRank}
     \SetKwData{EndOfStream}{EndOfStream}
     % 
-    \KwSty{Parameters}: \cleaningWindow, \noveltyDetectionTrigger,
-    mpiClusterSize as \mpiSize,
-    mpiNodeRank as \mpiRank
-    \\
+    \SetKwInOut{KwParams}{Parameters}
+    \KwParams{mpiNodeRank as \mpiRank}
     % 
     \SetKwFunction{Mfog}{Mfog}
     \SetKwFunction{Sampler}{Sampler}
@@ -44,17 +40,17 @@
     \SetKwFunction{now}{now}
     % 
     \KwIn{ModelSet, Sample Stream}
-    \KwOut{Classified Stream as $out$}
+    % \KwOut{Classified Stream as $out$}
     % 
-    \Function{\Mfog{ModelStream, InputStream}}{
+    \Function{\Mfog{ModelStream, InputStream, OutputStream}}{
         ModelSet = $\emptyset$\;
         ModelSetLock = \textbf{new} \Lock()\;
         \eIf(\emph{root}){\mpiRank == 0}{
-            \textbf{new} \Thread(\Detector, [ModelSet])\;
-            \Sampler(InputStream, ModelSet)\;
+            \textbf{new} \Thread(\Detector, [OutputStream, ModelSet, ModelSetLock])\;
+            \Sampler(InputStream, ModelSet, ModelSetLock)\;
         }(\emph{leaf}){
-            \textbf{new} \Thread(\modelReceiver, [ModelSet])\;
-            \Classifier(ModelSet)\;
+            \textbf{new} \Thread(\modelReceiver, [ModelSet, ModelSetLock])\;
+            \Classifier(ModelSet, ModelSetLock)\;
         }
     }
 \caption{MFOG: main MPI entry-point.}
@@ -65,8 +61,6 @@
     \SetKwFor{With}{with}{}{}
     \SetKw{continue}{continue}
     % 
-    % \SetKwData{CW}{CW}
-    % \SetKwData{noveltyDetectionTrigger}{NDT}
     \SetKwData{MEPC}{MEPC}
     \SetKwData{NF}{NF}
     \SetKwData{mpiSize}{mpiSize}
@@ -74,7 +68,7 @@
     \SetKwData{EndOfStream}{EndOfStream}
     % 
     \SetKwProg{Function}{Function}{:}{}
-    \Function{\Classifier{}}{
+    \Function{\Classifier{ModelSet, ModelSetLock}}{
         \While{ True }{
             sampe = \receive(SampleType, root)\;
             \lIf{sample == \EndOfStream}{\textbf{break}}
@@ -96,8 +90,6 @@
     \SetKwFor{With}{with}{}{}
     \SetKw{continue}{continue}
     % 
-    \SetKwData{CW}{CW}
-    \SetKwData{noveltyDetectionTrigger}{NDT}
     \SetKwData{MEPC}{MEPC}
     \SetKwData{NF}{NF}
     \SetKwData{mpiSize}{mpiSize}
@@ -105,7 +97,7 @@
     \SetKwData{EndOfStream}{EndOfStream}
     % 
     \SetKwProg{Function}{Function}{:}{}
-    \Function{\modelReceiver{ModelSet}}{
+    \Function{\modelReceiver{ModelSet, ModelSetLock}}{
         \While{ True }{
             cl = \receive(ClusterType, root)\;
             \lIf{cl == \EndOfStream}{\textbf{break}}
@@ -123,16 +115,15 @@
     \SetKwFor{With}{with}{}{}
     \SetKw{continue}{continue}
     % 
-    \SetKwData{CW}{CW}
-    \SetKwData{noveltyDetectionTrigger}{NDT}
     \SetKwData{MEPC}{MEPC}
     \SetKwData{NF}{NF}
     \SetKwData{mpiSize}{mpiSize}
     \SetKwData{mpiRank}{mpiRank}
     \SetKwData{EndOfStream}{EndOfStream}
-
+    \SetKwInOut{KwParams}{Parameters}
+    \KwParams{mpiClusterSize as \mpiSize}
     \SetKwProg{Function}{Function}{:}{}
-    \Function{\Sampler{InputStream, ModelSet}}{
+    \Function{\Sampler{InputStream, ModelSet, ModelSetLock}}{
         % ModelSet = read()\;
         % broadcast(ModelSet)\;
         dest = 1\;
@@ -168,14 +159,16 @@
     \SetKwData{mpiRank}{mpiRank}
     \SetKwData{EndOfStream}{EndOfStream}
 
+    \KwParams{\cleaningWindow, \noveltyDetectionTrigger}
+
     \SetKwProg{Function}{Function}{:}{}
-    \Function{\Detector{ModelSet}}{
+    \Function{\Detector{OutputStream, ModelSet, ModelSetLock}}{
         lastCleanup $\leftarrow 0$\;
         \While{ True }{
             sampe = \receive(SampleType, any)\;
             \lIf{sample == \EndOfStream}{\textbf{break}}
             % $out \leftarrow$ sample\;
-            outputStream.append(sample)\;
+            OutputStream.append(sample)\;
             \If{sample.label == unknown}{
                 UnkownSet = UnkownSet $\cup$ sample\;
                 \If{$|\;UnkownSet\;| \geq$ \noveltyDetectionTrigger}{
