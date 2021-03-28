@@ -36,19 +36,42 @@
 % In this work we investigate an appropriate architecture for performing \nd at the edge, as a means of allowing small IoT devices to filter undesirable network traffic.
 % Our approach is based on the \arch architecture \cite{Cassales2019aI} and \nd techniques provide by the \minas algorithm \cite{Faria2015minas}. Named \mfog, our distributed algorithm explores load balancing to enable low profile devices at the edge of the net to also work on the classification and detection of unwanted traffic.
 % eu trocaria a frase abaixo pelas 2 acima - helio
-In this work we investigate the application of the \arch architecture
-\cite{Cassales2019a} with \nd techniques by use of \minas algorithm
-\cite{Faria2015minas}, by implementation and evaluation of a parallel and
-distributed descendant of those two works we named \mfog.
+
+In this work we investigate an appropriate architecture for performing \nd at
+the edge, as a means of allowing small IoT devices to filter detect undesirable
+network behavior.
+Our approach is based on the \arch architecture \cite{Cassales2019a} and \nd
+techniques provide by the \minas algorithm \cite{Faria2015minas}.
+Named \mfog, our distributed algorithm explores load balancing to enable low
+profile devices at the edge of the internet to also work on the classification
+and detection of unwanted traffic.
+
+% Hermes:
+% In this work we propose and assess MFOG, a distributed data stream
+% novelty detection system based on the algorithm MINAS for securing IoT networks.
+% MFOG implements a distributed version of MINAS according to the IDSA-IoT
+% architecture proposed in a previous work [ ], to execute in the edge where small
+% devices and constrained resources may be prevalent
+
+In this work we propose and asses \mfog, a distributed data stream
+novelty detection system based on the algorithm \minas for securing \iot networks.
+\mfog implements a distributed version of \minas according to the \arch
+architecture proposed in a previous work \cite{Cassales2019a}, to execute in the
+edge where small devices and constrained resources may be prevalent.
+
+% In this work we investigate the application of the \arch architecture
+% \cite{Cassales2019a} with \nd techniques by use of \minas algorithm
+% \cite{Faria2015minas}, by implementation and evaluation of a parallel and
+% distributed descendant of those two works we named \mfog.
 However, given the distributed nature and the typical use of small computing
-devices in IoT scenarios, new constraints apply:
+devices in IoT scenarios, new challenges arise:
 \begin{enumerate*}[label=(\emph{\roman*})]
   \item the classification phase of the algorithm must occur in parallel at
   different nodes;
   \item the novelty detection phase, which provides the model evolution, must
   also be asynchronous;
   \item the algorithm complexity (time and space) must allow it to be processed
-  by modest computing devices.
+  by modest computing devices (i.e., small memory and low processor performance).
 \end{enumerate*}
 
 % \todo{Relembrar ids-iot, fase offline e online}
@@ -58,8 +81,17 @@ devices in IoT scenarios, new constraints apply:
 % implemented by following the  architecture \cite{Cassales2019a} using parallel and distributed techniques leveraging
 % edge and cloud for efficient computing.
 
-{\color{red} introdução?}
+% {\color{red} introdução?}
 % \todo{[start] intro/related?}
+% Hermes:
+% O foco é detecção de intrusão ou detecção de novidade? Não sei se ND consegue de
+% fato detectar intrusão e acho que esse é um terreno pantanoso.
+% Se quiser citar a vasta literatura sobre IDS tudo bem, mas falar de IDS dentro
+% da proposta pode dar uma ideia errada sobre a proposta.
+% Sugestão:
+% Our objective is to detect novel and emerging patterns in the network traffic
+% and possible misbehavior (e.g., novel and emerging misbehavior that cannot be
+% detected by misuse-based IDS systems) ....
 \nids 
 monitor network traffic, and analyze the characteristics of each flow 
 % aggregated into flow descriptors and further processed in a classification
@@ -73,14 +105,15 @@ However, this problem requires both fast and accurate response \cite{DaCosta2019
 fast response is needed to have a proper reaction before harm can be cast
 to the network and to cope with the traffic without imposing loss or delay
 in the \nids or observed network;
-accurate response is required as to not misidentify harmless with harmful and vice-versa,
+accurate response is required as to not misidentify,
+% harmless with harmful and vice-versa,
 especially the case of false positive that leads to false alarms.
 To achieve those goals we leverage fog computing.
 
 % \hl{intro/related?}
 
 In common \iot scenarios, data is captured by small devices and sent to the
-cloud for any compute or storage tasks, but this is not feasible in our \nids
+cloud for any compute or storage tasks, but this is not feasible in a \nids
 scenario.
 % Even though we also capture data produced in the edge, sending this data to the
 % cloud would in the worst case double the internet communication requirements of
@@ -97,6 +130,9 @@ providers by placing edge devices closer to end-users and/or data sources.
 
 In our proposal, fog and cloud computing resources are combined to minimize
 the time elapsed between a flow descriptor ingestion and intrusion alarm,
+% Melhor falar da proposta em nivel mais abstarto, destacando O QUE se
+% quer, deixando o COMO é implementado para mais tarde. Ou
+% seja, que aqui ainda é cedo para falar de MPI.
 performing the classification step of \minas in an MPI cluster running multiple
 classifier instances.
 After the initial classification, the resulting label can be used immediately,
@@ -108,7 +144,6 @@ the novelty detection step will be triggered.
 % Therefore, our objective is a Distributed novelty detection in streams using limited hardware.
 % Previous attempts to attain the objective of distributed fast
 
-\input{04.prop-algo}
 
 % visão geral de iot nessa fig
 % quais redes envolvidas
@@ -127,7 +162,17 @@ inexpensive computing and storage on demand.
 In this scenario the further apart resources are, more network
 resources need to be employed and, as with any networked system, the
 higher is the latency.
+% E como pretende lidar/evitar alta latencia?
 % }
+
+\begin{figure}[hb]
+  \centering
+  \includegraphics[width=0.5\linewidth]{figures/cassalesimgs-000.png}
+  \caption{\arch \cite{Cassales2019a} physical architecture and deployment scenario overview.}
+  \label{fig:mfog-phy-arch-cloud}
+\end{figure}
+
+\input{04.prop-algo}
 
 % \begin{figure*}[hbt]
 %   \centerline{
@@ -160,14 +205,17 @@ higher is the latency.
 % For that reason we also leverage the public cloud for model storage and distribution,
 % global novelty detection and alarm forwarding.
 
-% In Figure \ref{fig:mfog-architecture} we depict 
-The overall \mfog architecture can be cut down to individual modules:
-three main functional modules, being the Classification and Novelty
-% three main functional modules being Training, Classification and Novelty
-Detection handling \minas main tasks.
-% Three auxiliary Source, Sink and Model Store, addressing external and
-% internal connections as well as providing facilities to our tests and
-% experiments.
+% % In Figure \ref{fig:mfog-architecture} we depict 
+% The overall \mfog architecture can be cut down to individual modules:
+% three main functional modules, being the Classification and Novelty
+% % three main functional modules being Training, Classification and Novelty
+% Detection handling \minas main tasks.
+% % Three auxiliary Source, Sink and Model Store, addressing external and
+% % internal connections as well as providing facilities to our tests and
+% % experiments.
+
+% The overall \mfog architecture has two main modules, Classification and Novelty
+% Detection, handling \minas main tasks.
 
 % enumerar módulos e funções
 % \\descrever etapas do \minas e onde se encaixa
@@ -191,17 +239,22 @@ Detection handling \minas main tasks.
 
 % Training Module encapsulates the Offline phase of \minas and its output, being the
 % initial model, is stored by the Model Store.
+
+The overall \mfog architecture has two main modules, Classification and Novelty
+Detection, handling \minas main tasks.
 The Classification Module performs the same task of the \minas Online phase and
-is the focal point for parallelism in our proposal. 
-It is replicated in the fog, and runs on each cluster node, using a configurable number of threads, 
+is the focal point for parallelism and distribution in our proposal.
+It is replicated in the fog, and runs on each cluster node, using a configurable
+number of threads (limited to the node CPU core count).
 % with one or more nodes and each node multiple processes (limited to the individual CPU core count).
 
 The Novelty Detection Module can be also replicated,
-but one instance is intended per local network and one global instance,
-also handling the homonymous task of \minas Online phase.
-This modules takes as input all samples labeled with \emph{unknown},
-stores them in a internal \emph{unknown} buffer and when this buffer is full,
-triggers \minas Novelty Detection task (clustering followed by validation).
+the choice being one instance per local network, one global cloud instance,
+or both.
+This module also handles the homonymous task of \minas Online phase, receiving
+all the samples labeled with \emph{unknown}, storing them in a internal
+\emph{unknown-buffer}, and, when this buffer is full, performing the \minas
+Novelty Detection task (clustering followed by validation).
 
 % In Figure \ref{fig:mfog-architecture} we depict each logical component associated
 % with each \minas step and its communications, we also depict extra modules for sampling
@@ -218,11 +271,16 @@ triggers \minas Novelty Detection task (clustering followed by validation).
 \subsection{Polices}\label{sec:polices}
 
 % achei confuso o uso de "opens data distribution..."
-The design of our distributed \nd architecture includes partitioning the functionalities of the \minas code and establishing the appropriate data flows between different actors.
-% The distribution of steps and tasks in various modules opens data distribution and its impacts to discussion.
-
+The design of our distributed \nd architecture includes partitioning the
+functionalities of \minas and establishing the appropriate data flows
+between different actors.
+Changes to placement and behavior can have different impacts and should be
+chosen with care.
+% The distribution of steps and tasks in various modules opens data distribution
+% and its impacts to discussion.
+% 
 % acho que falta deixar claro o que quer comparar...
-
+% 
 The decisions following these discussions can be organized in several policies,
 some of them were recurring during our implementation discussions and are:
 
@@ -315,18 +373,19 @@ of all distances as described in \cite{Faria2015minas}.
 
 \newcommand{\val}{$\vec{v}\,$\xspace}
 The stream formats for input and output are also of note.
-Input information needed is the samples value (\val), this \val is a number
-sequence of length $d$ (dimension).
+Input information needed is the sample value (\val),
+it being sequence of real numbers with length $d$ (dimension).
 In addition to \val, for evaluation and training purposes the class
 identifier as single character, and unique item identifier
 (\emph{uid}) can be provided or be the sample index in the stream.
-
 For output information and format the decision isn't so clear as we can't
-predict future system integrations needs like only novelty alarms or every
-samples original \val with assigned label so, we have a compromise and put only
-enough information for the Sink Module (where the full information
-from the testing file or stream can be accessed) meaning the format can be
-defined as a tuple containing \emph{uid} and assigned label.
+predict future system integrations needs.
+Some systems may require only novelty alarms (the minimal useful output),
+% or samples with label in a subset of all labels,
+other systems may require every sample with label and original \val.
+For the assessment in this work, \mfog outputs only enough information for
+evaluation with the full data set, meaning the format can be defined as a tuple
+containing \emph{uid} and assigned label.
 
 % - Reprocessamento dos exemplos utilizados para atualização do modelo:
 %   - Muda o comportamento do operador de fluxo de `Map` para `Flatmap`, ou seja,
@@ -361,8 +420,8 @@ defined as a tuple containing \emph{uid} and assigned label.
 For \mfog, the Message Passing Interface (MPI, from \emph{Open MPI 4.0.4})
 library was used.
 In MPI programming, multiple processes of the same program are created by the
-run-time and each process instance receives a rank parameter, for \mfog this
-parameters indicate if the process is root, rank $0$, or leaf otherwise.
+run-time and each process instance receives a rank parameter.
+For \mfog this parameter indicate if the process is root, rank $0$, or leaf otherwise.
 Beyond this division, each process also operates two threads, for the root
 there is a sampler and detector threads, for the leafs each has a model receiver
 thread and multiple classifier threads.
