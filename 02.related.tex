@@ -4,11 +4,10 @@
 \label{sec:related}
 
 Network Intrusion Detection based on Machine Learning is not a novel concept.
-The plethora of network applications and 
-ways of exploiting them, motivate using automated means to detect known and novel attacks. 
+The plethora of network applications and ways of exploiting them motivate using automated means to detect known and novel attacks. 
 % the interest of teach a machine how to detect a novel attack is formed.
 There are, though, open questions and challenges on this subject, such as
-reducing false positive rate and detecting attacks in a timely fashion \cite{DaCosta2019a}.
+reducing the false positive rate and detecting attacks in a timely fashion \cite{DaCosta2019a}.
 
 A few recent works inspired our work, such as: BigFlow \cite{Viegas2019}
 employing Apache Kafka and Apache Flink for distributed stream processing,
@@ -47,31 +46,30 @@ Fog computing is used to execute ML functions and data aggregation. Experiments
 used real data collected from sensors. The metrics used included precision,
 recall and accuracy.
 %
-The work in \cite{Kalis} proposed an hybrid IDS which collects information about
+The work in \cite{Kalis} proposed a hybrid IDS which collects information about
 the environment and activates specific modules to mitigate each kind of attack.
-Experiments were made in a real environment and metrics used were recall,
+Experiments were made in a real environment, and the metrics used were recall,
 precision and resource consumption (CPU and RAM).
 %
 Smart cities scenarios also employ IoT to measuring and monitoring tasks.
 %\cite{IoT-arch-smartmeter,scalable-anomaly-detection-smart-city,DS-based-IDS-SmartGrid}.
 In \cite{IoT-arch-smartmeter}, the authors propose an architecture that uses
 three stream mining methods based on ML to characterize water and energy
-consumption behavior, predict consumption, and detect incidents.
+consumption behavior, predict consumption and detect incidents.
 The metrics used to express results include water and energy consumption.
 %
 The work in \cite{scalable-anomaly-detection-smart-city} also aimed to identify
 anomalies in a water distribution network and proposes a three layer
 architecture (sensors, base stations and datacenter).
-The second layer performs time-sensitive tasks, thus reducing latency, while
-third layer provides storage and aggregates the results of the second layer with
+The second layer performs time-sensitive tasks, thus reducing latency, while the third layer provides storage and aggregates the results of the second layer with
 historical data to generate more accurate information.
 Water distribution measures were used, comparing the values of the predictions
 with the actual measurements.
 %
 Intrusion detection for smart cities, based on data mining techniques running on
-an unrestricted devices is proposed in \cite{DS-based-IDS-SmartGrid}.
-Experiments using KDD99 data are presented and the metrics used were precision,
-Kappa, memory consumption, time, FAR, and FNR.
+an unrestricted device is proposed in \cite{DS-based-IDS-SmartGrid}.
+Experiments using KDD99 data are presented, and the metrics used were precision,
+Kappa, memory consumption, time, FAR and FNR.
 
 
 Table \ref{tab:summary} summarizes the discussion on the related work.
@@ -79,11 +77,11 @@ Note that some works use data from KDD99 or derived from this data set.
 Collected two decades ago, KDD is no longer representative of current attack
 patterns and IoT environments.
 Some works used traces captured from local infrastructure, which provide
-realistic evaluation, but lack of reproducibility.
+realistic evaluation, but lack reproducibility.
 Some works used data produced by intentional simulated attacks, designed by the
 same people who designed the detection techniques.
 This can bring unrealistic advantages to the detection methods.
-Also, it is worth noting that most articles used metrics like FAR, recall, and
+Also, it is worth noting that most articles used metrics like FAR, recall and
 accuracy.
 Although widely adopted in classical scenarios, such metrics are inaccurate for
 stream processing \cite{GAMA2010}.

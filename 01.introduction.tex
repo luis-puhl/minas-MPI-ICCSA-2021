@@ -12,27 +12,27 @@
 % More recently, Statista predicted that the total number of such devices will
 % reach 38 billion by 2025, and 50 billion by 2030 \cite{statista-iot}.
 The Internet of Things (\iot) brings together a wide variety of devices,
-including mobile, wearable, consumer electronics, automotive, and sensors of
+including mobile, wearable, consumer electronics, automotive and sensors of
 various types.
 % 
 Such devices can either be accessed by users through the Internet or connect
-to other devices, servers, and applications,
+to other devices, servers and applications,
 with little human intervention or supervision
 \cite{Tahsien2020,abane2019,haddadpajouh2019survey,Shanbhag2015}.
 % 
-Security and privacy is a major concern in the \iot, specially regarding
+Security and privacy is a major concern in the \iot, especially regarding
 % devices like smart home assistants and wearable
 devices having access to user personal data like
-location, health, and many other sensitive data \cite{sengupta2020comprehensive}.
+location, health and many other sensitive data \cite{sengupta2020comprehensive}.
 % 
 Furthermore, if compromised, such devices can also be used to attack other
 devices and systems, steal information, cause immediate physical damage or
 perform various other malicious acts \cite{Kolias2017mirai}.
 % 
-As an additional concern, \iot devices likely have long lifespan, less frequent
+As an additional concern, \iot devices likely have a long lifespan, less frequent
 software patches, growing diversity of technologies combined with lack of
 control over the software and hardware of such devices by the host organization
-(where their are deployed), which considerably increases the attack surface.
+(where they are deployed), which considerably increases the attack surface.
 
 % A study reveals that nearly $20\%$ of organizations have experienced at least one
 % IoT-based attack in the last three years.
@@ -49,7 +49,7 @@ control over the software and hardware of such devices by the host organization
 % e.g. 'exempli gratia', which means "for example."
 % {\color{red} muito próximo de \cite{Cassales2019a}}
 Because most \iot devices have limited resources (i.e., battery, processing,
-memory, and bandwidth), configurable and expensive algorithm-based
+memory and bandwidth), configurable and expensive algorithm-based
 security techniques are not usual, giving way to network based approaches 
 % may not fit 
 \cite{Zhou2017}.
@@ -89,9 +89,9 @@ detection with several advantages, such as:
 Given the recent \cite{Viegas2019,AndreoniLopez2019,DaCosta2019a} use of Data Stream Novelty
 Detection (\nd) in network data streams, this paper shows the effects of
 adapting these mechanisms to edge services for use in \iot environments.
-Our proposal, called \mfog, adapted and experimentally validated the \arch
+Our proposal, called \mfog, adapted the \arch
 architecture \cite{Cassales2019a} using the \nd algorithm \minas
-\cite{Faria2013Minas,Faria2015minas}, making the algorithm suitable to run
+\cite{Faria2013Minas,Faria2015minas}, making it suitable to run
 % (as it was already tested in a similar \iot scenario) 
 on a distributed system composed of small devices with limited
 resources on the edge of the network.
@@ -99,12 +99,12 @@ resources on the edge of the network.
 % and high latency of cloud resources.
 % We proposed and implemented dMINAS, a distributed extension
 % of MINAS \cite{Faria2016minas} (a novelty detection for data streams).
-Using our newer version of the \minas algorithm, We have experimentally evaluated 
+Using our newer version of the \minas algorithm, we have experimentally evaluated 
 % through experimental methodology, 
 how the distribution 
 % the chosen novelty detection algorithm \minas
 affects the capability to detect changes (novelty) in
-traffic patterns, and its impact on the computational efficiency.
+traffic patterns and its impact on the computational efficiency.
 Finally, some distribution strategies and policies for the data stream
 novelty detection system are discussed.
 % }

@@ -37,8 +37,8 @@
 % Our approach is based on the \arch architecture \cite{Cassales2019aI} and \nd techniques provide by the \minas algorithm \cite{Faria2015minas}. Named \mfog, our distributed algorithm explores load balancing to enable low profile devices at the edge of the net to also work on the classification and detection of unwanted traffic.
 % eu trocaria a frase abaixo pelas 2 acima - helio
 
-In this work we investigate an appropriate architecture for performing \nd at
-the edge, as a means of allowing small IoT devices to filter detect undesirable
+In this work, we investigate an appropriate architecture for performing \nd at
+the edge, as a means of allowing small IoT devices to filter and detect undesirable
 network behavior.
 Our approach is based on the \arch architecture \cite{Cassales2019a} and \nd
 techniques provide by the \minas algorithm \cite{Faria2015minas}.
@@ -53,7 +53,7 @@ and detection of unwanted traffic.
 % architecture proposed in a previous work [ ], to execute in the edge where small
 % devices and constrained resources may be prevalent
 
-In this work we propose and asses \mfog, a distributed data stream
+In this work, we propose and assess \mfog, a distributed data stream
 novelty detection system based on the algorithm \minas for securing \iot networks.
 \mfog implements a distributed version of \minas according to the \arch
 architecture proposed in a previous work \cite{Cassales2019a}, to execute in the
@@ -105,10 +105,10 @@ However, this problem requires both fast and accurate response \cite{DaCosta2019
 fast response is needed to have a proper reaction before harm can be cast
 to the network and to cope with the traffic without imposing loss or delay
 in the \nids or observed network;
-accurate response is required as to not misidentify,
+accurate response is required as not to misidentify,
 % harmless with harmful and vice-versa,
 especially the case of false positive that leads to false alarms.
-To achieve those goals we leverage fog computing.
+To achieve those goals, we leverage fog computing.
 
 % \hl{intro/related?}
 
@@ -118,7 +118,7 @@ scenario.
 % Even though we also capture data produced in the edge, sending this data to the
 % cloud would in the worst case double the internet communication requirements of
 % the overall system.
-Fog computing infrastructure aims to offload processing from cloud
+Fog computing infrastructure aims to offload processing from the cloud
 providers by placing edge devices closer to end-users and/or data sources.
 % But two \minas steps limit this fog offload, the processing intensive novelty
 % detection and, long term model storage and distribution of the internal model.
@@ -133,7 +133,7 @@ the time elapsed between a flow descriptor ingestion and intrusion alarm,
 % Melhor falar da proposta em nivel mais abstarto, destacando O QUE se
 % quer, deixando o COMO é implementado para mais tarde. Ou
 % seja, que aqui ainda é cedo para falar de MPI.
-performing the classification step of \minas in an MPI cluster running multiple
+performing the classification step of \minas  running multiple
 classifier instances.
 After the initial classification, the resulting label can be used immediately,
 but if the sample is labeled as \emph{unknown}, this sample must be stored and
@@ -155,12 +155,12 @@ showing from bottom to top:
 this gateway network could be as simple as a single Internet router 
 or be more complex by connecting to private clouds or 
 containing more devices providing fog computing capabilities;
-lastly, available over the internet, traditional public cloud provides
+lastly, available over the internet, the traditional public cloud provides
 inexpensive computing and storage on demand.
 % \todo{the following is needed?}
 % {
-In this scenario the further apart resources are, more network
-resources need to be employed and, as with any networked system, the
+In this scenario, the further apart resources are, the more network
+resources need to be employed, and, as with any networked system, the
 higher is the latency.
 % E como pretende lidar/evitar alta latencia?
 % }
@@ -239,18 +239,18 @@ higher is the latency.
 % initial model, is stored by the Model Store.
 
 The overall \mfog architecture has two main modules, Classification and Novelty
-Detection, handling \minas main tasks.
+Detection, which implement the \minas main tasks.
 The Classification Module performs the same task of the \minas Online phase and
 is the focal point for parallelism and distribution in our proposal.
-It is replicated in the fog, and runs on each cluster node, using a configurable
+It is replicated in the fog and runs on each cluster node, using a configurable
 number of threads (limited to the node CPU core count).
 % with one or more nodes and each node multiple processes (limited to the individual CPU core count).
 
-The Novelty Detection Module can be also replicated,
+The Novelty Detection Module can also be replicated,
 the choice being one instance per local network, one global cloud instance,
 or both.
 This module also handles the homonymous task of \minas Online phase, receiving
-all the samples labeled with \emph{unknown}, storing them in a internal
+all the samples labeled with \emph{unknown}, storing them in an internal
 \emph{unknown-buffer}, and, when this buffer is full, performing the \minas
 Novelty Detection task (clustering followed by validation).
 
@@ -288,7 +288,7 @@ some of them were recurring during our implementation discussions and are:
     
     \item At each fog node: patterns will be only detected if sufficient samples
     of them occur in the local observed network, use of the local node
-    processing power and, a model synchronization mechanism between networks
+    processing power, and a model synchronization mechanism between networks
     must be added;
 
     \item In the cloud: detect patterns even when scattered on each local
@@ -300,7 +300,7 @@ some of them were recurring during our implementation discussions and are:
     detection is local as well, once a sample is considered as noise or outlier
     it shall be sent to the cloud where the process repeats but with global
     data.
-    This choice needs a even more complex a model synchronization mechanism.
+    This choice needs an even more complex model synchronization mechanism.
 
   \end{itemize}
     
@@ -312,7 +312,7 @@ some of them were recurring during our implementation discussions and are:
   \item Lastly, reclassification of \emph{unknowns}: In the novelty detection
   task in \minas, the \emph{unknown} sample buffer is effectively classified
   using the new set of clusters.
-  In Algorithm \ref{alg:MINAS-nd}, at line \ref{alg:MINAS-nd:reclassify}, the
+  In Algorithm \ref{alg:MINAS-nd}, at the line \ref{alg:MINAS-nd:reclassify}, the
   new cluster valid (novelty or extension) includes the set of samples composing
   that cluster, thus, if this new label assignment was put forth to the system
   output it would introduce delayed outputs, more recent and perhaps more
@@ -389,7 +389,7 @@ The stream formats for input and output are also of note.
 As input, the algorithm takes samples (\val), which are a sequence of numbers
 with dimension $d$.
 In addition to \val, for both training and evaluation, the class
-identifier is provided as a single character, along with an unique item identifier
+identifier is provided as a single character, along with a unique item identifier
 (\emph{uid}), which can otherwise be determined from the sample index in the stream.
 
 % muito longo, difícil de entender... - helio
@@ -457,19 +457,19 @@ a tuple containing \emph{uid} and the assigned label.
 
 For evaluation purposes, an \mfog implementation was made using MPI (\emph{Open
 MPI 4.0.4}).
-The program is organized in an single program multiple data (SPMD)
+The program is organized in a single program multiple data (SPMD)
 programming model, so a single version of the \mfog program was initiated on all
 nodes, being that one of them would perform the root role, while the others ran
-as leafs, the program entry point is illustrated on Algorithm \ref{alg:MFOG}.
+as leaves, the program entry point is illustrated on Algorithm \ref{alg:MFOG}.
 On the root process, a sampler thread is responsible for distributing the
 sampled flow information (\val) to the classifier nodes, using a round-robin
 load balancing scheme.
 The other thread on the root process is responsible for receiving the
-classification results and for processing the unknown samples in search for
+classification results and for processing the unknown samples in the search for
 novelties.
 The root process functions are illustrated in Algorithm \ref{alg:MFOG-root}.
 Each leaf node runs a model adjustment thread and multiple (up to the number of
-cores) classifier threads and the leaf tasks are illustrated in Algorithm
+cores) classifier threads. The leaf tasks are illustrated in Algorithm
 \ref{alg:MFOG-leaf}.
 % >>>>>>> dd70e6dd2f93dbb63f7f84ee937aafc4b6ff9684
 The overall sequence of interactions is shown in Figure \ref{fig:mfog-mpi-life}.

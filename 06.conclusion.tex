@@ -14,34 +14,34 @@
 %     - mais roots (melhor algo de distribuição)
 %     - mini batching
 
-Novelty Detection in Data Streams (\nd) can be a useful mechanism for Network
-Intrusion Detection (\nids) in IoT environments. It can also serve for other related application of \nd using continuous
+Data Stream Novelty Detection (\nd) can be a useful mechanism for Network
+Intrusion Detection (\nids) in IoT environments. It can also serve other related applications of \nd using continuous
 network or system behavior monitoring and analysis.
 % However, in the \iot context, it is expected that small edge devices perform
-such maintenance tasks.
+% such maintenance tasks.
 Regarding the tremendous amount of data that must be processed in the flow analysis for \nd, it 
 is relevant that this processing takes place at the edge of the network. 
-However, one relevant shortcoming of the IoT in this case is the reduced processing capacity of such devices. 
+However, one relevant shortcoming of the IoT, in this case, is the reduced processing capacity of such edge devices. 
 
-In this sense, we have put together and evaluated a distributed architecture for \nd at the network edge.
+In this sense, we have put together and evaluated a distributed architecture for performing \nd in network flows at the edge.
+% In that small computing on edge scenario, w
+Our proposal, \mfog is a distributed \nd
+implementation based on the \nd algorithm \minas.
 
-In that small computing on edge scenario, we propose \mfog: a distributed \nd
-implementation based on the \nd algorithm \minas, and, evaluated with a \nids
-task with appropriate data set.
-The main goal this work  to observe the effects of our approach to a
-previously serial only algorithm, specially in regards to time and quality
+The main goal of this work is to observe the effects of our approach to a
+previously serial only algorithm, especially in regards to time and quality
 metrics.
 
 % \mfog is a demonstration piece
 
 % pode ser a conclusão do abstract
-While there is some impact on the predictive metrics this is not reflected on
+While there is some impact on the predictive metrics, this is not reflected on
 overall classification quality metrics indicating that distribution of \minas
 shows a negligible loss of accuracy.
 % but is overshadow by the benefits of scalability.
-In regards of time and scale, our distributed executions used less time than
-previous implementation but efficient distribution was not achieved as the
-observed time as we added nodes remained constant.
+In regards to time and scale, our distributed executions was faster than the 
+previous sequential implementation of \minas, but efficient data distribution was not achieved as the
+observed time with each added node remained constant.
 % In our experiments, a months worth of traffic flow descriptors is processed in
 % around $300$ seconds even with non-optimal load sharing round-robin strategy.
 % (single sample round-robin that incurs the bigger networking overhead),
@@ -51,8 +51,13 @@ observed time as we added nodes remained constant.
 % detection task is under way as it still a non-stream oriented algorithm limited
 % to a single batch of fixed memory).
 
+% Acho que trocaria a úlitma frase por algo mais conclusivo para fechar o artigo
+% Overall, \mfog and the idea of using distributed flow classification and novelty detection using small devices at the edge of the network is a viable and promising solution. 
+% Further work include the investigation of using varying load balancing strategies and also considering using a distributed version of the k-means clustering.
+
 Our treatment involved reworking the algorithm and implementation to be
-distributed and to minimize the memory usage as to fit in smaller devices.
+distributed and %to minimize the memory usage as 
+minimizing memory usage to fit in smaller devices.
 Other algorithms still need a similar treatment and, more importantly, other
 distribution strategies should be considered.
 

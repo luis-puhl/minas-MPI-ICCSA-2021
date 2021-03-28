@@ -12,13 +12,13 @@
 % data set ... describe the data set. The load generator does bla bla bla ... The
 
 Aiming to evaluate our proposal for the effects of distributed novelty detection
-in a \iot \nids scenario, we implemented a experimental setup.
-Our experimental setup is composed of three Raspberry Pi 3 model B single board
-computers connected via Ethernet Switch forming a simple cluster simulating an
-\iot network with edge constrained resources.
+in a \iot \nids scenario, we implemented an experimental setup, composed of three Raspberry Pi 3 model B single board
+computers connected via Ethernet Switch. The idea was to create a simple cluster simulating an
+\iot network with constrained resources at the edge of the network.
 This cluster stored all source code, binaries (compiled and linked in place) and
-data sets, being accessed via our laboratory network over Secure Shell (SSH).
-In our setup the data set is stored in the root's node SD card and is read for
+% data sets, being accessed via our laboratory network over Secure Shell (SSH).
+data sets.
+In our setup, the data set is stored in the root's node SD card and is read for
 each experiment.
 All experiments were executed in this cluster for isolation of otherwise
 unforeseen variations and for safe software comparison with constant hardware.
@@ -27,12 +27,12 @@ The data set used is the December 2015 segment of
 Kyoto 2006+ data set\footnote{Available at \url{http://www.takakura.com/Kyoto\_data/}}
 (Traffic Data from Kyoto University's Honeypots) \cite{Song2011}
 containing $7\:865\:245$ samples.
-From the original data set, we filtered only samples associated to normal traffic
+From the original data set, we filtered only samples associated with normal traffic
 or known attack types identified by existing \nids, and attack types with more
 than $10\:000$ samples for significance, as previously done by
 \cite{Cassales2019a}.
 % , this removes 46,390 instances. TODO: revisar, pois 7M != 700K.
-The remaining samples then were normalized so each feature value space (e.g. IP
+The remaining samples then were normalized so each feature value space (e.g., IP
 Address, Duration, Service) is translated to the Real interval $[0, 1]$.
 
 % Hermes: 72,000 em ingles usar a “,“ como separador de milhar
@@ -50,7 +50,7 @@ resulting in $72\:000$ instances.
 For the test set we use $653\:457$ instances with
 $206\:278$ instances with ``$N$'' (normal) class and
 $447\:179$ instances with ``$A$'' (attack) class.
-Note that this choice results in a possible overfitting for the normal class and,
+Note that this choice results in possible overfitting for the normal class and,
 under-fitting for the attack class as the system first needs to detect a novel class and
 then add it to the model.
 
@@ -88,17 +88,17 @@ then add it to the model.
 
 % \hl{BEGIN Oritações de leitura das métricas e visualizações.}
 
-\subsection{Measures and Visualizations}
+\subsection{Measurements and Visualizations}
 
-We use two types of evaluation measures for each experiment:
-a time measure of the full experiment execution
+We have used two types of evaluation measurements for each experiment:
+a measure of the full experiment execution time
 % extracted by using \emph{GNU Time 1.9} measuring 
-and, a set of qualitative measures extracted by a Python script.
+and, a set of qualitative measurements extracted by a Python script.
 
 % Our script computed the
 Our evaluation script was build following reference techniques like
 multi-class confusion matrix with label-class association \cite{Faria2015minas}
-to extract classification quality measures.
+to extract classification quality measurements.
 This script takes two inputs, the test data set and the captured output stream,
 and outputs the confusion matrix, label-class association,
 final quality summary with:
@@ -145,7 +145,7 @@ One complete matrix is shown in Tab. \ref{tab:java-matrix}.
 % \end{center}\end{table*}
 
 \begin{table*}[htb]
-\caption{Confusion Matrixs and Qualitative measures}
+\caption{Confusion Matrixs and Qualitative measurements}
 \label{tab:confusion-matrixes-ref-serial}
 \begin{subtable}[h]{\textwidth}\begin{center}
     \caption{Reference implementation}
@@ -171,7 +171,7 @@ One complete matrix is shown in Tab. \ref{tab:java-matrix}.
 \end{center}\end{subtable}
 \end{table*}
 
-For the measure summary table, six measures from two sources are displayed. Three
+For the measurements summary table, six measurements from two sources are displayed. Three
 measures \emph{Hits}, \emph{Unknowns} and \emph{Misses} represented as ratio of
 the captured output stream, extracted from the evaluation python program,
 computed as follows:
@@ -183,25 +183,25 @@ with the \emph{unknown} label (\emph{``-''});
 with a label distinct from the \emph{Assigned} original class and are not marked
 as unknown.
 
-Furthermore in the measure summary table, \emph{Time}, \emph{System} and \emph{Elapsed}
-measures represented in seconds, are extracted from \emph{GNU Time}.
+Furthermore in the measurement summary table, \emph{Time}, \emph{System} and \emph{Elapsed}
+ represented in seconds, are extracted from \emph{GNU Time}.
 \emph{Time} is the amount of CPU seconds expended in user-mode
-(indicates time used doing CPU intensive computing, e.g. math);
+(indicates time used doing CPU intensive computing, e.g., math);
 \emph{System} is the amount of CPU seconds expended in kernel-mode
-(for our case it indicates time doing input or output);
+(for our case, it indicates time doing input or output);
 \emph{Elapsed} is the real-world (wall clock) elapsed time and
-indicates how long another system or person had to wait for the result.
-To compare the time measure is simple, the lower time taken, the better.
+indicates how long the program took to complete.
+The lower the times, the better.
 Our four main experiments are shown in Tab. \ref{tab:exper-summary}.
 
-Lastly, the stream visualization chart shows the summary quality measure
+Lastly, the stream visualization chart shows the summary quality measurement
 (\emph{Hits}, \emph{Unknowns}, \emph{Misses})
 computed for each example in the captured output stream.
-This summary is computed for each example but it uses the \emph{Assigned} row
-computed previously to evaluate \emph{Hits}, other measures are derived as
+This summary is computed for each example, but it uses the \emph{Assigned} row
+computed previously to evaluate \emph{Hits}; the other measurements are derived as
 described before.
-Horizontal axis (x, domain) plots the index of the example and the
-vertical axis (y, image) shows the measure computed until that example index on the captured
+The Horizontal axis (x, domain) plots the index of the example and the
+vertical axis (y, image) shows the measurement computed until that example index on the captured
 output stream.
 
 Adding to the stream visualization chart, novelty label markers are represented
@@ -252,9 +252,9 @@ Figure \ref{fig:visualization} shows complete stream visualization charts.
 % \hl{END Oritações de leitura das métricas e visualizações.}
 
 % \FloatBarrier
-\subsection{Results Discussion}
+\subsection{Discussion}
 
-Four main experiments need detailed discussion:
+Four main experiments are presented for discussion:
 (\emph{a}) reference implementation of Minas (\refminas) \cite{Faria2015minas};
 (\emph{b}) new implementation in serial mode;
 (\emph{c}) new implementation in single-node, multi-task mode and
@@ -272,53 +272,53 @@ The summary of all four experiments is shown in Table \ref{tab:exper-summary}.
 \end{center}
 \end{table*}
 
-The comparison of the first two experiments (\emph{a} and \emph{b}) does serve as
+The comparison of the first two experiments (\emph{a} and \emph{b}) provides a
 validation for our implementation, while the latter three (\emph{b}, \emph{c}
-and \emph{d}) serves as showcase for the effects of distribution.
+and \emph{d}) serve as showcase for the effects of distribution.
 
-As stated, to validate our implementation we compare it to \refminas
-(the original \minas companion implementation), so we extracted the same measures
-using same process for both \emph{a} and \emph{b}, they can be viewed on
+As stated, to validate our implementation we have compared it to \refminas
+(the original \minas companion implementation), so we extracted the same measurements
+using same process for both \emph{a} and \emph{b}, which can be viewed in
 Tables \ref{tab:java-matrix}, \ref{tab:libc-matrix} and for ease of comparison
-on Table \ref{tab:exper-summary} the summary can be compared side by side.
+in Table \ref{tab:exper-summary} the summary can be compared side by side.
 
-In general, the observed classification quality measures are very similar,
-they diverge slightly where \emph{a} has more \emph{Hits} and \emph{Misses}
+In general, the observed classification quality measurements are very similar,
+and only diverge slightly where \emph{a} has more \emph{Hits} and \emph{Misses}
 whereas \emph{b} shifted those to \emph{Unknowns}.
-This phenomenon was watched very closely during development and we found that
+This phenomenon was watched very closely during development and we found that it was due to
 small changes to \minas parameters, \minas internals like K-means ordering,
 cluster edge inclusion and cluster radius formula as stated in
 Subsection \ref{sec:implementation}.
 
-As for the time measures on Table \ref{tab:exper-summary}
+As for the time measurements in Table \ref{tab:exper-summary}
 our implementation used less time to analyze the test data set.
 This is mostly due to 
 the stop condition
-on the internal K-means algorithm, while \refminas uses a fixed iteration
+on the internal K-means algorithm; while \refminas uses a fixed iteration
 limit of $100$, our implementations adds the ``no improvement'' check
-and stops earlier on most cases and this in turn reduces time taken
+and stops earlier in most cases, which in turn reduces the time taken
 on the \emph{NoveltyDetection} function.
 There are also small optimizations on the \emph{nearestCluster} function
 (minimal distance from sample to cluster center in the set)
 affecting the \emph{classifier} task and \emph{NoveltyDetection} function.
-Also note that \refminas time in \emph{a} includes the Offline phase while our
+One can also note that \refminas time in \emph{a} includes the Offline phase while our
 implementation runs it once and reuses the initial model for \emph{b}, \emph{c}
-and \emph{d}, in the table the offline time is on its separated column.
+and \emph{d}. In the table the offline time this is shown as a separate column.
 
-As for the effects of running a MPI cluster with our implementation we observe
-an increase of time when e go from $2$ to $4$ instances in a single node
+As for the effects of running the classification processes on the small devices as MPI nodes with our implementation, we observe
+an increase of time when we go from $2$ to $4$ instances in a single node
 (\emph{b} and \emph{c} respectively), hinting that our choice of load
 distribution is not as effective as we expected.
-Further experiments were conducted with instances varying from $1$ (serial) to
-$12$ (3 nodes with 4 CPUs each) and true positive rate (\emph{Hits}) and elapsed
-time had no major difference.
-More detailed time measurements can be seen on Figure \ref{fig:speedup},
+Further experiments were conducted with the number of instances varying from $1$ (serial) to
+$12$ (3 nodes with 4 CPUs each), but that caused no impact on the true positive rate (\emph{Hits}) and elapsed time.
+More detailed time measurements can be seen in Figure \ref{fig:speedup},
 where we observe near constant time for \emph{elapsed} (near $100s$),
 the \emph{system} increases gradually while \emph{user} decreases at the same rate.
 We interpret this behavior as a display of potential for gains using a better
 load balancing than our choice of round-robin such as micro-batching for better
 compute-to-communication ratio (CCR).
-In general Figure \ref{fig:speedup} shows no speedup but also no penalty for
+% legal!
+In general, Figure \ref{fig:speedup} shows no speedup but also no penalty for
 scaling to more than $4$ instances.
 
 % \st{we have to say it is pretty shitty because of our choice of distribution 
@@ -351,8 +351,8 @@ on the Confusion Matrix (tabs. \ref{tab:libc-matrix} and \ref{tab:single-node-ma
 from $10$ to $4$.
 The same effect is observed on the stream visualization (figs.
 \ref{fig:validation-sub-serial} and \ref{fig:cluster-sub-single}) where our
-serial implementation has less novelty markers and they appear latter, but the
-measures keeps the same ``shape''.
+serial implementation has fewer novelty markers, and they appear later, but the
+measures keep the same ``shape''.
 Comparing \emph{c} and \emph{d} the difference is even smaller,
 (figs. \ref{fig:validation-sub-serial} and \ref{fig:cluster-sub-single})
 as they both suffer the expected delay in the feedback loop.
