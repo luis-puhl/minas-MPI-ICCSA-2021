@@ -5,7 +5,7 @@
 % \subsection{O Algoritmo MINAS}
 % Apresentar o MINAS de forma resumida (1 pagina no max): como funciona, etc. 
 
-\minas \cite{Faria2013Minas,Faria2015minas} is an offline-online \nd algorithm,
+\minas \cite{Faria2013Minas,Faria2016minas} is an offline-online \nd algorithm,
 meaning it has two distinct phases. The first phase (offline) creates an initial
 model set with several clusters based on a clustering algorithm with a training
 set.
@@ -34,7 +34,7 @@ noise or outliers and removed.
 The algorithm also has a mechanism to forget clusters that became obsolete and
 unrepresentative of the current data stream distribution, removing them from
 the Model and storing in a Sleep Model for possible recurring pattern
-detection \cite{Faria2015minas}.
+detection \cite{Faria2016minas}.
 % cluster in the model with no recent match
 % are removed as well, as they correspond to obsolete and nonrepresentative
 % patterns in the current data stream 
@@ -92,7 +92,7 @@ detection \cite{Faria2015minas}.
             outputStream.append(sample)\;
         }
     }
-\caption{Our interpretation of \minas \cite{Faria2015minas}}
+\caption{Our interpretation of \minas \cite{Faria2016minas}}
 \label{alg:MINAS}
 \end{algorithm}
 
@@ -136,7 +136,7 @@ valid clusters and starts using them to classify new instances.
         }
         \Return{newModelSet}\;
     }
-    \caption{\minas \cite{Faria2015minas} Novelty Detection task.}
+    \caption{\minas \cite{Faria2016minas} Novelty Detection task.}
     \label{alg:MINAS-nd}
 \end{algorithm}
 
