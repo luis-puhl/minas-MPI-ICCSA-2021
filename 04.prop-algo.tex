@@ -170,9 +170,9 @@
             % $out \leftarrow$ sample\;
             OutputStream.append(sample)\;
             \If{sample.label == unknown}{
-                UnkownSet = UnkownSet $\cup$ sample\;
-                \If{$|\;UnkownSet\;| \geq$ \noveltyDetectionTrigger}{
-                    novelties = \NoveltyDetection(p, ModelSet, *UnkownSet)\;
+                UnknownSet = UnknownSet $\cup$ sample\;
+                \If{$|\;UnknownSet\;| \geq$ \noveltyDetectionTrigger}{
+                    novelties = \NoveltyDetection(p, ModelSet, *UnknownSet)\;
                     \With{\writeLock(ModelSetLock)}{
                         ModelSet = ModelSet $\cup$ novelties\;
                     }
@@ -181,7 +181,7 @@
                     }
                 }
                 \If{ sampe.uid $ > $ ( lastCleanup $ + $ \cleaningWindow )}{
-                    UnkownSet $\leftarrow$ \removeOldSamples(UnkownSet, lastCleanup)\;
+                    UnknownSet $\leftarrow$ \removeOldSamples(UnknownSet, lastCleanup)\;
                     lastCleanup $ \leftarrow $ sampe.uid\;
                 }
             }
@@ -211,9 +211,9 @@
 %             \lIf{sample == EndOfStream}{\textbf{break}}
 %             $out \leftarrow$ sample\;
 %             \If{sample.label == unknown}{
-%                 UnkownSet = UnkownSet $\cup$ sample\;
-%                 \If{sizeOf(UnkownSet) $\geq$ p.noveltyDetectionTrigger}{
-%                     novelties = NoveltyDetection(p, *ModelSet, $\emptyset$, *UnkownSet)\;
+%                 UnknownSet = UnknownSet $\cup$ sample\;
+%                 \If{sizeOf(UnknownSet) $\geq$ p.noveltyDetectionTrigger}{
+%                     novelties = NoveltyDetection(p, *ModelSet, $\emptyset$, *UnknownSet)\;
 %                     \With{writeLock(ModelSetLock)}{
 %                         ModelSet = ModelSet $\cup$ novelties\;
 %                     }
