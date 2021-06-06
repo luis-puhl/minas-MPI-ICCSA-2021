@@ -172,7 +172,7 @@
             \If{sample.label == unknown}{
                 UnkownSet = UnkownSet $\cup$ sample\;
                 \If{$|\;UnkownSet\;| \geq$ \noveltyDetectionTrigger}{
-                    novelties = \NoveltyDetection(p, ModelSet, *UnkownSet)\;
+                    novelties = \NoveltyDetection(ModelSet, *UnkownSet)\;
                     \With{\writeLock(ModelSetLock)}{
                         ModelSet = ModelSet $\cup$ novelties\;
                     }
