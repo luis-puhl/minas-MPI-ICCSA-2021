@@ -34,14 +34,14 @@
 
 % acho que falta casar melhor esse começo com a estória contada no abstract... - helio
 % In this work we investigate an appropriate architecture for performing \nd at the edge, as a means of allowing small IoT devices to filter undesirable network traffic.
-% Our approach is based on the \arch architecture \cite{Cassales2019aI} and \nd techniques provide by the \minas algorithm \cite{Faria2015minas}. Named \mfog, our distributed algorithm explores load balancing to enable low profile devices at the edge of the net to also work on the classification and detection of unwanted traffic.
+% Our approach is based on the \arch architecture \cite{Cassales2019aI} and \nd techniques provide by the \minas algorithm \cite{Faria2016minas}. Named \mfog, our distributed algorithm explores load balancing to enable low profile devices at the edge of the net to also work on the classification and detection of unwanted traffic.
 % eu trocaria a frase abaixo pelas 2 acima - helio
 
 In this work, we investigate an appropriate architecture for performing \nd at
 the edge, as a means of allowing small IoT devices to filter and detect undesirable
 network behavior.
 Our approach is based on the \arch architecture \cite{Cassales2019a} and \nd
-techniques provide by the \minas algorithm \cite{Faria2015minas}.
+techniques provide by the \minas algorithm \cite{Faria2016minas}.
 Named \mfog, our distributed algorithm explores load balancing to enable low
 profile devices at the edge of the internet to also work on the classification
 and detection of unwanted traffic.
@@ -61,7 +61,7 @@ edge where small devices and constrained resources may be prevalent.
 
 % In this work we investigate the application of the \arch architecture
 % \cite{Cassales2019a} with \nd techniques by use of \minas algorithm
-% \cite{Faria2015minas}, by implementation and evaluation of a parallel and
+% \cite{Faria2016minas}, by implementation and evaluation of a parallel and
 % distributed descendant of those two works we named \mfog.
 However, given the distributed nature and the typical use of small computing
 devices in IoT scenarios, new challenges arise:
@@ -266,7 +266,7 @@ Novelty Detection task (clustering followed by validation).
 % $x,u$ is  sample with the \emph{unknown} label,
 % $summary$ is a statistical summary of model usage.
 
-\subsection{Polices}\label{sec:polices}
+\subsection{Policies}\label{sec:policies}
 
 % achei confuso o uso de "opens data distribution..."
 The design of our distributed \nd architecture includes partitioning the
@@ -345,7 +345,7 @@ but our implementation only used K-means.
 Another difference between \refminas and \mfog is the calculus of the cluster radius 
 from the distances of elements forming the cluster and the cluster's center.
 \refminas uses the maximum distance while \mfog uses the standard deviation
-of all distances as described in \cite{Faria2015minas}.
+of all distances as described in \cite{Faria2016minas}.
 
 % Desafios de implementação:
 % <!--
