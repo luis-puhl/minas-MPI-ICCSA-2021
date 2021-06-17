@@ -21,7 +21,7 @@
     % 
     \SetKwFunction{MinasOnline}{MinasOnline}
     \Function{\MinasOnline{ModelSet, inputStream}}{
-        UnknownSet $\leftarrow$ $\emptyset$, ModelSleepSet $\leftarrow$ $\emptyset$ \;
+        UnknownSet $\leftarrow \emptyset$, SleepSet $\leftarrow \emptyset$ \;
         lastCleanup $\leftarrow 0$ , noveltyIndex $\leftarrow 0$\;
         % sampleIn $\leftarrow 0$\;
         \ForEach{ {$sample_{i}$} $\in$ inputStream }{
@@ -37,11 +37,11 @@
                 UnknownSet $\leftarrow$ UnknownSet $\cup$ sample\;
                 \If{$|\;UnknownSet\;| \geq$ \noveltyDetectionTrigger}{
                     % \tcc{Novelty Detection}
-                    novelties $\leftarrow$ \NoveltyDetection(ModelSet $\cup$ ModelSleepSet, *UnknownSet)\;
+                    novelties $\leftarrow$ \NoveltyDetection(ModelSet $\cup$ SleepSet, *UnknownSet)\;
                     ModelSet $\leftarrow$ ModelSet $\cup$ novelties\;
                 }
                 \If{ $ i > $ ( lastCleanup $ + $ \cleaningWindow )}{
-                    ModelSet $\leftarrow$ \handleModelSleep(ModelSet, *ModelSleepSet, lastCleanup)\;
+                    ModelSet $\leftarrow$ \handleModelSleep(ModelSet, *SleepSet, lastCleanup)\;
                     UnknownSet $\leftarrow$ \removeOldSamples(UnknownSet, lastCleanup)\;
                     lastCleanup $ \leftarrow i $\;
                 }
@@ -71,20 +71,20 @@
     \SetKwFunction{handleModelSleep}{moveToSleep}
     \SetKwFunction{removeOldSamples}{removeOldSamples}
     % 
-    % \KwData{ UnknownSet $\leftarrow$ $\emptyset$, ModelSleepSet $\leftarrow$ $\emptyset$, lastCleanupTime $\leftarrow$ now() }
+    % \KwData{ UnknownSet $\leftarrow$ $\emptyset$, SleepSet $\leftarrow$ $\emptyset$, lastCleanupTime $\leftarrow$ now() }
     % 
     \Function{\NoveltyDetection{Model, Unknowns}}{
         newModelSet $\leftarrow$ $\emptyset$\;
         \ForEach{cl in \clustering(Unknowns)}{
             \If{$|\;cl.sampleSet\;| \geq$ \minExamplesPerCluster}{
-                (distance, near) $\leftarrow$ \nearestCluster(cl, Model)\;
-                \eIf{distance $<$ near.radius $\times$ \noveltyFactor}{
-                    cl.label $\leftarrow$ near.label\;
-                    cl.type $\leftarrow$ extension\;
+                nearest $\leftarrow$ \nearestCluster(cl, Model)\;
+                \eIf{nearest.distance $<$ nearest.cluster.radius $\times$ \noveltyFactor}{
+                    cl.label $\leftarrow$ nearest.cluster.label\;
+                    cl.type $\leftarrow$ ``extension''\;
                 }{
                     cl.label $\leftarrow$ noveltyIndex\;
                     noveltyIndex $\leftarrow$ noveltyIndex $+ 1$\;
-                    cl.type $\leftarrow$ novelty\;
+                    cl.type $\leftarrow$ ``novelty''\;
                 }
                 \label{alg:MINAS-nd:reclassify}
                 Unknowns $\leftarrow$ Unknowns $-$ cl.sampleSet\;

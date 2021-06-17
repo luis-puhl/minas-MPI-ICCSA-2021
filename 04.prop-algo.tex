@@ -1,3 +1,4 @@
+% !TeX root = ./00.main.ICCSA.tex
 
 \begin{algorithm}[htb]
 % {\scriptsize
@@ -43,9 +44,9 @@
     % \KwOut{Classified Stream as $out$}
     % 
     \Function{\Mfog{ModelStream, InputStream, OutputStream}}{
-        ModelSet = $\emptyset$\;
-        ModelSetLock = \textbf{new} \Lock()\;
-        \eIf(\emph{root}){\mpiRank == 0}{
+        ModelSet $\leftarrow \emptyset$\;
+        ModelSetLock $\leftarrow$ \textbf{new} \Lock()\;
+        \eIf(\emph{root}){\mpiRank $ = 0$}{
             \textbf{new} \Thread(\Detector, [OutputStream, ModelSet, ModelSetLock])\;
             \Sampler(InputStream, ModelSet, ModelSetLock)\;
         }(\emph{leaf}){
@@ -70,14 +71,14 @@
     \SetKwProg{Function}{Function}{:}{}
     \Function{\Classifier{ModelSet, ModelSetLock}}{
         \While{ True }{
-            sampe = \receive(SampleType, root)\;
-            \lIf{sample == \EndOfStream}{\textbf{break}}
-            sample.label = unknown\;
+            sampe $\leftarrow$ \receive(SampleType, root)\;
+            \lIf{sample $=$ \EndOfStream}{\textbf{break}}
+            sample.label $\leftarrow$ ``unknown''\;
             \With{\readLock(ModelSetLock)}{
-                (distance, cluster) = \nearestCluster(sample, ModelSet)\;
+                nearest $\leftarrow$ \nearestCluster(sample, ModelSet)\;
             }
-            \If{distance $<$ cluster.radius}{
-                sample.label = cluster.label\;
+            \If{nearest.distance $ \leq $ nearest.cluster.radius}{
+                sample.label $\leftarrow$ nearest.cluster.label\;
             }
             \send(root, SampleType, sample)\;
         }
@@ -99,10 +100,10 @@
     \SetKwProg{Function}{Function}{:}{}
     \Function{\modelReceiver{ModelSet, ModelSetLock}}{
         \While{ True }{
-            cl = \receive(ClusterType, root)\;
-            \lIf{cl == \EndOfStream}{\textbf{break}}
+            cl $\leftarrow$ \receive(ClusterType, root)\;
+            \lIf{cl $=$ \EndOfStream}{\textbf{break}}
             \With{writeLock(ModelSetLock)}{
-                ModelSet = ModelSet $\cup$ cl\;
+                ModelSet $\leftarrow$ ModelSet $\cup$ cl\;
             }
         }
     }
@@ -124,21 +125,21 @@
     \KwParams{mpiClusterSize as \mpiSize}
     \SetKwProg{Function}{Function}{:}{}
     \Function{\Sampler{InputStream, ModelSet, ModelSetLock}}{
-        % ModelSet = read()\;
+        % ModelSet $\leftarrow$ read()\;
         % broadcast(ModelSet)\;
-        dest = 1\;
+        dest $\leftarrow$ 1\;
         \ForEach{ sample from InputStream }{
             \If{\typeOf(sample) is Cluster}{
                 \broadcast(ClusterType, sample, root)\;
                 \With{\writeLock(ModelSetLock)}{
-                    ModelSet = ModelSet $\cup$ sample\;
+                    ModelSet $\leftarrow$ ModelSet $\cup$ sample\;
                 }
                 \continue\;
             }
-            % sample.label = unknown\;
+            % sample.label $\leftarrow$ unknown\;
             \send(dest, SampleType, sample)\;
-            dest = dest $+ 1$\;
-            \lIf{dest $>$ \mpiSize}{dest = 1}
+            dest $\leftarrow$ dest $+ 1$\;
+            \lIf{dest $>$ \mpiSize}{dest $\leftarrow$ 1}
         }
     }
 
@@ -165,16 +166,16 @@
     \Function{\Detector{OutputStream, ModelSet, ModelSetLock}}{
         lastCleanup $\leftarrow 0$\;
         \While{ True }{
-            sampe = \receive(SampleType, any)\;
-            \lIf{sample == \EndOfStream}{\textbf{break}}
+            sampe $\leftarrow$ \receive(SampleType, any)\;
+            \lIf{sample $=$ \EndOfStream}{\textbf{break}}
             % $out \leftarrow$ sample\;
             OutputStream.append(sample)\;
-            \If{sample.label == unknown}{
-                UnknownSet = UnknownSet $\cup$ sample\;
+            \If{sample.label $=$ unknown}{
+                UnknownSet $\leftarrow$ UnknownSet $\cup$ sample\;
                 \If{$|\;UnknownSet\;| \geq$ \noveltyDetectionTrigger}{
-                    novelties = \NoveltyDetection(p, ModelSet, *UnknownSet)\;
+                    novelties $\leftarrow$ \NoveltyDetection(p, ModelSet, *UnknownSet)\;
                     \With{\writeLock(ModelSetLock)}{
-                        ModelSet = ModelSet $\cup$ novelties\;
+                        ModelSet $\leftarrow$ ModelSet $\cup$ novelties\;
                     }
                     \ForEach{ cl in novelties }{
                         \broadcast(ClusterType, cl, root)\;

@@ -1,3 +1,5 @@
+% !TeX root = ./00.main.ICCSA.tex
+
 \section{MINAS}
 \label{sec:minas}
 
@@ -64,14 +66,14 @@ detection \cite{Faria2016minas}.
     % 
     \SetKwFunction{MinasOnline}{MinasOnline}
     \Function{\MinasOnline{ModelSet, inputStream}}{
-        UnknownSet $\leftarrow$ $\emptyset$, ModelSleepSet $\leftarrow$ $\emptyset$ \;
-        lastCleanup $\leftarrow 0$ , noveltyIndex $\leftarrow 0$\;
+        UnknownSet $\leftarrow \emptyset$; SleepSet $\leftarrow \emptyset$ \;
+        lastCleanup $\leftarrow 0$; noveltyIndex $\leftarrow 0$\;
         % sampleIn $\leftarrow 0$\;
         \ForEach{ {$sample_{i}$} $\in$ inputStream }{
             % sample.label $\leftarrow$ unknown\;
             % (distance, cluster) $\leftarrow$ \nearestCluster(sample, ModelSet)\;
             nearest $\leftarrow$ \nearestCluster(sample, ModelSet)\;
-            \eIf{nearest.distance $<$ nearest.cluster.radius}{
+            \eIf{nearest.distance $\leq$ nearest.cluster.radius}{
                 sample.label $\leftarrow$ nearest.cluster.label\;
                 nearest.cluster.lastUsed $ \leftarrow i $ \;
             }
@@ -80,11 +82,11 @@ detection \cite{Faria2016minas}.
                 UnknownSet $\leftarrow$ UnknownSet $\cup$ sample\;
                 \If{$|\;UnknownSet\;| \geq$ \noveltyDetectionTrigger}{
                     % \tcc{Novelty Detection}
-                    novelties $\leftarrow$ \NoveltyDetection(ModelSet $\cup$ ModelSleepSet, *UnknownSet)\;
+                    novelties $\leftarrow$ \NoveltyDetection(ModelSet $\cup$ SleepSet, *UnknownSet)\;
                     ModelSet $\leftarrow$ ModelSet $\cup$ novelties\;
                 }
                 \If{ $ i > $ ( lastCleanup $ + $ \cleaningWindow )}{
-                    ModelSet $\leftarrow$ \handleModelSleep(ModelSet, *ModelSleepSet, lastCleanup)\;
+                    ModelSet $\leftarrow$ \handleModelSleep(ModelSet, *SleepSet, lastCleanup)\;
                     UnknownSet $\leftarrow$ \removeOldSamples(UnknownSet, lastCleanup)\;
                     lastCleanup $ \leftarrow i $\;
                 }
@@ -92,7 +94,7 @@ detection \cite{Faria2016minas}.
             outputStream.append(sample)\;
         }
     }
-\caption{Our interpretation of \minas \cite{Faria2016minas}}
+\caption{Our interpretation of \minas \cite{Faria2016minas}.}
 \label{alg:MINAS}
 \end{algorithm}
 
@@ -120,14 +122,14 @@ valid clusters and starts using them to classify new instances.
         newModelSet $\leftarrow$ $\emptyset$\;
         \ForEach{cl in \clustering(Unknowns)}{
             \If{$|\;cl.sampleSet\;| \geq$ \minExamplesPerCluster}{
-                (distance, near) $\leftarrow$ \nearestCluster(cl, Model)\;
-                \eIf{distance $<$ near.radius $\times$ \noveltyFactor}{
-                    cl.label $\leftarrow$ near.label\;
-                    cl.type $\leftarrow$ extension\;
+                nearest $\leftarrow$ \nearestCluster(cl, Model)\;
+                \eIf{nearest.distance $<$ nearest.cluster.radius $\times$ \noveltyFactor}{
+                    cl.label $\leftarrow$ nearest.cluster.label\;
+                    cl.type $\leftarrow$ ``extension''\;
                 }{
                     cl.label $\leftarrow$ noveltyIndex\;
                     noveltyIndex $\leftarrow$ noveltyIndex $+ 1$\;
-                    cl.type $\leftarrow$ novelty\;
+                    cl.type $\leftarrow$ ``novelty''\;
                 }
                 Unknowns $\leftarrow$ Unknowns $-$ cl.sampleSet\;
                 \label{alg:MINAS-nd:reclassify}

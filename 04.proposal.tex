@@ -336,9 +336,10 @@ some of them were recurring during our implementation discussions and are:
 
 \subsection{Implementation}\label{sec:implementation}
 
-The original MINAS algorithm has a companion unpublished implementation (\refminas)
-written in Java using MOA library base algorithms such as K-means and CluStream,
-but our implementation only used K-means.
+The original MINAS algorithm has a companion implementation\footnote{Available
+at \url{http://www.facom.ufu.br/~elaine/MINAS}.} (\refminas) written in Java
+using MOA library base algorithms such as K-means and CluStream, but our
+implementation only used K-means.
 % \refminas employs Java's double, a $64 bits$ number whose precision is not
 % absolutely necessary and, as it is often necessary to shuffle between nodes via
 % network and a small economy could be made with only a float number with $32 bits$.
@@ -455,7 +456,8 @@ a tuple containing \emph{uid} and the assigned label.
 
 \input{04.prop-algo}
 
-For evaluation purposes, an \mfog implementation was made using MPI (\emph{Open
+For evaluation purposes, an \mfog implementation\footnote{Available at
+\url{https://github.com/luis-puhl/minas-flink}.} was made using MPI (\emph{Open
 MPI 4.0.4}).
 The program is organized in a single program multiple data (SPMD)
 programming model, so a single version of the \mfog program was initiated on all
