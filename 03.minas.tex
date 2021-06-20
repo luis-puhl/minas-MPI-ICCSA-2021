@@ -9,33 +9,33 @@
 
 \minas \cite{Faria2013Minas,Faria2016minas} is an offline-online \nd algorithm,
 meaning it has two distinct phases. The first phase (offline) creates an initial
-model set with several clusters based on a clustering algorithm with a training
-set.
+model set with several clusters based on a clustering algorithm with a labeled
+training set.
 Each cluster can be associated with only one class of the problem, but each
 class can have many clusters.
 
 During its online phase, which is the main focus of our work, \minas performs
-three tasks in (near) real-time,
+three tasks in (near) real-time over a potentially infinite data stream:
 % Our proposal focuses on the online phase, therefore we will describe it in more detail.
 % We describe the online phase in more detail since we focus on its tasks.
-in summary,
+% in summary,
 %  the online phase of \minas executes 
-classification, novelty detection, and model update tasks
-in a potentially infinite data stream, as shown in Algorithm \ref{alg:MINAS}.
+classification, novelty detection and model update,
+as shown in Algorithm \ref{alg:MINAS}.
 
 \minas attempts to classify each incoming unlabeled instance according to the
 current decision model. Instances not explained by the current model
-receive an \textit{unknown} label and are stored in an unknowns-buffer.
+receive the \textit{``unknown''} label and are stored in the unknowns-buffer.
 %  "in the" vs "in a": Como só exite um buffer, único, achei que fosse THE.
-When the unknowns-buffer reaches a preset threshold, \minas executes the
-% (parametic) 
+When the unknowns-buffer size reaches a preset threshold, \minas executes the
+% (parametric) 
 Novelty Detection function.
 % Não entendi o "beyond the ND..." - vejam se fez sentido - helio
 After a set interval, samples in the unknowns-buffer are considered to be
 noise or outliers and removed.
 The algorithm also has a mechanism to forget clusters that became obsolete and
 unrepresentative of the current data stream distribution, removing them from
-the Model and storing in a Sleep Model for possible recurring pattern
+the Model and storing in a Sleep Model for recurring patterns
 detection \cite{Faria2016minas}.
 % cluster in the model with no recent match
 % are removed as well, as they correspond to obsolete and nonrepresentative
@@ -65,29 +65,29 @@ detection \cite{Faria2016minas}.
     % \KwSty{Parameters}: \cleaningWindow, \noveltyDetectionTrigger\\
     % 
     \SetKwFunction{MinasOnline}{MinasOnline}
-    \Function{\MinasOnline{ModelSet, inputStream}}{
-        UnknownSet $\leftarrow \emptyset$; SleepSet $\leftarrow \emptyset$ \;
+    \Function{\MinasOnline{Model, inputStream}}{
+        UnknownsBuffer $\leftarrow \emptyset$; SleepModel $\leftarrow \emptyset$ \;
         lastCleanup $\leftarrow 0$; noveltyIndex $\leftarrow 0$\;
         % sampleIn $\leftarrow 0$\;
         \ForEach{ {$sample_{i}$} $\in$ inputStream }{
             % sample.label $\leftarrow$ unknown\;
-            % (distance, cluster) $\leftarrow$ \nearestCluster(sample, ModelSet)\;
-            nearest $\leftarrow$ \nearestCluster(sample, ModelSet)\;
+            % (distance, cluster) $\leftarrow$ \nearestCluster(sample, Model)\;
+            nearest $\leftarrow$ \nearestCluster(sample, Model)\;
             \eIf{nearest.distance $\leq$ nearest.cluster.radius}{
                 sample.label $\leftarrow$ nearest.cluster.label\;
                 nearest.cluster.lastUsed $ \leftarrow i $ \;
             }
             {
                 sample.label $\leftarrow$ unknown\;
-                UnknownSet $\leftarrow$ UnknownSet $\cup$ sample\;
-                \If{$|\;UnknownSet\;| \geq$ \noveltyDetectionTrigger}{
+                UnknownsBuffer $\leftarrow$ UnknownsBuffer $\cup$ sample\;
+                \If{$|\;UnknownsBuffer\;| \geq$ \noveltyDetectionTrigger}{
                     % \tcc{Novelty Detection}
-                    novelties $\leftarrow$ \NoveltyDetection(ModelSet $\cup$ SleepSet, *UnknownSet)\;
-                    ModelSet $\leftarrow$ ModelSet $\cup$ novelties\;
+                    novelties $\leftarrow$ \NoveltyDetection(Model $\cup$ SleepModel, *UnknownsBuffer)\;
+                    Model $\leftarrow$ Model $\cup$ novelties\;
                 }
                 \If{ $ i > $ ( lastCleanup $ + $ \cleaningWindow )}{
-                    ModelSet $\leftarrow$ \handleModelSleep(ModelSet, *SleepSet, lastCleanup)\;
-                    UnknownSet $\leftarrow$ \removeOldSamples(UnknownSet, lastCleanup)\;
+                    Model $\leftarrow$ \handleModelSleep(Model, *SleepModel, lastCleanup)\;
+                    UnknownsBuffer $\leftarrow$ \removeOldSamples(UnknownsBuffer, lastCleanup)\;
                     lastCleanup $ \leftarrow i $\;
                 }
             }
@@ -120,20 +120,20 @@ valid clusters and starts using them to classify new instances.
     % 
     \Function{\NoveltyDetection{Model, Unknowns}}{
         newModelSet $\leftarrow$ $\emptyset$\;
-        \ForEach{cl in \clustering(Unknowns)}{
-            \If{$|\;cl.sampleSet\;| \geq$ \minExamplesPerCluster}{
-                nearest $\leftarrow$ \nearestCluster(cl, Model)\;
-                \eIf{nearest.distance $<$ nearest.cluster.radius $\times$ \noveltyFactor}{
-                    cl.label $\leftarrow$ nearest.cluster.label\;
-                    cl.type $\leftarrow$ ``extension''\;
+        \ForEach{new in \clustering(Unknowns)}{
+            \If{$(\,|new.sampleSet| \geq$ \minExamplesPerCluster$) \land (new.silhouette > 0)$}{
+                nearest $\leftarrow$ \nearestCluster(new, Model)\;
+                \eIf{nearest.distance $<$ (nearest.cluster.radius $\times$ \noveltyFactor)}{
+                    new.label $\leftarrow$ nearest.cluster.label\;
+                    new.type $\leftarrow$ ``extension''\;
                 }{
-                    cl.label $\leftarrow$ noveltyIndex\;
+                    new.label $\leftarrow$ noveltyIndex\;
                     noveltyIndex $\leftarrow$ noveltyIndex $+ 1$\;
-                    cl.type $\leftarrow$ ``novelty''\;
+                    new.type $\leftarrow$ ``novelty''\;
                 }
-                Unknowns $\leftarrow$ Unknowns $-$ cl.sampleSet\;
+                Unknowns $\leftarrow$ Unknowns $-$ new.sampleSet\;
                 \label{alg:MINAS-nd:reclassify}
-                newModelSet $\leftarrow$ newModelSet $\cup$ cl\;
+                newModelSet $\leftarrow$ newModelSet $\cup$ new\;
             }
         }
         \Return{newModelSet}\;

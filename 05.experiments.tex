@@ -50,7 +50,7 @@ resulting in $72\:000$ instances.
 For the test set we use $653\:457$ instances with
 $206\:278$ instances with ``$N$'' (normal) class and
 $447\:179$ instances with ``$A$'' (attack) class.
-Note that this choice results in possible overfitting for the normal class and,
+Note that this choice results in overfitting for the normal class and,
 under-fitting for the attack class as the system first needs to detect a novel class and
 then add it to the model.
 
@@ -100,7 +100,7 @@ Our evaluation script was build following reference techniques like
 multi-class confusion matrix with label-class association \cite{Faria2016minas}
 to extract classification quality measurements.
 This script takes two inputs, the test data set and the captured output stream,
-and outputs the confusion matrix, label-class association,
+and gives as outputs the confusion matrix, label-class association,
 final quality summary with:
 \emph{Hits} (true positive), \emph{Misses} (Err), \emph{Unknowns} (UnkR); and
 stream visualization chart with per example instance summary with novelty label markers.
@@ -113,13 +113,14 @@ our evaluation script, each row denotes % one of the data sets original
 the actual class $c$ and each column denotes the predicted label $l$ present in
 the captured output stream.
 Thus, each cell $M_{c, l}$ contains the count of examples from the test data set
-of class $c$ found in the output stream with the label $l$ assigned by the under
-evaluation experiment.
+of class $c$, found in the output stream with the label $l$ assigned by the
+experiment under evaluation.
 
 For the data set under use, original classes are $c \in \{N, A\}$, and for the
 labels we have the training class
 \emph{``N''}, \emph{unknown} label \emph{``-''} and the novelties $i \in
-\mathbb{N}$ so $l \in \{N, -\} \cup \mathbb{N}$.
+\mathbb{N}$.
+%  so $l \in \{N, -\} \cup \mathbb{N}$.
 
 Added to the original confusion matrix $M$ are the rows \emph{Assigned} and
 \emph{Hits}.
@@ -154,7 +155,7 @@ One complete matrix is shown in Tab. \ref{tab:java-matrix}.
 \end{center}\end{subtable}
 \begin{subtable}[h]{\textwidth}\begin{center}
     \whencolumns{}{\vspace{5mm}}
-    \caption{Serial implementation}
+    \caption{Sequential implementation}
     \input{experiments/online-nd.log.tex}
     \label{tab:libc-matrix}
     \whencolumns{}{\vspace{5mm}}
@@ -183,23 +184,23 @@ with the \emph{unknown} label (\emph{``-''});
 with a label distinct from the \emph{Assigned} original class and are not marked
 as unknown.
 
-Furthermore in the measurement summary table, \emph{Time}, \emph{System} and \emph{Elapsed}
- represented in seconds, are extracted from \emph{GNU Time 1.9}.
+Furthermore in the measurement summary table, \emph{Time}, \emph{System} and
+\emph{Elapsed} represented in seconds, are extracted from \emph{GNU Time 1.9}.
 \emph{Time} is the amount of CPU seconds expended in user-mode
-(indicates time used doing CPU intensive computing, e.g., math);
+(indicates time used doing CPU intensive computing, e.g., math).
 \emph{System} is the amount of CPU seconds expended in kernel-mode
-(for our case, it indicates time doing input or output);
+(for our case, it indicates time doing input or output).
 \emph{Elapsed} is the real-world (wall clock) elapsed time and
 indicates how long the program took to complete.
-The lower the times, the better.
+% Lower the times, the better.
 Our four main experiments are shown in Tab. \ref{tab:exper-summary}.
 
 Lastly, the stream visualization chart shows the summary quality measurement
 (\emph{Hits}, \emph{Unknowns}, \emph{Misses})
 computed for each example in the captured output stream.
-This summary is computed for each example, but it uses the \emph{Assigned} row
-computed previously to evaluate \emph{Hits}; the other measurements are derived as
-described before.
+% This summary is computed for each example, but it uses the \emph{Assigned} row
+% computed previously to evaluate \emph{Hits}; the other measurements are derived as
+% described before.
 The Horizontal axis (x, domain) plots the index of the example and the
 vertical axis (y, image) shows the measurement computed until that example index on the captured
 output stream.
@@ -224,7 +225,7 @@ Figure \ref{fig:visualization} shows complete stream visualization charts.
     \begin{subfigure}{.5\textwidth}
       \centering
       \includegraphics[width=\linewidth]{experiments/online-nd.log.png}
-      \caption{Serial Implementation}
+      \caption{Sequential Implementation}
       \label{fig:validation-sub-serial}
     \end{subfigure}
   }
@@ -255,12 +256,12 @@ Figure \ref{fig:visualization} shows complete stream visualization charts.
 \subsection{Discussion}
 
 Four main experiments are presented for discussion:
-(\emph{a}) reference implementation of Minas (\refminas) \cite{Faria2016minas};
-(\emph{b}) new implementation in serial mode;
-(\emph{c}) new implementation in single-node, multi-task mode and
-(\emph{d}) new implementation in multi-node, multi-task mode.
+(\emph{a}) reference implementation of \minas (\refminas) \cite{Faria2016minas};
+(\emph{b}) new implementation in sequential mode;
+(\emph{c}) new implementation in single-node, multi-process mode ($1\times4$) and
+(\emph{d}) new implementation in multi-node, multi-process mode ($3\times4$).
 Each experiment uses the adequate binary executable, initial model
-(or training set for the reference implementation) and test set
+(or training set for \refminas) and test set
 to compute a resulting output stream which is stored for qualitative evaluation.
 The summary of all four experiments is shown in Table \ref{tab:exper-summary}.
 
@@ -268,7 +269,27 @@ The summary of all four experiments is shown in Table \ref{tab:exper-summary}.
 \begin{center}
   \caption{Collected Measures Summary.}
   \label{tab:exper-summary}
-  \input{experiments/summary.tex}
+  % \input{experiments/summary.tex}
+  \newcommand{\mr}[1]{\multirow{2}{*}{#1}}
+  \setlength\extrarowheight{2pt}
+  \begin{tabular}{l|r|r|r|r|r}
+    % Experiment      & \expA         & \emph{Offline} & \expB     & \expC    & \expD    \\
+    Experiment      & \refminas (a) & Offline       & Sequential (b)  & Single Node (c) & Multi Node (d)  \\
+    Metric          &               &               &                 &                 &        \\\hline
+    \mr{unk}        & $11980$       &               & $28567$         & $15370$         & $15499$     \\
+                    & $0.018333$    &               & $0.043717$      & $0.023521$      & $0.023718$  \\\hline
+    \mr{hit}        & $199708$      &               & $195017$        & $204151$        & $204191$    \\
+                    & $0.305618$    &               & $0.298438$      & $0.312416$      & $0.312478$  \\\hline
+    \mr{err}        & $441769$      &               & $429873$        & $433936$        & $433767$    \\
+                    & $0.676049$    &               & $0.657843$      & $0.664061$      & $0.663802$  \\\hline
+    Time      ($s$) & $2761.83$     & $194.12$      & $80.79$         & $522.10$        & $207.14$    \\\hline
+    System    ($s$) & $7.15$        & $ 0.075$      & $11.51$         & $ 47.77$        & $157.61$    \\\hline
+    Elapsed   ($s$) & $2772.07$     & $194.27$      & $93.03$         & $145.04$        & $ 95.38$    \\\hline
+    Latency   ($s$) & $4.24\cdot10^{-3}$  &         & $1.42\cdot10^{-4}$  & $2.22\cdot10^{-4}$  & $1.46\cdot10^{-4}\ $  \\\hline
+    Processors      & $1$           &  $1$          &  $1$            & $4$         & $12$        \\\hline
+    Speedup         &               &               &                 & $0.6414092$ & $0.9753617$  \\\hline
+    Efficiency      &               &               &                 & $0.1603523$ & $0.0812801$  
+  \end{tabular}
 \end{center}
 \end{table*}
 
@@ -306,17 +327,17 @@ implementation runs it once and reuses the initial model for \emph{b}, \emph{c}
 and \emph{d}. In the table the offline time this is shown as a separate column.
 
 As for the effects of running the classification processes on the small devices as MPI nodes with our implementation, we observe
-an increase of time when we go from $2$ to $4$ instances in a single node
+an increase of time when we go from $1$ to $4$ instances in a single node
 (\emph{b} and \emph{c} respectively), hinting that our choice of load
 distribution is not as effective as we expected.
-Further experiments were conducted with the number of instances varying from $1$ (serial) to
+Further experiments were conducted with the number of instances varying from $1$ (sequential) to
 $12$ (3 nodes with 4 CPUs each), but that caused no impact on the true positive rate (\emph{Hits}) and elapsed time.
 More detailed time measurements can be seen in Figure \ref{fig:speedup},
 where we observe near constant time for \emph{elapsed} (near $100s$),
 the \emph{system} increases gradually while \emph{user} decreases at the same rate.
 We interpret this behavior as a display of potential for gains using a better
 load balancing than our choice of round-robin such as micro-batching for better
-compute-to-communication ratio (CCR).
+\emph{compute-to-communication ratio} (CCR).
 % legal!
 In general, Figure \ref{fig:speedup} shows no speedup but also no penalty for
 scaling to more than $4$ instances.
@@ -348,14 +369,15 @@ Nevertheless, we can also show the effects of delay in the
 Classify, Novelty Detection, Model Update and Classify feedback loop.
 Comparing \emph{b} and \emph{c} we observe a reduction in Novelty labels
 on the Confusion Matrix (tabs. \ref{tab:libc-matrix} and \ref{tab:single-node-matrix})
-from $10$ to $4$.
+from $9$ to $5$.
 The same effect is observed on the stream visualization (figs.
 \ref{fig:validation-sub-serial} and \ref{fig:cluster-sub-single}) where our
-serial implementation has fewer novelty markers, and they appear later, but the
+sequential implementation has fewer novelty markers, and they appear later, but the
 measures keep the same ``shape''.
 Comparing \emph{c} and \emph{d} the difference is even smaller,
 (figs. \ref{fig:validation-sub-serial} and \ref{fig:cluster-sub-single})
-as they both suffer the expected delay in the feedback loop.
+as they both suffer the expected delay in the feedback loop due to asynchronous
+task execution.
 
 % \todo{discutir o delay de 80k entre etiqueta 0 em serial vs node}
 

@@ -33,18 +33,26 @@
 % (iv) possa ser implementada em dispositivos com recursos limitados 
 
 % acho que falta casar melhor esse começo com a estória contada no abstract... - helio
-% In this work we investigate an appropriate architecture for performing \nd at the edge, as a means of allowing small IoT devices to filter undesirable network traffic.
-% Our approach is based on the \arch architecture \cite{Cassales2019aI} and \nd techniques provide by the \minas algorithm \cite{Faria2016minas}. Named \mfog, our distributed algorithm explores load balancing to enable low profile devices at the edge of the net to also work on the classification and detection of unwanted traffic.
+% 
+% In this work we investigate an appropriate architecture for performing \nd at
+% the edge, as a means of allowing small IoT devices to filter undesirable network
+% traffic.
+% Our approach is based on the \arch architecture \cite{Cassales2019a} and \nd
+% techniques provide by the \minas algorithm \cite{Faria2016minas}. Named \mfog,
+% our distributed algorithm explores load balancing to enable low profile devices
+% at the edge of the net to also work on the classification and detection of
+% unwanted traffic.
+% 
 % eu trocaria a frase abaixo pelas 2 acima - helio
 
-In this work, we investigate an appropriate architecture for performing \nd at
-the edge, as a means of allowing small IoT devices to filter and detect undesirable
-network behavior.
-Our approach is based on the \arch architecture \cite{Cassales2019a} and \nd
-techniques provide by the \minas algorithm \cite{Faria2016minas}.
-Named \mfog, our distributed algorithm explores load balancing to enable low
-profile devices at the edge of the internet to also work on the classification
-and detection of unwanted traffic.
+In this work we investigate an appropriate architecture for performing \nd at
+the edge, allowing small IoT devices to detect undesirable network behavior.
+To that end, we propose and evaluate \mfog, a distributed \nd system following
+the \arch architecture \cite{Cassales2019a} and based on a distributed version
+of the algorithm \minas \cite{Faria2016minas}.
+Our approach explores distributed computing and a trivial load balancer to
+enable low profile devices to classify and detect unwanted traffic in a
+scalable, edge focused way.
 
 % Hermes:
 % In this work we propose and assess MFOG, a distributed data stream
@@ -53,18 +61,12 @@ and detection of unwanted traffic.
 % architecture proposed in a previous work [ ], to execute in the edge where small
 % devices and constrained resources may be prevalent
 
-In this work, we propose and assess \mfog, a distributed data stream
-novelty detection system based on the algorithm \minas for securing \iot networks.
-\mfog implements a distributed version of \minas according to the \arch
-architecture proposed in a previous work \cite{Cassales2019a}, to execute in the
-edge where small devices and constrained resources may be prevalent.
-
 % In this work we investigate the application of the \arch architecture
 % \cite{Cassales2019a} with \nd techniques by use of \minas algorithm
 % \cite{Faria2016minas}, by implementation and evaluation of a parallel and
 % distributed descendant of those two works we named \mfog.
 However, given the distributed nature and the typical use of small computing
-devices in IoT scenarios, new challenges arise:
+devices in IoT scenarios as well as the need handle network speeds, new challenges arise:
 \begin{enumerate*}[label=(\emph{\roman*})]
   \item the classification phase of the algorithm must occur in parallel at
   different nodes;
@@ -159,6 +161,9 @@ lastly, available over the internet, the traditional public cloud provides
 inexpensive computing and storage on demand.
 % \todo{the following is needed?}
 % {
+% In this scenario, the further apart resources are, more network
+% resources need to be employed, and, as with any networked system, the
+% latency increases.
 In this scenario, the further apart resources are, the more network
 resources need to be employed, and, as with any networked system, the
 higher is the latency.
@@ -168,7 +173,8 @@ higher is the latency.
 \begin{figure}[hb]
   \centering
   \includegraphics[width=0.5\linewidth]{figures/cassalesimgs-000.png}
-  \caption{\arch \cite{Cassales2019a} physical architecture and deployment scenario overview.}
+  \caption{\arch \cite{Cassales2019a} physical architecture and deployment
+  scenario overview.}
   \label{fig:mfog-phy-arch-cloud}
 \end{figure}
 
@@ -310,10 +316,10 @@ some of them were recurring during our implementation discussions and are:
   least used clusters;
 
   \item Lastly, reclassification of \emph{unknowns}: In the novelty detection
-  task in \minas, the \emph{unknown} sample buffer is effectively classified
+  task in \minas, the \emph{unknown-buffer} is effectively classified
   using the new set of clusters.
-  In Algorithm \ref{alg:MINAS-nd}, at the line \ref{alg:MINAS-nd:reclassify}, the
-  new cluster valid (novelty or extension) includes the set of samples composing
+  In Algorithm \ref{alg:MINAS-nd} line \ref{alg:MINAS-nd:reclassify}, the
+  new valid cluster (novelty or extension) includes the set of samples composing
   that cluster, thus, if this new label assignment was put forth to the system
   output it would introduce delayed outputs, more recent and perhaps more
   accurate.
@@ -343,8 +349,8 @@ implementation only used K-means.
 % \refminas employs Java's double, a $64 bits$ number whose precision is not
 % absolutely necessary and, as it is often necessary to shuffle between nodes via
 % network and a small economy could be made with only a float number with $32 bits$.
-Another difference between \refminas and \mfog is the calculus of the cluster radius 
-from the distances of elements forming the cluster and the cluster's center.
+Another difference between \refminas and \mfog is the definition of cluster radius
+derived from the distances of elements forming the cluster and the cluster's center.
 \refminas uses the maximum distance while \mfog uses the standard deviation
 of all distances as described in \cite{Faria2016minas}.
 
@@ -391,7 +397,7 @@ As input, the algorithm takes samples (\val), which are a sequence of numbers
 with dimension $d$.
 In addition to \val, for both training and evaluation, the class
 identifier is provided as a single character, along with a unique item identifier
-(\emph{uid}), which can otherwise be determined from the sample index in the stream.
+(\emph{uid}), which can otherwise be determined from the sample index in the input stream.
 
 % muito longo, difícil de entender... - helio
 % For output information and format the decision isn't so clear as we can't
@@ -454,34 +460,142 @@ a tuple containing \emph{uid} and the assigned label.
 % there is a sampler and detector threads, for the leafs each has a model receiver
 % thread and multiple classifier threads.
 
-\input{04.prop-algo}
-
 For evaluation purposes, an \mfog implementation\footnote{Available at
 \url{https://github.com/luis-puhl/minas-flink}.} was made using MPI (\emph{Open
 MPI 4.0.4}).
 The program is organized in a single program multiple data (SPMD)
 programming model, so a single version of the \mfog program was initiated on all
 nodes, being that one of them would perform the root role, while the others ran
-as leaves, the program entry point is illustrated on Algorithm \ref{alg:MFOG}.
-On the root process, a sampler thread is responsible for distributing the
+as leaves, the program entry point is illustrated on Algorithm \ref{alg:MFOG}
+and the overall sequence of interactions is shown in Figure \ref{fig:mfog-mpi-life}.
+
+Each leaf node runs a model adjustment thread and multiple (up to the number of
+cores) classifier threads. The leaf tasks are illustrated in Algorithm
+\ref{alg:MFOG-leaf}.
+
+On the root process, illustrated in Algorithm \ref{alg:MFOG-root}, a sampler
+thread is responsible for distributing the
 sampled flow information (\val) to the classifier nodes, using a round-robin
 load balancing scheme.
 The other thread on the root process is responsible for receiving the
 classification results and for processing the unknown samples in the search for
 novelties.
-The root process functions are illustrated in Algorithm \ref{alg:MFOG-root}.
-Each leaf node runs a model adjustment thread and multiple (up to the number of
-cores) classifier threads. The leaf tasks are illustrated in Algorithm
-\ref{alg:MFOG-leaf}.
-% >>>>>>> dd70e6dd2f93dbb63f7f84ee937aafc4b6ff9684
-The overall sequence of interactions is shown in Figure \ref{fig:mfog-mpi-life}.
 
-\begin{figure}[htb]
-  \centerline{
-    % \includegraphics[width=0.7\textwidth]{figures/mfog-arch-mpi.png}
+\begin{figure}[h]
+    \centering
     \includegraphics[width=\whencolumns{0.7\linewidth}{\columnwidth},page=1]{figures/lifecycle.uml.svg.pdf}
-    % \input{figures/lifecycle/lifecycle.latex}
-  }
-  \caption{\mfog life line overview.}
-  \label{fig:mfog-mpi-life}
+    \caption{\mfog life line overview.}
+    \label{fig:mfog-mpi-life}
 \end{figure}
+
+\newlength{\intextsepBKP}
+\setlength{\intextsepBKP}{\intextsep}
+\setlength{\intextsep}{5pt}
+% \newlength{\textfloatsepBKP}
+% \setlength{\textfloatsepBKP}{\textfloatsep}
+% \setlength{\textfloatsep}{5pt}
+% \newlength{\floatsepBKP}
+% \setlength{\floatsepBKP}{\floatsep}
+% \setlength{\floatsep}{5pt}
+
+\begin{algorithm}[h]
+    \input{alg-config.tex}
+    % 
+    \SetKwInOut{KwParams}{Parameters}
+    \KwParams{\mpiRank}
+    \KwIn{inputStream}
+    \KwOut{outputStream}
+    \Function{\Mfog{inputStream, outputStream}}{
+        Model $\leftarrow \emptyset$; ModelLock $\leftarrow$ \textbf{new} \Lock()\;
+        \eIf(\emph{root}){\mpiRank $ = 0$}{
+            \textbf{new} \Thread(\Detector, [outputStream, Model, ModelLock])\;
+            \Sampler(inputStream, Model, ModelLock)\;
+        }(\emph{leaf}){
+            \textbf{new} \Thread(\modelReceiver, [Model, ModelLock])\;
+            \Classifier(Model, ModelLock)\;
+        }
+    }
+\caption{\mfog: main MPI entry-point.}
+\label{alg:MFOG}
+\end{algorithm}
+
+\begin{algorithm}[h]
+    \input{alg-config.tex}
+    \Function{\Classifier{Model, ModelLock}}{
+        \While{ True }{
+            sampe $\leftarrow$ \receive(SampleType, root)\;
+            \lIf{sample $=$ \EndOfStream}{\break}
+            sample.label $\leftarrow$ ``unknown''\;
+            \With{\readLock(ModelLock)}{
+                nearest $\leftarrow$ \nearestCluster(sample, Model)\;
+            }
+            \If{nearest.distance $ \leq $ nearest.cluster.radius}{
+                sample.label $\leftarrow$ nearest.cluster.label\;
+            }
+            \send(root, SampleType, sample)\;
+        }
+    }
+    \Function{\modelReceiver{Model, ModelLock}}{
+        \While{ True }{
+            cl $\leftarrow$ \receive(ClusterType, root)\;
+            \lIf{cl $=$ \EndOfStream}{\break}
+            \With{writeLock(ModelLock)}{
+                Model $\leftarrow$ Model $\cup$ cl\;
+            }
+        }
+    }
+  \caption{\mfog Leaf Tasks: Model Receiver and Classifier.}
+  \label{alg:MFOG-leaf}
+\end{algorithm}
+
+\begin{algorithm}[t]
+  \input{alg-config.tex}
+  \KwParams{\mpiSize}
+  \Function{\Sampler{inputStream, Model, ModelLock}}{
+      dest $\leftarrow 1$\;
+      \ForEach{sample $\in$ inputStream}{
+          \If{\typeOf(sample) is Cluster}{
+              \broadcast(ClusterType, sample, root)\;
+              \With{\writeLock(ModelLock)}{
+                  Model $\leftarrow$ Model $\cup$ sample\;
+              }
+              \continue\;
+          }
+          \send(dest, SampleType, sample)\;
+          dest $\leftarrow$ dest $+ 1$\;
+          \lIf{dest $>$ \mpiSize}{dest $\leftarrow$ 1}
+      }
+  }
+  \KwParams{\cleaningWindow, \noveltyDetectionTrigger}
+  \Function{\Detector{outputStream, Model, ModelLock}}{
+        UnknownSet $\leftarrow \emptyset$; lastCleanup $\leftarrow 0$\;
+        \While{ True }{
+            sample $\leftarrow$ \receive(SampleType, any)\;
+            \lIf{sample $=$ \EndOfStream}{\break}
+            outputStream.append(sample)\;
+            \If{sample.label $=$ ``unknown''}{
+                UnknownSet $\leftarrow$ UnknownSet $\cup$ sample\;
+                \If{$|\;UnknownSet\;| \geq$ \noveltyDetectionTrigger}{
+                    novelties $\leftarrow$ \NoveltyDetection(Model, *UnknownSet)\;
+                    \With{\writeLock(ModelLock)}{
+                        Model $\leftarrow$ Model $\cup$ novelties\;
+                    }
+                    \ForEach{cluster $\in$ novelties}{
+                        \broadcast(ClusterType, cluster, root)\;
+                    }
+                }
+                \If{ sample.uid $ > $ ( lastCleanup $ + $ \cleaningWindow )}{
+                    UnknownSet $\leftarrow$ \removeOldSamples(UnknownSet, lastCleanup)\;
+                    lastCleanup $ \leftarrow $ sample.uid\;
+                }
+            }
+        }
+  }
+\caption{\mfog Root Tasks: Sampler and Detector.}
+\label{alg:MFOG-root}
+\end{algorithm}
+
+\setlength{\intextsep}{\intextsepBKP}
+% \setlength{\textfloatsep}{\textfloatsepBKP}
+% \setlength{\floatsep}{\floatsepBKP}
+% \FloatBarrier
