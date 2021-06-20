@@ -139,35 +139,66 @@ in the summary table and stream visualization chart.
 % accuracy.
 One complete matrix is shown in Tab. \ref{tab:java-matrix}.
 
-% \begin{table*}[htb]\begin{center}
-%   \caption{Reference implementation: Confusion Matrix and Qualitative Metrics}
-%   \input{experiments/revised-java.log.tex}
-%   \label{tab:java-matrix}
-% \end{center}\end{table*}
-
 \begin{table*}[htb]
 \caption{Confusion Matrices and Qualitative measurements}
 \label{tab:confusion-matrixes-ref-serial}
 \begin{subtable}[h]{\textwidth}\begin{center}
     \caption{Reference implementation}
-    \input{experiments/revised-java.log.tex}
+    \begin{tabular}{l|r|r|r|r|r|r|r|r|r|r|r|r|r|r}
+
+      Labels &     - &       N &    1 &    2 &    3 &  4 &   5 &    6 &    7 &     8 &    9 &    10 &   11 &  12 \\\hline
+      Classes  &       &         &      &      &      &    &     &      &      &       &      &       &      &     \\\hline
+      \hline
+      A        &  3774 &  438750 &  123 &  145 &  368 &  8 &  52 &  165 &    1 &  1046 &  161 &  2489 &   71 &  26 \\\hline
+      N        &  8206 &  193030 &    0 &   79 &   44 &  0 &   0 &    0 &  229 &   181 &  154 &  4066 &  289 &   0 \\\hline
+      \hline
+      Assigned &     - &       N &    A &    A &    A &  A &   A &    A &    N &     A &    A &     N &    N &   A \\\hline
+      Hits     &     0 &  193030 &  123 &  145 &  368 &  8 &  52 &  165 &  229 &  1046 &  161 &  4066 &  289 &  26 
+    \end{tabular}
     \label{tab:java-matrix}
 \end{center}\end{subtable}
 \begin{subtable}[h]{\textwidth}\begin{center}
-    \whencolumns{}{\vspace{5mm}}
     \caption{Sequential implementation}
-    \input{experiments/online-nd.log.tex}
+    \begin{tabular}{l|r|r|r|r|r|r|r|r|r|r|r}
+
+      Labels &      - &       N &   0 &    1 &    2 &   4 &   5 &  6 &   7 &   8 &  10 \\\hline
+      Classes  &        &         &     &      &      &     &     &    &     &     &     \\\hline
+      \hline
+      A        &  16086 &  429765 &  94 &  995 &  104 &   0 &  23 &  3 &  29 &  46 &  34 \\\hline
+      N        &  12481 &  193642 &   3 &   94 &    0 &  47 &   0 &  0 &   0 &  11 &   0 \\\hline
+      \hline
+      Assigned &      - &       N &   A &    A &    A &   N &   A &  A &   A &   A &   A \\\hline
+      Hits     &      0 &  193642 &  94 &  995 &  104 &  47 &  23 &  3 &  29 &  46 &  34 
+    \end{tabular}
     \label{tab:libc-matrix}
-    \whencolumns{}{\vspace{5mm}}
 \end{center}\end{subtable}
 \begin{subtable}[h]{0.5\textwidth}\begin{center}
   \caption{Parallel single-node}
-  \input{experiments/tmi-base.log.tex}
+  \begin{tabular}{l|r|r|r|r|r|r|r}
+    Labels &      - &       N &    0 &    1 &   2 &  3 &  4 \\\hline
+    Classes  &        &         &      &      &     &    &    \\\hline
+    \hline
+    A        &  12282 &  433797 &  147 &  952 &   0 &  0 &  1 \\\hline
+    N        &   3088 &  203019 &   40 &   99 &  27 &  5 &  0 \\\hline
+    \hline
+    Assigned &      - &       N &    A &    A &   N &  N &  A \\\hline
+    Hits     &      0 &  203019 &  147 &  952 &  27 &  5 &  1 
+    \end{tabular}
   \label{tab:single-node-matrix}
 \end{center}\end{subtable}
 \begin{subtable}[h]{0.5\textwidth}\begin{center}
   \caption{Parallel multi-node}
-  \input{experiments/tmi-n12.log.tex}
+  \begin{tabular}{l|r|r|r|r|r|r|r}
+
+    Labels &      - &       N &    0 &    1 &    2 &    3 &  4 \\\hline
+    Classes  &        &         &      &      &      &      &    \\\hline
+    \hline
+    A        &  12378 &  433631 &  117 &  886 &    0 &  162 &  5 \\\hline
+    N        &   3121 &  202916 &   40 &   96 &  105 &    0 &  0 \\\hline
+    \hline
+    Assigned &      - &       N &    A &    A &    N &    A &  A \\\hline
+    Hits     &      0 &  202916 &  117 &  886 &  105 &  162 &  5 
+  \end{tabular}
   \label{tab:multi-node-matrix}
 \end{center}\end{subtable}
 \end{table*}
@@ -217,29 +248,27 @@ Figure \ref{fig:visualization} shows complete stream visualization charts.
   \centerline{
     \begin{subfigure}{.5\textwidth}
       \centering
-      % \includegraphics[trim={0.2cm 0 1.9mm 0},clip,width=\linewidth]{experiments/revised-java.log.png}
-      \includegraphics[width=\linewidth]{experiments/revised-java.log.png}
+      \includegraphics[width=\linewidth]{revised-java.log.png}
       \caption{Reference Implementation}
       \label{fig:validation-sub-java}
     \end{subfigure}
     \begin{subfigure}{.5\textwidth}
       \centering
-      \includegraphics[width=\linewidth]{experiments/online-nd.log.png}
+      \includegraphics[width=\linewidth]{online-nd.log.png}
       \caption{Sequential Implementation}
       \label{fig:validation-sub-serial}
     \end{subfigure}
   }
-  \whencolumns{}{\vspace{5mm}}
   \centerline{
     \begin{subfigure}{.5\textwidth}
       \centering
-      \includegraphics[width=\linewidth]{experiments/tmi-base.log.png}
+      \includegraphics[width=\linewidth]{tmi-base.log.png}
       \caption{Parallel single-node}
       \label{fig:cluster-sub-single}
     \end{subfigure}
     \begin{subfigure}{.5\textwidth}
       \centering
-      \includegraphics[width=\linewidth]{experiments/tmi-n12.log.png}
+      \includegraphics[width=\linewidth]{tmi-n12.log.png}
       \caption{Parallel multi-node}
       \label{fig:cluster-sub-multi}
     \end{subfigure}
@@ -360,7 +389,7 @@ scaling to more than $4$ instances.
 \begin{figure}[hbt]
   \centering
   % \includegraphics[width=\linewidth]{experiments/speedup-clean.png}
-  \includegraphics[width=\whencolumns{0.6}{1}\linewidth,page=1]{experiments/speedup-clean.pdf}
+  \includegraphics[width=1\linewidth,page=1]{speedup-clean.pdf}
   \caption{Time measurements per added instance.}
   \label{fig:speedup}
 \end{figure}
@@ -378,100 +407,3 @@ Comparing \emph{c} and \emph{d} the difference is even smaller,
 (figs. \ref{fig:validation-sub-serial} and \ref{fig:cluster-sub-single})
 as they both suffer the expected delay in the feedback loop due to asynchronous
 task execution.
-
-% \todo{discutir o delay de 80k entre etiqueta 0 em serial vs node}
-
-% When observing the stream visualization on figure \ref{fig:cluster-sub-multi}
-
-% \begin{table*}[htb]
-% \caption{Confusion Matrix and Qualitative measures for MPI Clusters.}
-% \label{tab:confusion-matrixes-single-multi}
-% \begin{subtable}[h]{0.5\textwidth}\begin{center}
-%     \caption{Parallel single-node}
-%     \input{experiments/tmi-base.log.tex}
-%     \label{tab:single-node-matrix}
-% \end{center}\end{subtable}
-% \begin{subtable}[h]{0.5\textwidth}\begin{center}
-%     \caption{Parallel multi-node}
-%     \input{experiments/tmi-n12.log.tex}
-%     \label{tab:multi-node-matrix}
-% \end{center}\end{subtable}
-% \end{table*}
-
-% 22.40 user	0.02 system	0:22.48 elapsed
-
-% \begin{table*}[htb]\begin{center}
-%   \caption{Serial implementation: Confusion Matrix and Qualitative Metrics}
-%   \input{experiments/online-nd.log.tex}
-%   \label{tab:libc-matrix}
-% \end{center}\end{table*}
-
-% \begin{figure*}[htb]
-%   \centerline{
-%     \begin{subfigure}{.5\textwidth}
-%       \centering
-%       \includegraphics[width=\linewidth]{experiments/tmi-base.log.png}
-%       \caption{Parallel single-node}
-%       \label{fig:cluster-sub-single}
-%     \end{subfigure}
-%     \begin{subfigure}{.5\textwidth}
-%       \centering
-%       \includegraphics[width=\linewidth]{experiments/tmi-n12.log.png}
-%       \caption{Parallel multi-node}
-%       \label{fig:cluster-sub-multi}
-%     \end{subfigure}
-%     % \begin{subfigure}{.5\textwidth}
-%     %   \centering
-%     %   \includegraphics[width=\linewidth]{experiments/speedup-clean.png}
-%     %   \caption{Time measurements per added instance}
-%     %   \label{fig:cluster-sub-multi}
-%     % \end{subfigure}
-%   }
-%   \caption{Parallelism Comparison: Stream hits and novelties visualization}
-%   \label{fig:cluster}
-% \end{figure*}
-
-
-% \begin{table}[htb]\begin{center}
-%   \caption{Parallel single-node: Confusion Matrix and Qualitative Metrics}
-%   \input{experiments/tmi-base.log.tex}
-%   \label{tab:single-node-matrix}
-% \end{center}\end{table}
-
-% \setcounter{MaxMatrixCols}{20}
-% \begin{table*}[htb]
-  %   \begin{center}
-    %     \caption{Reference implementation: Confusion Matrix and Qualitative Metrics}
-    %     \begin{math}\begin{pmatrix}
-      %       - & N & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12
-%     \end{pmatrix}\end{math}
-%     \begin{math}\begin{pmatrix}
-%     3774 &  438750 &  123 &  145 &  368 &  8 &  52 &  165 &    1 &  1046 &  161 &  2489 &   71 &  26 \\
-%     8206 &  193030 &    0 &   79 &   44 &  0 &   0 &    0 &  229 &   181 &  154 &  4066 &  289 &   0
-%     \end{pmatrix}\end{math}
-%     \begin{math}\begin{pmatrix}
-%       - &       N &    A &    A &    A &  A &   A &    A &    N &     A &    A &     N &    N &   A \\
-%       0 &  193030 &  123 &  145 &  368 &  8 &  52 &  165 &  229 &  1046 &  161 &  4066 &  289 &  26 
-%     \end{pmatrix}\end{math}
-%     \label{math-tab}
-%   \end{center}
-% \end{table*}
-
-% \begin{figure*}
-%   \centering
-%   \centerline{
-%     \includegraphics[width=0.45\textwidth]{../experiments/revised-java.log.png}
-%     \includegraphics[width=0.45\textwidth]{../experiments/revised-java.log.png}
-%   }
-%   \\
-%   \centerline{
-%     \includegraphics[width=0.45\textwidth]{../experiments/revised-java.log.png}
-%     \includegraphics[width=0.45\textwidth]{../experiments/revised-java.log.png}
-%   }
-% \label{fig1} 
-% \end{figure*}
-
-% \begin{highlight}
-
-% \end{highlight}
-

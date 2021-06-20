@@ -1,9 +1,7 @@
-\documentclass[]{lib/llncs}
-% \documentclass[runningheads,a4paper]{lib/llncs}
+\documentclass[]{llncs}
 \usepackage[english]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{xspace}
-% \usepackage{cite}
 \usepackage{amsmath,amssymb,amsfonts}
 \usepackage[noalgohanging,lined,noend,linesnumbered]{algorithm2e}
 \SetAlCapSkip{1.5ex}
@@ -24,11 +22,6 @@
 \hypersetup{colorlinks=true, allcolors=black}
 \usepackage{subcaption}
 \usepackage{mdframed}
-%\usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
-\usepackage[colorinlistoftodos,prependcaption]{todonotes}
-\newcounter{todocounter}
-\newcommand{\toreview}{}
-\include{lib/review-tools}
 
 \begin{document}
 
@@ -53,13 +46,12 @@
 \maketitle
 
 \input{01.abstract}
-\input{01.introduction}%\FloatBarrier
-% \input{02.related}%\FloatBarrier
-\input{03.minas}%\FloatBarrier
-\input{04.proposal}%\FloatBarrier
-\input{05.experiments}%\FloatBarrier
+\input{01.introduction}
+\input{03.minas}
+\input{04.proposal}
+\input{05.experiments}
 \input{06.conclusion}
 
-\bibliographystyle{lib/splncs04.bst}
+\bibliographystyle{splncs04.bst}
 \bibliography{99-refs-ISCC}
 \end{document}
