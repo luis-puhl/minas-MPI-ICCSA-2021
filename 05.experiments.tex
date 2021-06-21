@@ -371,25 +371,9 @@ load balancing than our choice of round-robin such as micro-batching for better
 In general, Figure \ref{fig:speedup} shows no speedup but also no penalty for
 scaling to more than $4$ instances.
 
-% \st{we have to say it is pretty shitty because of our choice of distribution 
-% using round-robin, use some load balancing and micro-batching for better results.}
-
-% Tempo gasto com distribuição e tempo gasto com processamento mostra que é viável.
-
-% relação $p/n$ 
-
-% relação do tempo comm / tempo processing
-% coom time / processing time does not inhibit the use of our aproach.
-% CCR
-
-% compute-to-communication ratio (CCR) indicates that our approach is viable 
-
-% compute-to-communication ratio (CCR).
-
 \begin{figure}[hbt]
   \centering
-  % \includegraphics[width=\linewidth]{experiments/speedup-clean.png}
-  \includegraphics[width=1\linewidth,page=1]{speedup-clean.pdf}
+  \includegraphics[width=0.7\linewidth,page=1]{speedup-clean.pdf}
   \caption{Time measurements per added instance.}
   \label{fig:speedup}
 \end{figure}
