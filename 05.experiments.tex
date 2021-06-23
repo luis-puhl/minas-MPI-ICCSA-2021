@@ -100,7 +100,7 @@ Our evaluation script was build following reference techniques like
 multi-class confusion matrix with label-class association \cite{Faria2016minas}
 to extract classification quality measurements.
 This script takes two inputs, the test data set and the captured output stream,
-and gives as outputs the confusion matrix, label-class association,
+and produces as outputs the confusion matrix, a label-class association, and a
 final quality summary with:
 \emph{Hits} (true positive), \emph{Misses} (Err), \emph{Unknowns} (UnkR); and
 stream visualization chart with per example instance summary with novelty label markers.
@@ -173,8 +173,8 @@ One complete matrix is shown in Tab. \ref{tab:java-matrix}.
 \end{table*}
 
 For the measurements summary table, six measurements from two sources are displayed. Three
-measures \emph{Hits}, \emph{Unknowns} and \emph{Misses} represented as ratio of
-the captured output stream, extracted from the evaluation python program,
+measures, \emph{Hits}, \emph{Unknowns} and \emph{Misses}, represented as ratio of
+the captured output stream, are extracted from the evaluation python program, being
 computed as follows:
 \emph{Hits} (true positive rate) is the sum of the \emph{Hits} row in the
 extended confusion matrix;
@@ -185,7 +185,7 @@ with a label distinct from the \emph{Assigned} original class and are not marked
 as unknown.
 
 Furthermore in the measurement summary table, \emph{Time}, \emph{System} and
-\emph{Elapsed} represented in seconds, are extracted from \emph{GNU Time 1.9}.
+\emph{Elapsed}, represented in seconds, are extracted from \emph{GNU Time 1.9}.
 \emph{Time} is the amount of CPU seconds expended in user-mode
 (indicates time used doing CPU intensive computing, e.g., math).
 \emph{System} is the amount of CPU seconds expended in kernel-mode
@@ -300,7 +300,7 @@ and \emph{d}) serve as showcase for the effects of distribution.
 As stated, to validate our implementation we have compared it to \refminas
 (the original \minas companion implementation), so we extracted the same measurements
 using same process for both \emph{a} and \emph{b}, which can be viewed in
-Tables \ref{tab:java-matrix}, \ref{tab:libc-matrix} and for ease of comparison
+Tables \ref{tab:java-matrix}, \ref{tab:libc-matrix} and, for ease of comparison,
 in Table \ref{tab:exper-summary} the summary can be compared side by side.
 
 In general, the observed classification quality measurements are very similar,

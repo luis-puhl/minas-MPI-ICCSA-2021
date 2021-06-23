@@ -66,7 +66,7 @@ scalable, edge focused way.
 % \cite{Faria2016minas}, by implementation and evaluation of a parallel and
 % distributed descendant of those two works we named \mfog.
 However, given the distributed nature and the typical use of small computing
-devices in IoT scenarios as well as the need handle network speeds, new challenges arise:
+devices in IoT scenarios as well as the need handle flow information according to the network speeds, new challenges arise:
 \begin{enumerate*}[label=(\emph{\roman*})]
   \item the classification phase of the algorithm must occur in parallel at
   different nodes;
@@ -293,10 +293,10 @@ some of them were recurring during our implementation discussions and are:
   \begin{itemize}
     
     \item At each fog node: patterns will be only detected if sufficient samples
-    of them occur in the local observed network, use of the local node
-    processing power, and a model synchronization mechanism between networks
+    of them occur in the local observed network. In this sense, the local node
+    processing power should be employed, and a model synchronization mechanism between networks
     must be added;
-
+% tem algo estranho com a frase acima; fiz uma sugestão.
     \item In the cloud: detect patterns even when scattered on each local
     network, each sample with \emph{unknown} label must be sent from edge to
     cloud implying increased internet link usage and increased delay between the
@@ -320,9 +320,9 @@ some of them were recurring during our implementation discussions and are:
   using the new set of clusters.
   In Algorithm \ref{alg:MINAS-nd} line \ref{alg:MINAS-nd:reclassify}, the
   new valid cluster (novelty or extension) includes the set of samples composing
-  that cluster, thus, if this new label assignment was put forth to the system
-  output it would introduce delayed outputs, more recent and perhaps more
-  accurate.
+  that cluster. Thus, if this new label assignment is to be put forth to the system
+  output it will introduce delayed outputs, but more recent and perhaps more
+  accurate ones. % fez sentido? helio
   Also, it would change the system data stream behavior from a \emph{map}
   (meaning each input has one output) to a \emph{flatMap} (each input can have
   many outputs).
@@ -466,7 +466,7 @@ MPI 4.0.4}).
 The program is organized in a single program multiple data (SPMD)
 programming model, so a single version of the \mfog program was initiated on all
 nodes, being that one of them would perform the root role, while the others ran
-as leaves, the program entry point is illustrated on Algorithm \ref{alg:MFOG}
+as leaves. The program entry point is illustrated on Algorithm \ref{alg:MFOG}
 and the overall sequence of interactions is shown in Figure \ref{fig:mfog-mpi-life}.
 
 Each leaf node runs a model adjustment thread and multiple (up to the number of
