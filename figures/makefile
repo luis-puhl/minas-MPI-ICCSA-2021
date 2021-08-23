@@ -10,4 +10,4 @@ all: lifecycle.png mfog-arch-fisica.pdf
 
 # plantuml -tpng -pipe < $? > $@
 %.png: %.svg
-	inkscape $? --export-filename=$@ --export-dpi=600 --export-background="#ffffffff"
+	inkscape $? --export-filename=$@ --export-dpi=300 --export-background="#ffffffff"
