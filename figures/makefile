@@ -1,9 +1,13 @@
 
-all: lifecycle.uml.svg.pdf mfog-arch-fisica.svg.pdf
+all: lifecycle.png mfog-arch-fisica.pdf
 
 # inkscape -D $? -o $@ --export-latex
-%.svg.pdf: %.svg
+%.pdf: %.svg
 	rsvg-convert -f pdf -o $@ $?
 
-%.uml.svg: %.puml
+%.svg: %.puml
 	plantuml -tsvg -pipe < $? > $@
+
+# plantuml -tpng -pipe < $? > $@
+%.png: %.svg
+	inkscape $? --export-filename=$@ --export-dpi=600 --export-background="#ffffffff"
