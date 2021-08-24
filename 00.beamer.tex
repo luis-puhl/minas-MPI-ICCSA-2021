@@ -20,54 +20,34 @@
 \usepackage{graphicx,caption,subcaption}
 % 1,2,4-7,9,10,12-23,25-31,33,34
 
+\def\orcidID#1{\unskip$^{[#1]}$} % added MR 2018-03-10
 \newcommand{\printorientador}{<Orientador>}
 \newcommand{\orientador}[1]{\renewcommand{\printorientador}{#1}}
 \newcommand{\printagradecimento}{<agradecimento>}
 \newcommand{\agradecimento}[1]{\renewcommand{\printagradecimento}{#1}}
+\newcommand{\printpresenter}{<presenter>}
+\newcommand{\presenter}[1]{\renewcommand{\printpresenter}{#1}}
 \newcommand{\fonte}[1]{\vspace{-1em}{\footnotesize\textbf{Fonte:} #1}}
 \newcommand{\mfog}{M-FOG\xspace}
 
-\setbeamertemplate{title page}{
-    \begin{minipage}[c][\paperheight]{\textwidth}
-        \ifx\inserttitlegraphic\@empty\else\usebeamertemplate*{title graphic}\fi
-        \vfill%
-        \ifx\inserttitle\@empty\else\usebeamertemplate*{title}\fi
-        \ifx\insertsubtitle\@empty\else\usebeamertemplate*{subtitle}\fi
-        \usebeamertemplate*{title separator}
-        \begin{minipage}[t]{.5\textwidth}
-            \ifx\beamer@shortauthor\@empty\else\usebeamertemplate*{author}\fi
-            \ifx\insertdate\@empty\else\usebeamertemplate*{date}\fi
-            \ifx\insertinstitute\@empty\else\usebeamertemplate*{institute}\fi
-        \end{minipage}
-        \begin{minipage}[t]{.5\textwidth}
-            \vspace*{2em}
-            \ifx\printorientador\@empty\else{
-              \hspace{3.2em}\small Orientador: \textit{\printorientador} \par
-            }\fi
-        \end{minipage}%
-        \vspace*{4em}
-        \ifx\printagradecimento\@empty\else{
-          \footnotesize\printagradecimento
-        }\fi
-        \vfill
-        \vspace*{1mm}
-    \end{minipage}
-}
-
-\title[]{Uma Implementação Distribuída em Névoa do Algoritmo de Detecção de
-Novidade em Fluxos de Dados MINAS}
+\title[]{Distributed Novelty Detection at the Edge for IoT Network Security}
 % \subtitle{Seminários de Metodologia Científica}
-\author{Luís Henrique Puhl de Souza}
-\orientador{Prof. Dr. Hermes Senger}
+\author{
+  Luís Puhl\inst{1}\orcidID{0000-0003-2118-9992} \and
+  Guilherme Weigert Cassales\inst{1}\orcidID{0000-0003-4029-2047} \and
+  Helio Crestana Guardia\inst{1}\orcidID{0000-0001-5010-747X} \and
+  Hermes Senger\inst{1}\orcidID{0000-0003-1273-9809}
+}
 \institute{
-Universidade Federal de São Carlos \\
-Centro de Ciências Exatas e de Tecnologia \\
-Departamento de Computação \\
-Programa de Pós-Graduação em Ciência da Computação}
-% \date{\today}
-\date{05 Julho 2021}
-% \titlegraphic{\hfill\includegraphics[height=1.5cm]{logo.pdf}}
-\agradecimento{Obrigado CNPq pelo suporte financiero (contrato 167345/2018-4).}
+  Universidade Federal de São Carlos, Brasil\\
+  \url{https://www2.ufscar.br/}
+}
+\presenter{Luís Puhl}
+\date{\today}
+% \date{05 Julho 2021}
+% \titlegraphic{\hfill\includegraphics[height=1.5cm]{iccsa2021logo.png}}
+\agradecimento{The authors would like to thank Brazilian funding agencies FAPESP
+and CNPq for the financial support.}
 
 \newcommand{\minas}{MINAS\xspace}
 
@@ -75,7 +55,7 @@ Programa de Pós-Graduação em Ciência da Computação}
 
 \maketitle
 
-\begin{frame}[noframenumbering]{Índice}
+\begin{frame}[noframenumbering]{Contents}
   \setbeamertemplate{section in toc}[sections numbered]
   \tableofcontents[hideallsubsections]
 \end{frame}
@@ -101,7 +81,8 @@ Programa de Pós-Graduação em Ciência da Computação}
     \item[$-$] Heterogeneidade de dispositivos;
     \item[$-$] Falta de atualizações de \emph{software};
     \item[$-$] Exemplo: \emph{Botnet} mirai, infectando cameras e roteadores, gerou
-    $620 \ \mathrm{Gb/s}$ \cite{Kambourakis2017}.
+    $620 \ \mathrm{Gb/s}$ %\cite{Kambourakis2017}
+.
   \end{itemize}
   % Contexto Específico
   \item Detecção de intrusão em redes:
@@ -143,7 +124,8 @@ Programa de Pós-Graduação em Ciência da Computação}
     
     \vspace{1.0em}\item \textbf{Computação em Nuvem} (\emph{Cloud Computing}) é
     um modelo que permite acesso conveniente a recursos computacionais
-    compartilhados \cite{NIST2011}.
+    compartilhados %\cite{NIST2011}
+.
 
     \textbf{Características:}
       \underline{Auto-serviço} sob demanda,
@@ -154,12 +136,14 @@ Programa de Pós-Graduação em Ciência da Computação}
     
     \vspace{1.0em}\item \textbf{Computação de Borda} (\emph{Edge Computing})
     refere-se a qualquer recurso computacional entre os dispositivos de borda e
-    centro de dados hospedados em nuvem \cite{Shi2016}.
+    centro de dados hospedados em nuvem %\cite{Shi2016}
+.
     
     \vspace{1.0em}\item \textbf{Computação em Névoa} (\emph{Fog Computing}) é
     uma arquitetura horizontal a nível de sistema que distribui funções de
     computação, armazenamento, controle e rede próximos aos usuários no espaço
-    \underline{contínuo nuvem-coisa} \cite{IEEECommunicationsSociety2018}.
+    \underline{contínuo nuvem-coisa} %\cite{IEEECommunicationsSociety2018}
+.
     
     \textbf{Características:}
         Mobilidade,
@@ -182,7 +166,8 @@ Programa de Pós-Graduação em Ciência da Computação}
     Um fluxo de dados (\textit{Data Stream}) é uma sequência massiva possivelmente
     ilimitada de exemplos multi-dimensionais $x_1, x_2, \dots, x_n, \dots$
     recebidos em instantes associados $t_1, t_2, \dots, t_n, \dots$
-    \cite{Aggarwal2003}.
+    %\cite{Aggarwal2003}
+.
   \end{block}
 
   \pause
@@ -192,7 +177,8 @@ Programa de Pós-Graduação em Ciência da Computação}
     \vspace{1mm}
     Métodos Detecção de Novidade (\emph{Novelty Detection}) lidam com o reconhecimento e
     classificação de exemplos em padrões que diferem de padrões anteriores
-    \cite{Gama2010}.
+    %\cite{Gama2010}
+.
     \begin{itemize}%[<+- | alert@+>]
       
       \item Evolução de Conceito (\emph{Concept Evolution}): surgimento de um conceito durante
@@ -220,7 +206,8 @@ Programa de Pós-Graduação em Ciência da Computação}
 \begin{frame}[fragile]{Estado da Arte e Trabalhos Relacionados}
 \begin{alertblock}{Sistemas de detecção de intrusão em redes}
   \begin{itemize}%[<+- | alert@+>]
-    \item Ferramenta BigFlow \cite{Viegas2019}:
+    \item Ferramenta BigFlow %\cite{Viegas2019}
+:
     \begin{itemize}
       \item Sistema de detecção de intrusão por anomalia para redes de alta velocidade;
       % \nota{% OK, isso é trabalho relacionado!\\
@@ -234,7 +221,8 @@ Programa de Pós-Graduação em Ciência da Computação}
       \item[$\boldsymbol{-}$] Atualização semanal com avaliação de um especialista;
       \item[$\boldsymbol{-}$] Execução somente em nuvem.
     \end{itemize}
-    \item Ferramenta CATRACA \cite{Lopez2018,Sanz2018}:
+    \item Ferramenta CATRACA %\cite{Lopez2018,Sanz2018}
+:
     \begin{itemize}
       % \nota{catraca: contribuição? limitação?}
       \item Sistema de monitoração e detecção de ameaça com processamento de fluxos e NVF;
@@ -243,7 +231,8 @@ Programa de Pós-Graduação em Ciência da Computação}
       \item[$\boldsymbol{-}$] Extração dos descritores de fluxo é feita em
       névoa, classificação e detecção é feita em nuvem.
     \end{itemize}
-    \item Arquitetura \arch \cite{Cassales2019a}:
+    \item Arquitetura \arch %\cite{Cassales2019a}
+:
     \begin{itemize}
       \item[$+$] Avaliação do algoritmo MINAS, ECSMiner e AnyNovel;
       \item[$+$] Distribuição das tarefas em nuvem e névoa focada em IoT;
@@ -256,11 +245,12 @@ Programa de Pós-Graduação em Ciência da Computação}
 \begin{frame}[fragile]{Estado da Arte e Trabalhos Relacionados}
 \begin{figure}[ht]
   \centering
-  \includegraphics[width=0.48\textwidth]{figuras/idsa-iot-quali-000.png}
+  \includegraphics[width=0.48\textwidth]{figures/idsa-iot-quali-000.png}
   \hfill
-  \includegraphics[width=0.48\textwidth]{figuras/idsa-iot-quali-004.png}
+  \includegraphics[width=0.48\textwidth]{figures/idsa-iot-quali-004.png}
   \caption{Distribuição de serviços da arquitetura \arch.}
-  \fonte{\citeonline{Cassales2019a}.}
+  \fonte{%\citeonline{Cassales2019a}
+.}
   \label{fig:ids-iot}
 \end{figure}
 \end{frame}
@@ -279,15 +269,16 @@ Programa de Pós-Graduação em Ciência da Computação}
   \item Classificação com \emph{Clusters} e distância euclideana;
   \begin{figure}[H]
     \begin{subfigure}{0.45\textwidth}
-      \includegraphics[width=\textwidth]{figuras/FariaMinas2015-off.png}
+      \includegraphics[width=\textwidth]{figures/FariaMinas2015-off.png}
       \caption{Fase \emph{Online}.}
     \end{subfigure}
     \begin{subfigure}{0.45\textwidth}
-      \includegraphics[width=\textwidth]{figuras/FariaMinas2015-on.png}
+      \includegraphics[width=\textwidth]{figures/FariaMinas2015-on.png}
       \caption{Fase \emph{Online}.}
     \end{subfigure}
     \caption{Visão geral do algoritmo \minas.}
-    \fonte{\citeonline{Faria2016minas}.}
+    \fonte{%\citeonline{Faria2016minas}
+.}
   \end{figure}
 
 \end{itemize}
@@ -299,9 +290,10 @@ Programa de Pós-Graduação em Ciência da Computação}
 
   \item Agrupamento para identificação de novos padrões, tratando recorrência, extensão e novidade;
   \begin{figure}[H]
-    \includegraphics[width=0.7  \textwidth]{figuras/FariaMinas2015-ndd.png}
+    \includegraphics[width=0.7\textwidth]{figures/FariaMinas2015-ndd.png}
     \caption{Visão da Detecção de Novidade do algoritmo \minas.}
-    \fonte{\citeonline{Faria2016minas}.}
+    \fonte{%\citeonline{Faria2016minas}
+.}
   \end{figure}
 
 \end{itemize}
@@ -346,7 +338,8 @@ Programa de Pós-Graduação em Ciência da Computação}
       fluxoSaída.adicione(exemplo)\;
     }
   }
-  \caption{Interpretação do algoritmo \minas \emph{online} \cite{Faria2016minas}.}
+  \caption{Interpretação do algoritmo \minas \emph{online} %\cite{Faria2016minas}
+.}
 \label{alg:minas-main}
 \end{algorithm}
 \end{frame}
@@ -359,9 +352,10 @@ Programa de Pós-Graduação em Ciência da Computação}
           \item Arquiteturas \emph{Lambda} e \emph{Kappa}, focadas em aplicações tradicionais;
           \begin{figure}
             \small
-            \includegraphics[width=0.5\textwidth]{figuras/lambda.png}
+            \includegraphics[width=0.5\textwidth]{figures/lambda.png}
             \caption{Arquitetura \emph{Lambda} com Kafka, Storm, Hadoop, SGBD tradicional e aplicação consumidora.}
-            \fonte{\citeonline{Kreps2014}.}
+            \fonte{%\citeonline{Kreps2014}
+.}
           \end{figure}
           \item Mineração de Dados:
           \begin{itemize}
@@ -474,9 +468,10 @@ Programa de Pós-Graduação em Ciência da Computação}
       \item A hipótese de que a carga seria distribuída entre os consumidores,
       uma vez que o consumidor pode selecionar uma partição para leitura;
       \begin{figure}\small
-        \includegraphics[width=0.25\textwidth]{figuras/kafka-partitions-Kreps2014.png}
+        \includegraphics[width=0.25\textwidth]{figures/kafka-partitions-Kreps2014.png}
         \caption{Partições em Apache Kafka.}
-        \fonte{\citeonline{Kreps2014}.}
+        \fonte{%\citeonline{Kreps2014}
+.}
       \end{figure}
       \item Em experimento com um produtor, 8 partições e 8 consumidores,
       observou-se que um consumidor processava a maior parte das mensagens,
@@ -495,9 +490,10 @@ Programa de Pós-Graduação em Ciência da Computação}
       \item Implementação escrita em Scala ou Java;
       \item Processamento de fluxos \emph{Stateful};
       \begin{figure}\small
-        \includegraphics[width=0.5\textwidth, trim={2cm 0 10cm 20cm},clip]{figuras/dataflow-code-flink.png}
+        \includegraphics[width=0.5\textwidth, trim={2cm 0 10cm 20cm},clip]{figures/dataflow-code-flink.png}
         \caption{Arquitetura Apache Flink.}
-        \fonte{\citeonline{ApacheFlink2020}.}
+        \fonte{%\citeonline{ApacheFlink2020}
+.}
       \end{figure}
       \item Falta de bibliotecas que distribuam algoritmos base como \emph{K-means};
       \item Gerenciador de trabalhos (\emph{job manager}) e gerenciador de
@@ -602,7 +598,8 @@ Programa de Pós-Graduação em Ciência da Computação}
         \item Computador Pessoal (para desenvolvimento);
         \item Névoa composta de SBC (\emph{Sigle Board Computer}) ARM 4 núcleos;
         \item Conjunto de dados para IDS, Kyoto 2006+, segmento dezembro de 2015
-        como estabelecido por \citeonline{Cassales2019a}.
+        como estabelecido por %\citeonline{Cassales2019a}
+.
       \end{itemize}
     \end{itemize}
   \end{alertblock}
@@ -775,14 +772,6 @@ Programa de Pós-Graduação em Ciência da Computação}
 \begin{frame}{Contribuições e Publicações}
   \begin{itemize}
     
-    \item Artigo aceito na trilha principal da 21ª Conferência Internacional em
-    Computação Ciêntífica e suas Aplicações (ICCSA 2021,
-    \url{https://iccsa.org/}) em Cagliari, Itália, Setembro 13-16 2021
-    \cite{Puhl2021};
-    
-    % July 5-8, 2021: ICCSA 2021 Conference
-    % September 13-16, 2021: ICCSA 2021 Conference
-    
     \item Código fonte com experimentos e métodos publicamente disponíveis em
     \url{https://github.com/luis-puhl/minas-flink}.
   
@@ -793,11 +782,15 @@ Programa de Pós-Graduação em Ciência da Computação}
   Obrigado!
 \end{frame}}
 
-\begin{frame}[allowframebreaks]{Referências}
-  \bibliography{99.referencias.bib}
+\begin{frame}[allowframebreaks]{Bibliography}
+  \bibliographystyle{splncs04.bst}
+  \bibliography{99-refs-ISCC}
 \end{frame}
 
 \appendix
+{\setbeamercolor{palette primary}{fg=black, bg=yellow}\begin{frame}[standout]
+  Appendix
+\end{frame}}
 
 % \begin{frame}[fragile]{Extra}
 %   \begin{figure}[ht]
