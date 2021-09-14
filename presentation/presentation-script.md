@@ -123,7 +123,7 @@ The main takeaways here are the speedup, where we had a maximum of 0.97 with 4 n
 [This speedup is low but can be improved with more nodes as done in the literature.]\
 And the time taken, were the reference took 2700 seconds and our tests took around 100 seconds to handle the same dataset.
 
-time: 35s, 476s, 6.35min
+time: 35s, 476s, 7.93min
 
 ## 14 - Behavior
 
@@ -131,7 +131,7 @@ time: 35s, 476s, 6.35min
 Here we can see that the user and system metrics trend towards each other at 200 seconds as we add instances.\
 We reason that this is due to computation versus communication limit in our implementation.
 
-time: 23s, 499s, 6.35min
+time: 23s, 499s, 8.31min
 
 ## 15 - Conclusion
 
@@ -142,4 +142,4 @@ Our new implementation was faster than the reference one however good speedup wa
 Further work can be done with other novelty detection algorithms or by changing minas internals.\
 Other line of work can be done on improving communication-to-computation or load balancing.
 
-time: 61s, 460s, 8.33min
+time: 61s, 560s, 9.33min
